@@ -1,0 +1,136 @@
+﻿@model YueBoAdmin.Models.UserInfo
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>删除用户</h2>
+
+<p style="color:red;">提示：用户一经删除将不可逆！</p>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserNick)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserNick)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Signature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Signature)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPwd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPwd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserPic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDcard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IDcard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegisterTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegisterTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreditScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreditScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsBan)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="删除" class="btn btn-default" /> |
+            @Html.ActionLink("返回", "Index")
+        </div>
+    }
+</div>

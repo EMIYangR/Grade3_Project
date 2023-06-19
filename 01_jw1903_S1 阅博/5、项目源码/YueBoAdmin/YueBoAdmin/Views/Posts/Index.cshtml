@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<table class="table table-bordered table-condensed" >
+    <tr>
+        <th>
+            用户昵称
+        </th>
+        <th>
+            图片
+        </th>
+        <th>
+            视频
+        </th>
+        <th>
+            内容
+        </th>
+        <th>
+            是否热门
+        </th>
+        <th>
+            是否禁用
+        </th>
+        <th>
+            是否原创
+        </th>
+        <th>
+            发帖时间
+        </th>
+        <th>
+            帖子状态
+        </th>
+        <th>操作</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserInfo.UserNick)
+            </td>
+            <td>
+                @if (item.PostPic != "无" && item.PostPic != "" && item.PostPic != null)
+                {
+                    @Html.DisplayFor(modelItem => item.PostPic)
+                }
+            </td>
+            <td>
+                @if (item.PostVideo != "无" && item.PostVideo != "" && item.PostVideo != null)
+                {
+                    @Html.DisplayFor(modelItem => item.PostVideo)
+                }
+            </td>
+            <td>
+                @if (item.PostContent != "无" && item.PostContent != "" && item.PostContent != null)
+                {
+                    @Html.DisplayFor(modelItem => item.PostContent)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsHot)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsBan)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsDIY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostStatus.Status)
+            </td>
+            <td>
+                @Html.ActionLink("删除", "Delete", new { id = item.PostID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<YueBoAdmin.Models.Post>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<br />
+
+每页 @Model.PageSize 条，共 @Model.TotalItemCount 条

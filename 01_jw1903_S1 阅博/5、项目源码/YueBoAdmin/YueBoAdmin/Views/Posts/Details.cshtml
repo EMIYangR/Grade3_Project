@@ -1,0 +1,90 @@
+﻿@model YueBoAdmin.Models.Post
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Post</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PostPic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostPic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostVideo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostVideo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsHot)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsHot)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsBan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDIY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDIY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserInfo.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PostStatus.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PostStatus.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PostID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

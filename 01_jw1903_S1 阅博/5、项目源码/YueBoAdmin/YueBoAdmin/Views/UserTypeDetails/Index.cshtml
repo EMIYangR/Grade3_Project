@@ -1,0 +1,51 @@
+﻿@model IEnumerable<YueBoAdmin.Models.UserTypeDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewPic)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAuthentication)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserInfo.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserType.UserTypeName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReviewPic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAuthentication)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserInfo.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserType.UserTypeName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.UserTypeDetailID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.UserTypeDetailID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.UserTypeDetailID })
+        </td>
+    </tr>
+}
+
+</table>
