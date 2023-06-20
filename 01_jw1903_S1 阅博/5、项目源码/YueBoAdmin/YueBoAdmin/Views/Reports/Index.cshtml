@@ -26,7 +26,7 @@
     </div><!--//col-auto-->
 </div><!--//row-->
 
-<table class="table">
+<table class="table table-bordered tab-content">
     <tr>
         <th>
             举报类型
@@ -70,13 +70,13 @@
             <td>
                 @if (item.Post.PostPic != "无" && item.Post.PostPic != "" && item.Post.PostPic != null)
                 {
-                    @Html.DisplayFor(modelItem => item.Post.PostPic)
+                    <img src="~/Content/User/image/@item.Post.PostPic" style="width: 160px; height: 90px;"/>
                 }
             </td>
             <td>
                 @if (item.Post.PostVideo != "无" && item.Post.PostVideo != "" && item.Post.PostVideo != null)
                 {
-                    @Html.DisplayFor(modelItem => item.Post.PostVideo)
+                    <video src="~/Content/User/video/@item.Post.PostVideo" style="width: 160px; height: 90px;"></video>
                 }
             </td>
             <td>

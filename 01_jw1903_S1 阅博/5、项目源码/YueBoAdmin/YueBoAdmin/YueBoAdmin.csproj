@@ -2343,7 +2343,25 @@
     <Content Include="Content\plugins\fontawesome\svgs\solid\z.svg" />
     <Content Include="Content\plugins\popper.min.js" />
     <Content Include="Content\portal.css" />
-    <Content Include="Content\video\1.mp4" />
+    <Content Include="Content\User\Head\头像1.jpg" />
+    <Content Include="Content\User\Head\头像10.jpg" />
+    <Content Include="Content\User\Head\头像11.jpg" />
+    <Content Include="Content\User\Head\头像12.jpg" />
+    <Content Include="Content\User\Head\头像2.jpg" />
+    <Content Include="Content\User\Head\头像3.jpg" />
+    <Content Include="Content\User\Head\头像4.jpg" />
+    <Content Include="Content\User\Head\头像5.jpg" />
+    <Content Include="Content\User\Head\头像6.jpg" />
+    <Content Include="Content\User\Head\头像7.jpg" />
+    <Content Include="Content\User\Head\头像8.jpg" />
+    <Content Include="Content\User\Head\头像9.jpg" />
+    <Content Include="Content\User\image\1.jpg" />
+    <Content Include="Content\User\image\2.jpg" />
+    <Content Include="Content\User\image\3.jpg" />
+    <Content Include="Content\User\image\4.jpg" />
+    <Content Include="Content\User\image\5.jpg" />
+    <Content Include="Content\User\image\6.jpg" />
+    <Content Include="Content\User\video\1.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -2554,7 +2572,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51059/</IISUrl>
+          <IISUrl>http://localhost:64660/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

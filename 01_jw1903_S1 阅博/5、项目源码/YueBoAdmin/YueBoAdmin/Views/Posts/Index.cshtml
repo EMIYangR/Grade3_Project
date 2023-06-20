@@ -5,7 +5,7 @@
 
 
 
-<table class="table table-bordered table-condensed" >
+<table class="table table-bordered table-condensed">
     <tr>
         <th>
             用户昵称
@@ -46,13 +46,13 @@
             <td>
                 @if (item.PostPic != "无" && item.PostPic != "" && item.PostPic != null)
                 {
-                    @Html.DisplayFor(modelItem => item.PostPic)
+                    <img src="~/Content/User/image/@item.PostPic" style="width: 160px; height: 90px;" />
                 }
             </td>
             <td>
                 @if (item.PostVideo != "无" && item.PostVideo != "" && item.PostVideo != null)
                 {
-                    @Html.DisplayFor(modelItem => item.PostVideo)
+                    <video src="~/Content/User/video/@item.PostVideo" style="width: 160px; height: 90px;"></video>
                 }
             </td>
             <td>

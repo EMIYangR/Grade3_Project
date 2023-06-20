@@ -18,7 +18,9 @@ namespace YueBoAdmin.Controllers
         // GET: UserInfoes
         public ActionResult Index(int page = 1)
         {
-            var ui = db.UserInfo.Include(l => l.UserTypeDetail);
+            var ui = db.UserInfo.OrderBy(l => l.UserAccount)
+                .Include(l => l.UserTypeDetail);
+            //.Include(UserTypeDetail.UserType);
             return View(ui.OrderBy(a => a.UserID).ToPagedList(page, 10));
         }
 
@@ -122,7 +124,7 @@ namespace YueBoAdmin.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult DeleteUser(int id)
+        public ActionResult DeleteUser(int? id)
         {
             if (id == null)
             {

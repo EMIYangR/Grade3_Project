@@ -10,8 +10,9 @@
         <tr>
             <th>用户昵称</th>
             <th>用户账号</th>
-            <th>个性签名</th>
             <th>用户头像</th>
+            @*<th>用户类型</th>*@
+            <th>个性签名</th>
             <th>信用分</th>
             <th>用户状态</th>
 
@@ -20,37 +21,39 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserNick)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserAccount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Signature)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserPic)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreditScore)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsBan)
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserNick)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserAccount)
+        </td>
+        <td>
+            <img src="~/Content/User/Head/@item.UserPic" style="width: 100px; height: 100px;" />
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Signature)
+            @*@Html.DisplayFor(modelItem => item.UserTypeDetail.UserType.UserName)*@
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreditScore)
+        </td>
+        <td>
+            @(item.IsBan==true? "已封禁":"正常")
 
-                </td>
-                <td style="text-align:center;">
-                    <a href="/UserInfoes/ResetPwd?id=@item.UserID">重置密码</a> <br />
-                    @Html.ActionLink("用户详情", "Details", new { id = item.UserID })<br />
-                    @Html.ActionLink("用户认证", "Edit", new { id = item.UserID }) <br />
-                    <a href="/UserInfoes/DeleteUser?id=@item.UserID">删除</a> <br />
-                    @if (item.IsBan == false)
-                    {
-                        <a href="/UserInfoes/BanUser?id=@item.UserID">封禁</a>
-                    }
-                </td>
-            </tr>
+
+        </td>
+        <td style="text-align:center;">
+            <a href="/UserInfoes/ResetPwd?id=@item.UserID">重置密码</a> <br />
+            @Html.ActionLink("用户详情", "Details", new { id = item.UserID })<br />
+            @Html.ActionLink("用户认证", "Edit", new { id = item.UserID }) <br />
+            <a href="/UserInfoes/DeleteUser?id=@item.UserID">删除</a> <br />
+            @if (item.IsBan == false)
+            {
+                <a href="/UserInfoes/BanUser?id=@item.UserID">封禁</a>
+            }
+        </td>
+    </tr>
         }
 
     </table>
