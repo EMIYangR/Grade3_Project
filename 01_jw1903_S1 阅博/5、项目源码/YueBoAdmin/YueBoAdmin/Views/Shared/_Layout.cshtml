@@ -8,7 +8,6 @@
     <link rel="shortcut icon" href="~/Content/Logo/Logo.ico">
     <link href="/Content/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/Content/portal.css" rel="stylesheet" />
-    <link href="/Content/Site.css" rel="stylesheet" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -62,7 +61,7 @@
                                     <li><a class="dropdown-item" href="/Home/Developed">我的账号</a></li>
                                     <li><a class="dropdown-item" href="/Home/Developed">设置</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/Home/Developed">登出</a></li>
+                                    <li><a class="dropdown-item" href="/Home/Login">登出</a></li>
                                 </ul>
                             </div><!--//app-user-dropdown-->
                         </div><!--//app-utilities-->
@@ -151,8 +150,8 @@
                                 <ul class="submenu-list list-unstyled">
                                     <li class="submenu-item"><a class="submenu-link" href="/UserInfoes/Index">用户列表</a></li>
                                     <li class="submenu-item"><a class="submenu-link" href="/UserTypes/Index">用户类型</a></li>
-                                    <li class="submenu-item"><a class="submenu-link" href="/Home/Developed">认证审核</a></li>
-                                    <li class="submenu-item"><a class="submenu-link" href="/Home/Developed">封禁用户</a></li>
+                                    <li class="submenu-item"><a class="submenu-link" href="/UserTypeDetails/Index">认证审核</a></li>
+                                    <li class="submenu-item"><a class="submenu-link" href="/UserInfoes/Ban">封禁用户</a></li>
                                     @*<li class="submenu-item"><a class="submenu-link" href="404.html">404 page</a></li>*@
                                 </ul>
                             </div>
@@ -256,7 +255,8 @@
 
     <!-- Page Specific JS -->
     <script src="/Scripts/app.js"></script>
-
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
 </body>
 
 </html>

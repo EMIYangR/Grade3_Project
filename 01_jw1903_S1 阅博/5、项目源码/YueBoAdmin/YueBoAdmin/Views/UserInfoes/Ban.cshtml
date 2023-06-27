@@ -3,5 +3,85 @@
     ViewBag.Title = "Ban";
 }
 
-<h2>Ban</h2>
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+        <h1 class="app-page-title mb-0"></h1>
+    </div>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                <div class="col-auto">
+                    <form class="docs-search-form row gx-1 align-items-center" method="post" action="/UserInfoes/Ban">
+                        <div class="col-auto">
+                            <input type="text" id="reportname" name="reportname" class="form-control search-docs" placeholder="通过用户账号查询">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn app-btn-secondary">搜索</button>
+                        </div>
+                    </form>
 
+                </div><!--//col-->
+            </div><!--//row-->
+        </div><!--//table-utilities-->
+    </div><!--//col-auto-->
+</div><!--//row-->
+<div style="overflow: scroll; overflow-y: auto; overflow-x: auto;">
+    <table class="table table-bordered tab-content">
+        <tr>
+            <th>用户昵称</th>
+            <th>用户账号</th>
+            <th>用户头像</th>
+            @*<th>用户类型</th>*@
+            <th>个性签名</th>
+            <th>信用分</th>
+            <th>用户状态</th>
+
+            <th>操作</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserNick)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserAccount)
+                </td>
+                <td>
+                    <img src="~/Content/User/Head/@item.UserPic" style="width: 100px; height: 100px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Signature)
+                    @*@Html.DisplayFor(modelItem => item.UserTypeDetail.UserType.UserName)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditScore)
+                </td>
+                <td>
+                    @(item.IsBan==true? "已封禁":"正常")
+
+
+                </td>
+                <td style="text-align:center;">
+
+                    @if (item.IsBan == true)
+                    {
+                        <a href="/UserInfoes/Restore/@item.UserID">解封</a>
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<YueBoAdmin.Models.UserInfo>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<br />
+
+每页 @Model.PageSize 条，共 @Model.TotalItemCount 条

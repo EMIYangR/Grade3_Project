@@ -1,33 +1,55 @@
 ﻿@model IEnumerable<YueBoAdmin.Models.UserType>
-
 @{
     ViewBag.Title = "Index";
 }
+<h2>用户类型</h2>
+<div>
+    <p>
+        <button id="triggerBtn" class="btn btn-link">添加</button>
+    </p>
+    <div id="myModal" class="modal">
+        <form action="/UserTypes/Create" method="post">
+            <div class="modal-content">
+                <div class="form-horizontal">
+                    <div class="modal-header">
+                        <h2>添加用户类型</h2>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <tr>
+                                <th>用户类型名称：</th>
+                                <td> <input type="text" name="UserTypeName" id="UserTypeName" value="" required/></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" value="添加" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+    <table class="table table-bordered tab-content">
+        <tr>
+            <th>
+                用户类型名称
+            </th>
+            <th></th>
+        </tr>
 
-<h2>Index</h2>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserTypeName)
+                </td>
+                <td>
+                    @Html.ActionLink("编辑", "Edit", new { id = item.UserTypeID }) |
+                    <a href="/UserTypes/DeleteConfirmed/@item.UserTypeID">删除</a>
+                </td>
+            </tr>
+        }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table table-bordered tab-content">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserTypeName)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserTypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserTypeID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserTypeID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserTypeID })
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</div>

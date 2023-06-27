@@ -16,6 +16,10 @@
     <Property Name="AdminControlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="AdminID" Type="int" Nullable="false" />
     <Property Name="AdminContent" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="ReportID" Type="int" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="PostID" Type="int" />
+    <Property Name="RecordTime" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="Content">
     <Key>
@@ -184,6 +188,18 @@
     <Property Name="ReviewPic" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="IsAuthentication" Type="bit" Nullable="false" />
   </EntityType>
+  <Association Name="FK__AdminCont__PostI__70DDC3D8">
+    <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+    <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="AdminControl">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_AdminControl_Admin">
     <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
     <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
@@ -456,6 +472,10 @@
     <EntitySet Name="UserLabel" EntityType="Self.UserLabel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserTypeDetail" EntityType="Self.UserTypeDetail" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__AdminCont__PostI__70DDC3D8" Association="Self.FK__AdminCont__PostI__70DDC3D8">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="AdminControl" EntitySet="AdminControl" />
+    </AssociationSet>
     <AssociationSet Name="FK_AdminControl_Admin" Association="Self.FK_AdminControl_Admin">
       <End Role="Admin" EntitySet="Admin" />
       <End Role="AdminControl" EntitySet="AdminControl" />

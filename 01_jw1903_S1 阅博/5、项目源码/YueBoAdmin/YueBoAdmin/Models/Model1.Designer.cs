@@ -1,4 +1,4 @@
-﻿// 为模型“D:\Users\EMI\VisualStudioProjects\Project\YueBoAdmin\YueBoAdmin\Models\Model1.edmx”启用了 T4 代码生成。
+﻿// 为模型“D:\EMI\其他\小艾米的苦逼项目\个人仓库\Grade3_Project\01_jw1903_S1 阅博\5、项目源码\YueBoAdmin\YueBoAdmin\Models\Model1.edmx”启用了 T4 代码生成。
 // 要启用旧代码生成功能，请将“代码生成策略”设计器属性的值
 // 更改为“旧的 ObjectContext”。当在设计器中打开该模型时，此属性会出现在
 // “属性”窗口中。

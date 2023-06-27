@@ -21,6 +21,10 @@
           <Property Name="AdminControlID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AdminID" Type="int" Nullable="false" />
           <Property Name="AdminContent" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ReportID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="PostID" Type="int" />
+          <Property Name="RecordTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -189,6 +193,18 @@
           <Property Name="ReviewPic" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IsAuthentication" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK__AdminCont__PostI__70DDC3D8">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_AdminControl_Admin">
           <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
           <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
@@ -461,6 +477,10 @@
           <EntitySet Name="UserLabel" EntityType="Self.UserLabel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTypeDetail" EntityType="Self.UserTypeDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__AdminCont__PostI__70DDC3D8" Association="Self.FK__AdminCont__PostI__70DDC3D8">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
           <AssociationSet Name="FK_AdminControl_Admin" Association="Self.FK_AdminControl_Admin">
             <End Role="Admin" EntitySet="Admin" />
             <End Role="AdminControl" EntitySet="AdminControl" />
@@ -568,6 +588,11 @@
           <Property Name="AdminID" Type="Int32" Nullable="false" />
           <Property Name="AdminContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Admin" Relationship="Self.FK_AdminControl_Admin" FromRole="AdminControl" ToRole="Admin" />
+          <Property Name="ReportID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PostID" Type="Int32" />
+          <NavigationProperty Name="Post" Relationship="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" FromRole="AdminControl" ToRole="Post" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -635,6 +660,7 @@
           <NavigationProperty Name="PostStatus" Relationship="Self.FK_Post_PostStatus" FromRole="Post" ToRole="PostStatus" />
           <NavigationProperty Name="PostType" Relationship="Self.FK_PostType_Post" FromRole="Post" ToRole="PostType" />
           <NavigationProperty Name="Report" Relationship="Self.FK_Report_Post" FromRole="Post" ToRole="Report" />
+          <NavigationProperty Name="AdminControl" Relationship="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" FromRole="Post" ToRole="AdminControl" />
         </EntityType>
         <EntityType Name="PostStatus">
           <Key>
@@ -1132,7 +1158,23 @@
             <End Role="UserType" EntitySet="UserType" />
             <End Role="UserTypeDetail" EntitySet="UserTypeDetail" />
           </AssociationSet>
+          <AssociationSet Name="FK__AdminCont__PostI__70DDC3D8" Association="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK__AdminCont__PostI__70DDC3D8">
+          <End Type="YueBoDBModel.Post" Role="Post" Multiplicity="0..1" />
+          <End Type="YueBoDBModel.AdminControl" Role="AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1152,6 +1194,10 @@
           <EntitySetMapping Name="AdminControl">
             <EntityTypeMapping TypeName="YueBoDBModel.AdminControl">
               <MappingFragment StoreEntitySet="AdminControl">
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
                 <ScalarProperty Name="AdminControlID" ColumnName="AdminControlID" />
                 <ScalarProperty Name="AdminID" ColumnName="AdminID" />
                 <ScalarProperty Name="AdminContent" ColumnName="AdminContent" />

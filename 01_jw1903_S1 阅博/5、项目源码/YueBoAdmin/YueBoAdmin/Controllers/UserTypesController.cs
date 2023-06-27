@@ -45,17 +45,13 @@ namespace YueBoAdmin.Controllers
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性。有关
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserTypeID,UserTypeName")] UserType userType)
+        public ActionResult Create(string UserTypeName)
         {
-            if (ModelState.IsValid)
-            {
-                db.UserType.Add(userType);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(userType);
+            UserType ut = new UserType();
+            ut.UserTypeName = UserTypeName;
+            db.UserType.Add(ut);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: UserTypes/Edit/5
@@ -89,25 +85,8 @@ namespace YueBoAdmin.Controllers
             return View(userType);
         }
 
-        // GET: UserTypes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            UserType userType = db.UserType.Find(id);
-            if (userType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userType);
-        }
-
-        // POST: UserTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        // GET: UserTypes/DeleteConfirmed/5
+        public ActionResult DeleteConfirmed(int? id)
         {
             UserType userType = db.UserType.Find(id);
             db.UserType.Remove(userType);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -15,10 +16,24 @@ namespace YueBoAdmin.Controllers
         private YueBoDB db = new YueBoDB();
 
         // GET: UserTypeDetails
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var userTypeDetail = db.UserTypeDetail.Include(u => u.UserInfo).Include(u => u.UserType);
-            return View(userTypeDetail.ToList());
+            var userTypeDetail = db.UserTypeDetail
+                .OrderBy(u => u.IsAuthentication).Include(u => u.UserInfo).Include(u => u.UserType);
+            return View(userTypeDetail.ToPagedList(page, 10));
+        }
+        [HttpPost]
+        public ActionResult Index(string reportname, int page = 1)
+        {
+            var userTypeDetail = db.UserTypeDetail.OrderBy(u => u.IsAuthentication).Include(u => u.UserInfo).Include(u => u.UserType)
+                .Where(u => u.UserInfo.UserAccount.Contains(reportname));
+            return View(userTypeDetail.ToPagedList(page, 10));
+        }
+        public ActionResult Authentication(int? id)
+        {
+            db.UserTypeDetail.Find(id).IsAuthentication = true;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: UserTypeDetails/Details/5

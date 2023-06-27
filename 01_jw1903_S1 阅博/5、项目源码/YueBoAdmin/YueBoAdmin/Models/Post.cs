@@ -22,6 +22,7 @@ namespace YueBoAdmin.Models
             this.Like = new HashSet<Like>();
             this.PostType = new HashSet<PostType>();
             this.Report = new HashSet<Report>();
+            this.AdminControl = new HashSet<AdminControl>();
         }
     
         public int PostID { get; set; }
@@ -47,5 +48,7 @@ namespace YueBoAdmin.Models
         public virtual ICollection<PostType> PostType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Report> Report { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdminControl> AdminControl { get; set; }
     }
 }

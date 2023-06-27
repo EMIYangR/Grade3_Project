@@ -18,6 +18,11 @@
     <Property Name="AdminID" Type="Int32" Nullable="false" />
     <Property Name="AdminContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Admin" Relationship="Self.FK_AdminControl_Admin" FromRole="AdminControl" ToRole="Admin" />
+    <Property Name="ReportID" Type="Int32" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="PostID" Type="Int32" />
+    <NavigationProperty Name="Post" Relationship="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" FromRole="AdminControl" ToRole="Post" />
   </EntityType>
   <EntityType Name="Content">
     <Key>
@@ -85,6 +90,7 @@
     <NavigationProperty Name="PostStatus" Relationship="Self.FK_Post_PostStatus" FromRole="Post" ToRole="PostStatus" />
     <NavigationProperty Name="PostType" Relationship="Self.FK_PostType_Post" FromRole="Post" ToRole="PostType" />
     <NavigationProperty Name="Report" Relationship="Self.FK_Report_Post" FromRole="Post" ToRole="Report" />
+    <NavigationProperty Name="AdminControl" Relationship="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" FromRole="Post" ToRole="AdminControl" />
   </EntityType>
   <EntityType Name="PostStatus">
     <Key>
@@ -582,5 +588,21 @@
       <End Role="UserType" EntitySet="UserType" />
       <End Role="UserTypeDetail" EntitySet="UserTypeDetail" />
     </AssociationSet>
+    <AssociationSet Name="FK__AdminCont__PostI__70DDC3D8" Association="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="AdminControl" EntitySet="AdminControl" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK__AdminCont__PostI__70DDC3D8">
+    <End Type="YueBoDBModel.Post" Role="Post" Multiplicity="0..1" />
+    <End Type="YueBoDBModel.AdminControl" Role="AdminControl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="AdminControl">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

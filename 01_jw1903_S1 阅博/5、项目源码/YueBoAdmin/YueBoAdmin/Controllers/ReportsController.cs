@@ -19,17 +19,33 @@ namespace YueBoAdmin.Controllers
         public ActionResult Index(int page = 1)
         {
             var report = db.Report.OrderByDescending(a => a.ReportTime)
-                .Include(r => r.Post).Include(r => r.ReportType).Include(r => r.UserInfo).ToList();
+                .Include(r => r.Post).Include(r => r.ReportType).Include(r => r.UserInfo)
+                .Where(r => r.IsSeccess == false).ToList();
             return View(report.ToPagedList(page, 10));
         }
         public ActionResult Index2(int page = 1)
         {
-            var report = db.Report.OrderByDescending(a => a.ReportTime).Include(r => r.Post).Include(r => r.ReportType).Include(r => r.UserInfo).ToList();
+            var report = db.Report.OrderByDescending(a => a.ReportTime).Include(r => r.Post)
+                .Include(r => r.ReportType).Include(r => r.UserInfo)
+                .Where(r => r.IsSeccess == true).ToList();
             return View(report.ToPagedList(page, 10));
         }
-        public ActionResult DeleteReport(int id)
+        //删除评论
+        public ActionResult DeleteReport(int? id)
         {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "删除了评论";
+            ac.PostID = null;
+            ac.ReportID = id;
+            ac.UserID = null;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
             db.Report.Find(id).IsSeccess = true;
+            var PostID = db.Report.Find(id).PostID;
+            db.Post.Find(PostID).IsBan = true;
+            db.UserInfo.Find(id).CreditScore -= 10;
             try
             {
                 db.SaveChanges();
@@ -40,18 +56,44 @@ namespace YueBoAdmin.Controllers
             }
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public ActionResult Index(string reportname)
+        //恢复评论
+        public ActionResult Restore(int? id)
         {
-            var temp = db.Report.Include(r => r.Post).Include(r => r.ReportType).Include(r => r.UserInfo);
-            return View(temp.Where(a => a.UserInfo.UserAccount.Contains(reportname)));
-
-            //string sql = "SELECT rt.ReportTypeName,u.UserNick,u.UserAccount,p.PostPic,p.PostVideo,p.PostContent,r.Reason,r.IsSeccess,r.ReportTime " +
-            //    "FROM Report r JOIN UserInfo u on r.UserID = u.UserID JOIN ReportType rt ON r.ReportTypeID = rt.ReportTypeID JOIN Post p ON r.PostID = p.PostID  " +
-            //    "WHERE UserAccount LIKE '%" + reportname + "%'";
-            //ViewBag.EmpList = db.Database.SqlQuery(typeof(), sql);
-            //ViewBag.DeptList = db.Report;
-            //return View();
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "恢复了评论";
+            ac.PostID = null;
+            ac.ReportID = id;
+            ac.UserID = null;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
+            var PostID = db.Report.Find(id).PostID;
+            db.Post.Find(PostID).IsBan = false;
+            db.UserInfo.Find(id).CreditScore += 10;
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return RedirectToAction("Index2");
+        }
+        [HttpPost]
+        public ActionResult Index(string reportname, int page = 1)
+        {
+            var temp = db.Report.Include(r => r.Post).Include(r => r.ReportType).Include(r => r.UserInfo)
+                .Where(a => a.UserInfo.UserAccount.Contains(reportname)).Where(a => a.IsSeccess == false).ToList();
+            return View(temp.ToPagedList(page, 10));
+        }
+        [HttpPost]
+        public ActionResult Index2(string reportname, int page = 1)
+        {
+            var temp = db.Report.Include(r => r.Post).Include(r => r.ReportType).Include(r => r.UserInfo)
+                .Where(a => a.UserInfo.UserAccount.Contains(reportname)).Where(a => a.IsSeccess == true).ToList();
+            return View(temp.ToPagedList(page, 10));
         }
 
         // GET: Reports/Details/5

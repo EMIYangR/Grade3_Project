@@ -45,6 +45,7 @@
         <AssociationConnector Association="YueBoDBModel.FK_UserType_UserInfo" ManuallyRouted="false" />
         <AssociationConnector Association="YueBoDBModel.FK_UserTypeDetail_UserInfo" ManuallyRouted="false" />
         <AssociationConnector Association="YueBoDBModel.FK_UserTypeDetail_UserType" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

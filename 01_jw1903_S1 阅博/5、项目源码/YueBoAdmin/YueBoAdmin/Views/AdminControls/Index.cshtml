@@ -3,11 +3,9 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>操作日志</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table table-bordered tab-content">
     <tr>
         <th>
@@ -16,7 +14,7 @@
         <th>
             操作内容
         </th>
-        <th></th>
+        <th>操作时间</th>
     </tr>
 
     @foreach (var item in Model)
@@ -28,6 +26,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.AdminContent)
             </td>
+            <td>@Html.DisplayFor(modelItem => item.RecordTime)</td>
         </tr>
     }
 

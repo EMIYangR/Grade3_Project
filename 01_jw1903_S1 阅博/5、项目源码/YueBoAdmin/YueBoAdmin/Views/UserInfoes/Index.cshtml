@@ -1,11 +1,32 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+        <h1 class="app-page-title mb-0"></h1>
+    </div>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                <div class="col-auto">
+                    <form class="docs-search-form row gx-1 align-items-center" method="post" action="/UserInfoes/Index">
+                        <div class="col-auto">
+                            <input type="text" id="reportname" name="reportname" class="form-control search-docs" placeholder="通过用户账号查询">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn app-btn-secondary">搜索</button>
+                        </div>
+                    </form>
+                </div><!--//col-->
+            </div><!--//row-->
+        </div><!--//table-utilities-->
+    </div><!--//col-auto-->
+</div><!--//row-->
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
 </p>
-<div style="overflow: scroll; overflow-y: auto; overflow-x: auto;">
+<div style="overflow: scroll; overflow-y: auto; overflow-x: auto;" id="app">
     <table class="table table-bordered tab-content">
         <tr>
             <th>用户昵称</th>
@@ -21,39 +42,39 @@
 
         @foreach (var item in Model)
         {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserNick)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserAccount)
-        </td>
-        <td>
-            <img src="~/Content/User/Head/@item.UserPic" style="width: 100px; height: 100px;" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Signature)
-            @*@Html.DisplayFor(modelItem => item.UserTypeDetail.UserType.UserName)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreditScore)
-        </td>
-        <td>
-            @(item.IsBan==true? "已封禁":"正常")
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserNick)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserAccount)
+                </td>
+                <td>
+                    <img src="~/Content/User/Head/@item.UserPic" style="width: 100px; height: 100px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Signature)
+                    @*@Html.DisplayFor(modelItem => item.UserTypeDetail.UserType.UserName)*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreditScore)
+                </td>
+                <td>
+                    @(item.IsBan==true? "已封禁":"正常")
 
 
-        </td>
-        <td style="text-align:center;">
-            <a href="/UserInfoes/ResetPwd?id=@item.UserID">重置密码</a> <br />
-            @Html.ActionLink("用户详情", "Details", new { id = item.UserID })<br />
-            @Html.ActionLink("用户认证", "Edit", new { id = item.UserID }) <br />
-            <a href="/UserInfoes/DeleteUser?id=@item.UserID">删除</a> <br />
-            @if (item.IsBan == false)
-            {
-                <a href="/UserInfoes/BanUser?id=@item.UserID">封禁</a>
-            }
-        </td>
-    </tr>
+                </td>
+                <td style="text-align:center;">
+                    <a href="/UserInfoes/ResetPwd?id=@item.UserID">重置密码</a> <br />
+                    @Html.ActionLink("用户详情", "Details", new { id = item.UserID })<br />
+                    @Html.ActionLink("用户认证", "Edit", new { id = item.UserID }) <br />
+                    <a href="/UserInfoes/DeleteConfirmed/@item.UserID">注销账号</a> <br />
+                    @if (item.IsBan == false)
+                    {
+                        <a href="/UserInfoes/BanUser?id=@item.UserID">封禁</a>
+                    }
+                </td>
+            </tr>
         }
 
     </table>
@@ -68,3 +89,13 @@
 <br />
 
 每页 @Model.PageSize 条，共 @Model.TotalItemCount 条
+
+
+<script>
+    let vm = new Vue({
+        el: "#app",
+        data: {
+            
+        },
+    });
+</script>

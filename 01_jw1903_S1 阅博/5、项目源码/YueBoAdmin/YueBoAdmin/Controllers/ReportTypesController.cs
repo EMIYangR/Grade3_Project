@@ -45,17 +45,14 @@ namespace YueBoAdmin.Controllers
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性。有关
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ReportTypeID,ReportTypeName")] ReportType reportType)
+        public ActionResult Create(string ReportTypeName)
         {
-            if (ModelState.IsValid)
-            {
-                db.ReportType.Add(reportType);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            ReportType tp = new ReportType();
+            tp.ReportTypeName = ReportTypeName;
+            db.ReportType.Add(tp);
+            db.SaveChanges();
+            return RedirectToAction("Index");
 
-            return View(reportType);
         }
 
         // GET: ReportTypes/Edit/5
@@ -89,25 +86,9 @@ namespace YueBoAdmin.Controllers
             return View(reportType);
         }
 
-        // GET: ReportTypes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ReportType reportType = db.ReportType.Find(id);
-            if (reportType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(reportType);
-        }
+        // GET: ReportTypes/DeleteConfirmed/5
 
-        // POST: ReportTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
             ReportType reportType = db.ReportType.Find(id);
             db.ReportType.Remove(reportType);

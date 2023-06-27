@@ -1,51 +1,89 @@
-﻿@model IEnumerable<YueBoAdmin.Models.UserTypeDetail>
-
+﻿
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>认证审核</h2>
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+        <h1 class="app-page-title mb-0"></h1>
+    </div>
+    <div class="col-auto">
+        <div class="page-utilities">
+            <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                <div class="col-auto">
+                    <form class="docs-search-form row gx-1 align-items-center" method="post" action="/UserTypeDetails/Index">
+                        <div class="col-auto">
+                            <input type="text" id="reportname" name="reportname" class="form-control search-docs" placeholder="通过用户账号查询">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn app-btn-secondary">搜索</button>
+                        </div>
+                    </form>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+                </div><!--//col-->
+            </div><!--//row-->
+        </div><!--//table-utilities-->
+    </div><!--//col-auto-->
+</div><!--//row-->
 <table class="table table-bordered tab-content">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ReviewPic)
+            用户姓名
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsAuthentication)
+            用户账号
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserInfo.UserName)
+            认证类型
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserType.UserTypeName)
+            佐证图片
         </th>
-        <th></th>
+        <th>
+            状态
+        </th>
+        <th>操作</th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReviewPic)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsAuthentication)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserInfo.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserType.UserTypeName)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.UserTypeDetailID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.UserTypeDetailID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.UserTypeDetailID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserInfo.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserInfo.UserAccount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserType.UserTypeName)
+            </td>
+            <td>
+                @if (item.ReviewPic != "无" && item.ReviewPic != "" && item.ReviewPic != null)
+                {
+                    <img src="~/Content/User/Authentication/@item.ReviewPic" />
+                }
+            </td>
+            @if (item.IsAuthentication == true)
+            {
+                <td>已通过</td>
+            }
+            else
+            {
+                <td>待审核</td>
+            }
+            <td>
+                <a href="/UserTypeDetails/Authentication/@item.UserTypeDetailID">通过认证</a>
+            </td>
+        </tr>
+    }
 
 </table>
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<YueBoAdmin.Models.UserTypeDetail>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<br />
+
+每页 @Model.PageSize 条，共 @Model.TotalItemCount 条

@@ -23,7 +23,13 @@ namespace YueBoAdmin.Controllers
             //.Include(UserTypeDetail.UserType);
             return View(ui.OrderBy(a => a.UserID).ToPagedList(page, 10));
         }
-
+        [HttpPost]
+        public ActionResult Index(string reportname, int page = 1)
+        {
+            var temp = db.UserInfo.OrderBy(l => l.UserAccount).Include(l => l.UserTypeDetail)
+                .Where(a => a.UserAccount.Contains(reportname)).ToList();
+            return View(temp.ToPagedList(page, 10));
+        }
         // GET: UserInfoes/Details/5
         public ActionResult Details(int? id)
         {
@@ -94,6 +100,15 @@ namespace YueBoAdmin.Controllers
         }
         public ActionResult ResetPwd(int id)
         {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "重置了用户密码";
+            ac.PostID = null;
+            ac.ReportID = null;
+            ac.UserID = id;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
             db.UserInfo.Find(id).UserPwd = "123456";
             try
             {
@@ -105,14 +120,32 @@ namespace YueBoAdmin.Controllers
             }
             return RedirectToAction("Index");
         }
-        public ActionResult Ban(int id)
+        public ActionResult Ban(int page = 1)
         {
-            var ui = db.UserInfo.Include(l => l.UserTypeDetail).Select(l => l.IsBan == true);
-            return View();
+            var BanUser = db.UserInfo.Include(l => l.UserTypeDetail).Where(l => l.IsBan == true).ToList();
+            return View(BanUser.ToPagedList(page, 10));
         }
+        [HttpPost]
+        public ActionResult Ban(string reportname, int page = 1)
+        {
+            var temp = db.UserInfo.Include(l => l.UserTypeDetail).Where(l => l.IsBan == true)
+                .Where(a => a.UserAccount.Contains(reportname)).ToList();
+            return View(temp.ToPagedList(page, 10));
+        }
+        //封禁用户
         public ActionResult BanUser(int id)
         {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "封禁了用户";
+            ac.PostID = null;
+            ac.ReportID = null;
+            ac.UserID = id;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
             db.UserInfo.Find(id).IsBan = true;
+            db.UserInfo.Find(id).CreditScore -= 20;
             try
             {
                 db.SaveChanges();
@@ -123,41 +156,43 @@ namespace YueBoAdmin.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        public ActionResult DeleteUser(int? id)
+        //解封用户
+        public ActionResult Restore(int? id)
         {
-            if (id == null)
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "解封了用户";
+            ac.PostID = null;
+            ac.ReportID = null;
+            ac.UserID = id;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
+            db.UserInfo.Find(id).IsBan = false;
+            db.UserInfo.Find(id).CreditScore += 20;
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                db.SaveChanges();
             }
-            UserInfo userInfo = db.UserInfo.Find(id);
-            if (userInfo == null)
+            catch (Exception)
             {
-                return HttpNotFound();
+                throw;
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Ban");
         }
-
+        //注销账户
         // GET: UserInfoes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            UserInfo userInfo = db.UserInfo.Find(id);
-            if (userInfo == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userInfo);
-        }
-
-        // POST: UserInfoes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "注销了用户";
+            ac.PostID = null;
+            ac.ReportID = null;
+            ac.UserID = id;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
             UserInfo userInfo = db.UserInfo.Find(id);
             db.UserInfo.Remove(userInfo);
             db.SaveChanges();

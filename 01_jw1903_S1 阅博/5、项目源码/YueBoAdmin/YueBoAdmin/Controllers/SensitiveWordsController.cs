@@ -51,21 +51,15 @@ namespace YueBoAdmin.Controllers
         // 为了防止“过多发布”攻击，请启用要绑定到的特定属性。有关
         // 详细信息，请参阅 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "SensitiveWordID,SensitiveContent,DeductionPoint")] SensitiveWord sensitiveWord)
+        public ActionResult Create(string SensitiveContent, int? DeductionPoint)
         {
-            //byte[] bytes = System.Text.Encoding.UTF8.GetBytes(sensitiveWord.SensitiveContent);
-            //base64 = System.Convert.ToBase64String(bytes);
-
-
-            if (ModelState.IsValid)
-            {
-                db.SensitiveWord.Add(sensitiveWord);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(sensitiveWord);
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(SensitiveContent);
+            SensitiveWord sw = new SensitiveWord();
+            sw.SensitiveContent = System.Convert.ToBase64String(bytes); 
+            sw.DeductionPoint = (int)DeductionPoint;
+            db.SensitiveWord.Add(sw);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: SensitiveWords/Edit/5

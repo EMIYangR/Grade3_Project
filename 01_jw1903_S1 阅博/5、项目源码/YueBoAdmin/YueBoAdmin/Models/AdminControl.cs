@@ -17,7 +17,12 @@ namespace YueBoAdmin.Models
         public int AdminControlID { get; set; }
         public int AdminID { get; set; }
         public string AdminContent { get; set; }
+        public Nullable<int> ReportID { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public System.DateTime RecordTime { get; set; }
+        public Nullable<int> PostID { get; set; }
     
         public virtual Admin Admin { get; set; }
+        public virtual Post Post { get; set; }
     }
 }

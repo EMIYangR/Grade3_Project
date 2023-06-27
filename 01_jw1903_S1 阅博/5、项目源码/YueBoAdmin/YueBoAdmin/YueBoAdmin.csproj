@@ -222,6 +222,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\antd.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -2376,6 +2377,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\antd.min.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -2473,6 +2475,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\vue.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2505,18 +2508,11 @@
     <Content Include="Views\Reports\Details.cshtml" />
     <Content Include="Views\Reports\Edit.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
-    <Content Include="Views\ReportTypes\Create.cshtml" />
     <Content Include="Views\ReportTypes\Delete.cshtml" />
     <Content Include="Views\ReportTypes\Details.cshtml" />
     <Content Include="Views\ReportTypes\Edit.cshtml" />
     <Content Include="Views\ReportTypes\Index.cshtml" />
-    <Content Include="Views\SensitiveWords\Create.cshtml" />
-    <Content Include="Views\SensitiveWords\Delete.cshtml" />
-    <Content Include="Views\SensitiveWords\Details.cshtml" />
-    <Content Include="Views\SensitiveWords\Edit.cshtml" />
     <Content Include="Views\SensitiveWords\Index.cshtml" />
-    <Content Include="Views\UserTypes\Create.cshtml" />
-    <Content Include="Views\UserTypes\Delete.cshtml" />
     <Content Include="Views\UserTypes\Details.cshtml" />
     <Content Include="Views\UserTypes\Edit.cshtml" />
     <Content Include="Views\UserTypes\Index.cshtml" />
@@ -2533,10 +2529,12 @@
     <Content Include="Views\Home\Developed.cshtml" />
     <Content Include="Views\UserInfoes\Ban.cshtml" />
     <Content Include="Views\Reports\Index2.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\audio\" />
+    <Folder Include="Content\User\Authentication\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

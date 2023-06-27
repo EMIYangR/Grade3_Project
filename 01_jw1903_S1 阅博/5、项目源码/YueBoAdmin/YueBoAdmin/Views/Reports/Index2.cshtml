@@ -5,15 +5,15 @@
 
 <div class="row g-3 mb-4 align-items-center justify-content-between">
     <div class="col-auto">
-        <h1 class="app-page-title mb-0">用户举报</h1>
+        <h1 class="app-page-title mb-0"></h1>
     </div>
     <div class="col-auto">
         <div class="page-utilities">
             <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
                 <div class="col-auto">
-                    <form class="docs-search-form row gx-1 align-items-center" method="post" action="/Reports/Index">
+                    <form class="docs-search-form row gx-1 align-items-center" method="post" action="/Reports/Index2">
                         <div class="col-auto">
-                            <input type="text" id="reportname" name="searchdocs" class="form-control search-docs" placeholder="搜索">
+                            <input type="text" id="reportname" name="reportname" class="form-control search-docs" placeholder="通过用户账号查询">
                         </div>
                         <div class="col-auto">
                             <button type="submit" class="btn app-btn-secondary">搜索</button>
@@ -29,16 +29,13 @@
 <table class="table table-bordered tab-content">
     <tr>
         <th>
-            举报类型
-        </th>
-        <th>
             用户昵称
         </th>
         <th>
             用户账号
         </th>
         <th>
-            用户头像
+            图片
         </th>
         <th>
             视频
@@ -46,11 +43,9 @@
         <th>
             内容
         </th>
+        <th>状态</th>
         <th>
-            举报描述
-        </th>
-        <th>
-            举报时间
+            操作
         </th>
     </tr>
 
@@ -58,28 +53,41 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ReportType.ReportTypeName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.UserInfo.UserNick)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserInfo.UserAccount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Post.PostPic)
+                @if (item.Post.PostPic != "无" && item.Post.PostPic != "" && item.Post.PostPic != null)
+                {
+                    <img src="~/Content/User/image/@item.Post.PostPic" style="width: 160px; height: 90px;" />
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Post.PostVideo)
+                @if (item.Post.PostVideo != "无" && item.Post.PostVideo != "" && item.Post.PostVideo != null)
+                {
+                    <video src="~/Content/User/video/@item.Post.PostVideo" style="width: 160px; height: 90px;"></video>
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Post.PostContent)
             </td>
+            @if (item.Post.IsBan == false)
+            {
+                <td>
+                    已恢复
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.Reason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReportTime)
+                @if (item.Post.IsBan == true)
+                {
+                    <a href="/Reports/Restore/@item.ReportID">恢复评论</a>
+                }
             </td>
         </tr>
     }
