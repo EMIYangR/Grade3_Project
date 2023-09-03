@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>热搜</h2>
+
+<p>本部分用于设置置顶热搜。</p>
+
+<form action="/Hot/Index" method="post">
+    <table align="center">
+        <tr>
+            <td class="text-center">话题：</td>
+            <td><input type="text" name="Tag" value="" class="input-group-text"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" class="btn btn-info"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+
+

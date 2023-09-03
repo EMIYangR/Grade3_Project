@@ -36,14 +36,18 @@ namespace YueBoAdmin.Controllers
             }
             return View();
         }
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        public ActionResult Developed()
         {
-            base.OnActionExecuted(filterContext);
-            if (Response.Cookies["AdminID"] == null)
-            {
-                filterContext.HttpContext.Response.Redirect("/Home/Login");
-            }
+            return View();
         }
+        //protected override void OnActionExecuted(ActionExecutedContext filterContext)
+        //{
+        //    base.OnActionExecuted(filterContext);
+        //    if (Response.Cookies["AdminID"] == null)
+        //    {
+        //        filterContext.HttpContext.Response.Redirect("/Home/Login");
+        //    }
+        //}
         protected override void Dispose(bool disposing)
         {
             if (disposing)

@@ -137,6 +137,7 @@
     <Compile Include="Controllers\AdminControlsController.cs" />
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReportTypesController.cs" />
@@ -2530,6 +2531,7 @@
     <Content Include="Views\UserInfoes\Ban.cshtml" />
     <Content Include="Views\Reports\Index2.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Hot\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
