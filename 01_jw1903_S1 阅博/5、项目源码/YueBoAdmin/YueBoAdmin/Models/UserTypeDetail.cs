@@ -18,7 +18,7 @@ namespace YueBoAdmin.Models
         public int UserID { get; set; }
         public int UserTypeID { get; set; }
         public string ReviewPic { get; set; }
-        public bool IsAuthentication { get; set; }
+        public int IsAuthentication { get; set; }
     
         public virtual UserInfo UserInfo { get; set; }
         public virtual UserType UserType { get; set; }

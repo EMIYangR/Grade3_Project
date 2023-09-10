@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>操作日志</h2>
+
+
+<table class="table table-bordered tab-content">
+    <tr>
+        <th>
+            管理员编号
+        </th>
+        <th>
+            操作内容
+        </th>
+        <th>操作时间</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Admin.AdminNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdminContent)
+            </td>
+            <td>@Html.DisplayFor(modelItem => item.RecordTime)</td>
+        </tr>
+    }
+
+</table>
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<YueBoAdmin.Models.AdminControl>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<br />
+
+每页 @Model.PageSize 条，共 @Model.TotalItemCount 条

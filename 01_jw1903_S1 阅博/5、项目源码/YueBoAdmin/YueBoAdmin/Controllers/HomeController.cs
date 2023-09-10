@@ -12,6 +12,11 @@ namespace YueBoAdmin.Controllers
         private YueBoDB db = new YueBoDB();
         public ActionResult Index()
         {
+            //string aid = Response.Cookies["AdminID"].Value;
+            //if (aid == "" || aid == null)
+            //{
+            //    return RedirectToAction("Login");
+            //}
             return View();
         }
 
@@ -28,7 +33,7 @@ namespace YueBoAdmin.Controllers
                 Response.Write("<script>alert('登录成功！')</script>");
                 int id = db.Admin.FirstOrDefault(a => a.AdminAccount.Contains(Account)).AdminID;
                 Response.Cookies["AdminID"].Value = id.ToString();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {

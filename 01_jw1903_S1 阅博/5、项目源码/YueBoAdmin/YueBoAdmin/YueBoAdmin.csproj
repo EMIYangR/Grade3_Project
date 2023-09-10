@@ -196,6 +196,9 @@
     <Compile Include="Models\PrivateMessageDetail.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\proc_UserByPaging_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Report.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -2357,12 +2360,19 @@
     <Content Include="Content\User\Head\头像7.jpg" />
     <Content Include="Content\User\Head\头像8.jpg" />
     <Content Include="Content\User\Head\头像9.jpg" />
-    <Content Include="Content\User\image\1.jpg" />
-    <Content Include="Content\User\image\2.jpg" />
-    <Content Include="Content\User\image\3.jpg" />
-    <Content Include="Content\User\image\4.jpg" />
-    <Content Include="Content\User\image\5.jpg" />
-    <Content Include="Content\User\image\6.jpg" />
+    <Content Include="Content\User\image\01.png" />
+    <Content Include="Content\User\image\02.png" />
+    <Content Include="Content\User\image\03.png" />
+    <Content Include="Content\User\image\04.png" />
+    <Content Include="Content\User\image\05.png" />
+    <Content Include="Content\User\image\06.png" />
+    <Content Include="Content\User\image\07.png" />
+    <Content Include="Content\User\image\08.png" />
+    <Content Include="Content\User\image\09.png" />
+    <Content Include="Content\User\image\10.png" />
+    <Content Include="Content\User\image\11.png" />
+    <Content Include="Content\User\image\12.png" />
+    <Content Include="Content\User\image\13.png" />
     <Content Include="Content\User\video\1.mp4" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -2370,8 +2380,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Models\Model1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -2382,13 +2392,6 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <Content Include="Content\plugins\bootstrap\css\bootstrap-grid.css.map" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-grid.min.css.map" />
     <Content Include="Content\plugins\bootstrap\css\bootstrap-grid.rtl.css.map" />
@@ -2462,6 +2465,13 @@
     <Content Include="Content\plugins\fontawesome\webfonts\fa-solid-900.woff2" />
     <Content Include="Content\plugins\fontawesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="Content\plugins\fontawesome\webfonts\fa-v4compatibility.woff2" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\FTPProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\charts-demo.js" />

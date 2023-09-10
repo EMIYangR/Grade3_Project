@@ -12,6 +12,8 @@ namespace YueBoAdmin.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class YueBoDB : DbContext
     {
@@ -44,5 +46,18 @@ namespace YueBoAdmin.Models
         public virtual DbSet<UserLabel> UserLabel { get; set; }
         public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<UserTypeDetail> UserTypeDetail { get; set; }
+    
+        public virtual ObjectResult<proc_UserByPaging_Result> proc_UserByPaging(Nullable<int> pageIndex, Nullable<int> pageSize)
+        {
+            var pageIndexParameter = pageIndex.HasValue ?
+                new ObjectParameter("pageIndex", pageIndex) :
+                new ObjectParameter("pageIndex", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("pageSize", pageSize) :
+                new ObjectParameter("pageSize", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<proc_UserByPaging_Result>("proc_UserByPaging", pageIndexParameter, pageSizeParameter);
+        }
     }
 }

@@ -22,12 +22,25 @@ namespace YueBoAdmin.Controllers
             return View(post.ToPagedList(page, 10));
         }
         [HttpPost]
-        public ActionResult Index(string reportname, int page = 1)
+        public ActionResult Index(string reportname, string postname, int page = 1)
         {
-            var post = db.Post.OrderByDescending(p => p.PostTime).Include(p => p.UserInfo).Include(p => p.PostStatus)
-                .Where(p => p.PostContent.Contains(reportname));
-            return View(post.ToPagedList(page, 10));
+            if (reportname == null || reportname == "")
+            {
+                var post = db.Post.OrderByDescending(p => p.PostTime).Include(p => p.UserInfo).Include(p => p.PostStatus).Where(p => p.PostContent.Contains(postname));
+                return View(post.ToPagedList(page, 10));
+            }
+            else if (postname == null || postname == "")
+            {
+                var post = db.Post.OrderByDescending(p => p.PostTime).Include(p => p.UserInfo).Include(p => p.PostStatus).Where(p => p.UserInfo.UserAccount.Contains(reportname));
+                return View(post.ToPagedList(page, 10));
+            }
+            else
+            {
+                var post = db.Post.OrderByDescending(p => p.PostTime).Include(p => p.UserInfo).Include(p => p.PostStatus);
+                return View(post.ToPagedList(page, 10));
+            }
         }
+
 
         // GET: Posts/Details/5
         public ActionResult Details(int? id)
@@ -113,7 +126,7 @@ namespace YueBoAdmin.Controllers
             int Aid = int.Parse(Response.Cookies["AdminID"].Value);
             Post post = db.Post.Find(id);
             AdminControl ac = new AdminControl();
-            ac.AdminContent = "封禁了帖子";
+            ac.AdminContent = "删除了帖子";
             ac.PostID = id;
             ac.ReportID = null;
             ac.UserID = null;
@@ -137,6 +150,22 @@ namespace YueBoAdmin.Controllers
             ac.AdminID = Aid;
             db.AdminControl.Add(ac);
             db.Post.Find(id).IsBan = true;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public ActionResult CancelBan(int id)
+        {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            //Post post = db.Post.Find(id);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "取消屏蔽了帖子";
+            ac.PostID = id;
+            ac.ReportID = null;
+            ac.UserID = null;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
+            db.Post.Find(id).IsBan = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

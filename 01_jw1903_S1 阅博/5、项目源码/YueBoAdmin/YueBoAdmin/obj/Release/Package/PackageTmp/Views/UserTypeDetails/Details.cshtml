@@ -1,0 +1,50 @@
+﻿@model YueBoAdmin.Models.UserTypeDetail
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>UserTypeDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewPic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReviewPic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsAuthentication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsAuthentication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserInfo.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserInfo.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserType.UserTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserType.UserTypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.UserTypeDetailID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

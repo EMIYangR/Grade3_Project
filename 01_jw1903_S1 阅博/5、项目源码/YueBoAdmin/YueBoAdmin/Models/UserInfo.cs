@@ -17,6 +17,7 @@ namespace YueBoAdmin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UserInfo()
         {
+            this.AdminControl = new HashSet<AdminControl>();
             this.Content = new HashSet<Content>();
             this.Follow = new HashSet<Follow>();
             this.Forward = new HashSet<Forward>();
@@ -44,6 +45,8 @@ namespace YueBoAdmin.Models
         public int CreditScore { get; set; }
         public bool IsBan { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdminControl> AdminControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Content> Content { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

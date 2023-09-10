@@ -25,7 +25,7 @@ namespace YueBoAdmin.Controllers
         }
         public ActionResult Index2(int page = 1)
         {
-            var report = db.Report.OrderByDescending(a => a.ReportTime).Include(r => r.Post)
+            var report = db.Report.OrderByDescending(a => a.Post.IsBan).Include(r => r.Post)
                 .Include(r => r.ReportType).Include(r => r.UserInfo)
                 .Where(r => r.IsSeccess == true).ToList();
             return View(report.ToPagedList(page, 10));

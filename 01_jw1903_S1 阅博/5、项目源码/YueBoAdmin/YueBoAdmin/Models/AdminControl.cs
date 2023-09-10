@@ -19,10 +19,12 @@ namespace YueBoAdmin.Models
         public string AdminContent { get; set; }
         public Nullable<int> ReportID { get; set; }
         public Nullable<int> UserID { get; set; }
-        public System.DateTime RecordTime { get; set; }
         public Nullable<int> PostID { get; set; }
+        public System.DateTime RecordTime { get; set; }
     
         public virtual Admin Admin { get; set; }
         public virtual Post Post { get; set; }
+        public virtual Report Report { get; set; }
+        public virtual UserInfo UserInfo { get; set; }
     }
 }

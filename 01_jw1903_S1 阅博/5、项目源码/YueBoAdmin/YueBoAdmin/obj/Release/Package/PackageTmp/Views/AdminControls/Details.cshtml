@@ -1,0 +1,34 @@
+﻿@model YueBoAdmin.Models.AdminControl
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AdminControl</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AdminContent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdminContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Admin.AdminNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Admin.AdminNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AdminControlID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

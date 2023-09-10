@@ -18,7 +18,7 @@ namespace YueBoAdmin.Controllers
         // GET: AdminControls
         public ActionResult Index(int page = 1)
         {
-            var adminControl = db.AdminControl.Include(a => a.Admin);
+            var adminControl = db.AdminControl.OrderByDescending(a=>a.RecordTime).Include(a => a.Admin);
             return View(adminControl.OrderBy(a => a.AdminControlID).ToPagedList(page, 10));
         }
 

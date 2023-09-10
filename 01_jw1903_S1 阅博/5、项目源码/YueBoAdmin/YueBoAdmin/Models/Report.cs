@@ -14,14 +14,22 @@ namespace YueBoAdmin.Models
     
     public partial class Report
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Report()
+        {
+            this.AdminControl = new HashSet<AdminControl>();
+        }
+    
         public int ReportID { get; set; }
         public int UserID { get; set; }
         public int PostID { get; set; }
         public int ReportTypeID { get; set; }
         public string Reason { get; set; }
         public Nullable<bool> IsSeccess { get; set; }
-        public System.DateTime ReportTime { get; set; }
+        public Nullable<System.DateTime> ReportTime { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdminControl> AdminControl { get; set; }
         public virtual Post Post { get; set; }
         public virtual ReportType ReportType { get; set; }
         public virtual UserInfo UserInfo { get; set; }

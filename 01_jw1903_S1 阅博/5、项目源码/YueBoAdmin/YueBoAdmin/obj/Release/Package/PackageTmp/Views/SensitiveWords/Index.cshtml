@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>敏感词管理</h2>
+
+<p>
+    <a id="triggerBtn" class="btn btn-link">添加</a>
+</p>
+<div id="myModal" class="modal">
+    <form action="/SensitiveWords/Create" method="post">
+        <div class="modal-content">
+            <div class="form-horizontal">
+                <div class="modal-header">
+                    <h2>添加用户类型</h2>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <th>敏感词：</th>
+                            <td> <input type="text" name="SensitiveContent" id="SensitiveContent" value="" required /></td>
+                        </tr>
+                        <tr>
+                            <th>扣分数：</th>
+                            <td> <input type="number" name="DeductionPoint" id="DeductionPoint" value="" required /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="添加" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<table class="table table-bordered tab-content">
+    <tr>
+        <th>
+            敏感词
+        </th>
+        <th>
+            扣分数
+        </th>
+        @*<th></th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @{
+                    string a = System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(item.SensitiveContent));
+                }
+                @a.ToString()
+                @*@Html.DisplayFor(modelItem => item.SensitiveContent)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeductionPoint)
+            </td>
+            @*<td>
+                    @Html.ActionLink("删除", "Delete", new { id = item.SensitiveWordID })
+                </td>*@
+        </tr>
+    }
+
+</table>
+
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<YueBoAdmin.Models.SensitiveWord>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+<br />
+
+每页 @Model.PageSize 条，共 @Model.TotalItemCount 条

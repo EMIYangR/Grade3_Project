@@ -17,12 +17,12 @@ namespace YueBoAdmin.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Post()
         {
+            this.AdminControl = new HashSet<AdminControl>();
             this.Content = new HashSet<Content>();
             this.Forward = new HashSet<Forward>();
             this.Like = new HashSet<Like>();
             this.PostType = new HashSet<PostType>();
             this.Report = new HashSet<Report>();
-            this.AdminControl = new HashSet<AdminControl>();
         }
     
         public int PostID { get; set; }
@@ -35,7 +35,10 @@ namespace YueBoAdmin.Models
         public System.DateTime PostTime { get; set; }
         public int UserID { get; set; }
         public int StatusID { get; set; }
+        public Nullable<int> ClickSum { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AdminControl> AdminControl { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Content> Content { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -48,7 +51,5 @@ namespace YueBoAdmin.Models
         public virtual ICollection<PostType> PostType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Report> Report { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdminControl> AdminControl { get; set; }
     }
 }

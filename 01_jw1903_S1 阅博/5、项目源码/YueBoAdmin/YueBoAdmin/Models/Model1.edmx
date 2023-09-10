@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="YueBoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="YueBoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="AdminID" />
@@ -69,8 +69,8 @@
             <PropertyRef Name="PostID" />
           </Key>
           <Property Name="PostID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="PostPic" Type="nvarchar" MaxLength="50" />
-          <Property Name="PostVideo" Type="nvarchar" MaxLength="50" />
+          <Property Name="PostPic" Type="varchar(max)" />
+          <Property Name="PostVideo" Type="varchar(max)" />
           <Property Name="PostContent" Type="nvarchar" MaxLength="500" />
           <Property Name="IsHot" Type="bit" Nullable="false" />
           <Property Name="IsBan" Type="bit" Nullable="false" />
@@ -78,6 +78,7 @@
           <Property Name="PostTime" Type="datetime" Nullable="false" />
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="ClickSum" Type="int" />
         </EntityType>
         <EntityType Name="PostStatus">
           <Key>
@@ -123,7 +124,7 @@
           <Property Name="ReportTypeID" Type="int" Nullable="false" />
           <Property Name="Reason" Type="nvarchar" MaxLength="200" />
           <Property Name="IsSeccess" Type="bit" />
-          <Property Name="ReportTime" Type="datetime" Nullable="false" />
+          <Property Name="ReportTime" Type="datetime" />
         </EntityType>
         <EntityType Name="ReportType">
           <Key>
@@ -191,9 +192,9 @@
           <Property Name="UserID" Type="int" Nullable="false" />
           <Property Name="UserTypeID" Type="int" Nullable="false" />
           <Property Name="ReviewPic" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="IsAuthentication" Type="bit" Nullable="false" />
+          <Property Name="IsAuthentication" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK__AdminCont__PostI__70DDC3D8">
+        <Association Name="FK__AdminCont__PostI__5EBF139D">
           <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
           <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
           <ReferentialConstraint>
@@ -202,6 +203,30 @@
             </Principal>
             <Dependent Role="AdminControl">
               <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminCont__Repor__5DCAEF64">
+          <End Role="Report" Type="Self.Report" Multiplicity="0..1" />
+          <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminCont__UserI__5CD6CB2B">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -457,6 +482,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="proc_UserByPaging" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pageIndex" Type="int" Mode="In" />
+          <Parameter Name="pageSize" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="YueBoDBModelStoreContainer">
           <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AdminControl" EntityType="Self.AdminControl" Schema="dbo" store:Type="Tables" />
@@ -477,8 +506,16 @@
           <EntitySet Name="UserLabel" EntityType="Self.UserLabel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserType" EntityType="Self.UserType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTypeDetail" EntityType="Self.UserTypeDetail" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__AdminCont__PostI__70DDC3D8" Association="Self.FK__AdminCont__PostI__70DDC3D8">
+          <AssociationSet Name="FK__AdminCont__PostI__5EBF139D" Association="Self.FK__AdminCont__PostI__5EBF139D">
             <End Role="Post" EntitySet="Post" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminCont__Repor__5DCAEF64" Association="Self.FK__AdminCont__Repor__5DCAEF64">
+            <End Role="Report" EntitySet="Report" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminCont__UserI__5CD6CB2B" Association="Self.FK__AdminCont__UserI__5CD6CB2B">
+            <End Role="UserInfo" EntitySet="UserInfo" />
             <End Role="AdminControl" EntitySet="AdminControl" />
           </AssociationSet>
           <AssociationSet Name="FK_AdminControl_Admin" Association="Self.FK_AdminControl_Admin">
@@ -566,7 +603,8 @@
             <End Role="UserTypeDetail" EntitySet="UserTypeDetail" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="YueBoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -587,12 +625,14 @@
           <Property Name="AdminControlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AdminID" Type="Int32" Nullable="false" />
           <Property Name="AdminContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Admin" Relationship="Self.FK_AdminControl_Admin" FromRole="AdminControl" ToRole="Admin" />
           <Property Name="ReportID" Type="Int32" />
           <Property Name="UserID" Type="Int32" />
-          <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="PostID" Type="Int32" />
-          <NavigationProperty Name="Post" Relationship="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" FromRole="AdminControl" ToRole="Post" />
+          <Property Name="RecordTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK_AdminControl_Admin" FromRole="AdminControl" ToRole="Admin" />
+          <NavigationProperty Name="Post" Relationship="Self.FK__AdminCont__PostI__5EBF139D" FromRole="AdminControl" ToRole="Post" />
+          <NavigationProperty Name="Report" Relationship="Self.FK__AdminCont__Repor__5DCAEF64" FromRole="AdminControl" ToRole="Report" />
+          <NavigationProperty Name="UserInfo" Relationship="Self.FK__AdminCont__UserI__5CD6CB2B" FromRole="AdminControl" ToRole="UserInfo" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -644,8 +684,8 @@
             <PropertyRef Name="PostID" />
           </Key>
           <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PostPic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PostVideo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostPic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PostVideo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="PostContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="IsHot" Type="Boolean" Nullable="false" />
           <Property Name="IsBan" Type="Boolean" Nullable="false" />
@@ -653,6 +693,8 @@
           <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="ClickSum" Type="Int32" />
+          <NavigationProperty Name="AdminControl" Relationship="Self.FK__AdminCont__PostI__5EBF139D" FromRole="Post" ToRole="AdminControl" />
           <NavigationProperty Name="Content" Relationship="Self.FK_Content_Post" FromRole="Post" ToRole="Content" />
           <NavigationProperty Name="Forward" Relationship="Self.FK_Forward_Post" FromRole="Post" ToRole="Forward" />
           <NavigationProperty Name="Like" Relationship="Self.FK_Like_Post" FromRole="Post" ToRole="Like" />
@@ -660,7 +702,6 @@
           <NavigationProperty Name="PostStatus" Relationship="Self.FK_Post_PostStatus" FromRole="Post" ToRole="PostStatus" />
           <NavigationProperty Name="PostType" Relationship="Self.FK_PostType_Post" FromRole="Post" ToRole="PostType" />
           <NavigationProperty Name="Report" Relationship="Self.FK_Report_Post" FromRole="Post" ToRole="Report" />
-          <NavigationProperty Name="AdminControl" Relationship="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8" FromRole="Post" ToRole="AdminControl" />
         </EntityType>
         <EntityType Name="PostStatus">
           <Key>
@@ -712,10 +753,11 @@
           <Property Name="ReportTypeID" Type="Int32" Nullable="false" />
           <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsSeccess" Type="Boolean" />
+          <Property Name="ReportTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AdminControl" Relationship="Self.FK__AdminCont__Repor__5DCAEF64" FromRole="Report" ToRole="AdminControl" />
           <NavigationProperty Name="Post" Relationship="Self.FK_Report_Post" FromRole="Report" ToRole="Post" />
           <NavigationProperty Name="ReportType" Relationship="Self.FK_Report_ReportType" FromRole="Report" ToRole="ReportType" />
           <NavigationProperty Name="UserInfo" Relationship="Self.FK_Report_UserInfo" FromRole="Report" ToRole="UserInfo" />
-          <Property Name="ReportTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="ReportType">
           <Key>
@@ -762,6 +804,7 @@
           <Property Name="RegisterTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreditScore" Type="Int32" Nullable="false" />
           <Property Name="IsBan" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="AdminControl" Relationship="Self.FK__AdminCont__UserI__5CD6CB2B" FromRole="UserInfo" ToRole="AdminControl" />
           <NavigationProperty Name="Content" Relationship="Self.FK_Content_UserInfo" FromRole="UserInfo" ToRole="Content" />
           <NavigationProperty Name="Follow" Relationship="Self.FK_Follow_UserInfo" FromRole="UserInfo" ToRole="Follow" />
           <NavigationProperty Name="Forward" Relationship="Self.FK_Forward_UserInfo" FromRole="UserInfo" ToRole="Forward" />
@@ -798,7 +841,7 @@
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="UserTypeID" Type="Int32" Nullable="false" />
           <Property Name="ReviewPic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IsAuthentication" Type="Boolean" Nullable="false" />
+          <Property Name="IsAuthentication" Type="Int32" Nullable="false" />
           <NavigationProperty Name="UserInfo" Relationship="Self.FK_UserTypeDetail_UserInfo" FromRole="UserTypeDetail" ToRole="UserInfo" />
           <NavigationProperty Name="UserType" Relationship="Self.FK_UserTypeDetail_UserType" FromRole="UserTypeDetail" ToRole="UserType" />
         </EntityType>
@@ -811,6 +854,42 @@
             </Principal>
             <Dependent Role="AdminControl">
               <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminCont__PostI__5EBF139D">
+          <End Role="Post" Type="Self.Post" Multiplicity="0..1" />
+          <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Post">
+              <PropertyRef Name="PostID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="PostID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminCont__Repor__5DCAEF64">
+          <End Role="Report" Type="Self.Report" Multiplicity="0..1" />
+          <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Report">
+              <PropertyRef Name="ReportID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="ReportID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AdminCont__UserI__5CD6CB2B">
+          <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="0..1" />
+          <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserInfo">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="AdminControl">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1078,6 +1157,18 @@
             <End Role="Admin" EntitySet="Admin" />
             <End Role="AdminControl" EntitySet="AdminControl" />
           </AssociationSet>
+          <AssociationSet Name="FK__AdminCont__PostI__5EBF139D" Association="Self.FK__AdminCont__PostI__5EBF139D">
+            <End Role="Post" EntitySet="Post" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminCont__Repor__5DCAEF64" Association="Self.FK__AdminCont__Repor__5DCAEF64">
+            <End Role="Report" EntitySet="Report" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AdminCont__UserI__5CD6CB2B" Association="Self.FK__AdminCont__UserI__5CD6CB2B">
+            <End Role="UserInfo" EntitySet="UserInfo" />
+            <End Role="AdminControl" EntitySet="AdminControl" />
+          </AssociationSet>
           <AssociationSet Name="FK_Content_Post" Association="Self.FK_Content_Post">
             <End Role="Post" EntitySet="Post" />
             <End Role="Content" EntitySet="Content" />
@@ -1158,23 +1249,28 @@
             <End Role="UserType" EntitySet="UserType" />
             <End Role="UserTypeDetail" EntitySet="UserTypeDetail" />
           </AssociationSet>
-          <AssociationSet Name="FK__AdminCont__PostI__70DDC3D8" Association="YueBoDBModel.FK__AdminCont__PostI__70DDC3D8">
-            <End Role="Post" EntitySet="Post" />
-            <End Role="AdminControl" EntitySet="AdminControl" />
-          </AssociationSet>
+          <FunctionImport Name="proc_UserByPaging" ReturnType="Collection(YueBoDBModel.proc_UserByPaging_Result)">
+            <Parameter Name="pageIndex" Mode="In" Type="Int32" />
+            <Parameter Name="pageSize" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
-        <Association Name="FK__AdminCont__PostI__70DDC3D8">
-          <End Type="YueBoDBModel.Post" Role="Post" Multiplicity="0..1" />
-          <End Type="YueBoDBModel.AdminControl" Role="AdminControl" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Post">
-              <PropertyRef Name="PostID" />
-            </Principal>
-            <Dependent Role="AdminControl">
-              <PropertyRef Name="PostID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
+        <ComplexType Name="proc_UserByPaging_Result">
+          <Property Type="Int32" Name="UserID" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserNick" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="UserAccount" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Signature" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserPwd" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="UserPic" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="IDcard" Nullable="true" MaxLength="18" />
+          <Property Type="String" Name="Sex" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Birthday" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="RegisterTime" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="CreditScore" Nullable="false" />
+          <Property Type="Boolean" Name="IsBan" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1194,13 +1290,13 @@
           <EntitySetMapping Name="AdminControl">
             <EntityTypeMapping TypeName="YueBoDBModel.AdminControl">
               <MappingFragment StoreEntitySet="AdminControl">
-                <ScalarProperty Name="PostID" ColumnName="PostID" />
-                <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
                 <ScalarProperty Name="AdminControlID" ColumnName="AdminControlID" />
                 <ScalarProperty Name="AdminID" ColumnName="AdminID" />
                 <ScalarProperty Name="AdminContent" ColumnName="AdminContent" />
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="PostID" ColumnName="PostID" />
+                <ScalarProperty Name="RecordTime" ColumnName="RecordTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1259,6 +1355,7 @@
                 <ScalarProperty Name="PostTime" ColumnName="PostTime" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="ClickSum" ColumnName="ClickSum" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1303,13 +1400,13 @@
           <EntitySetMapping Name="Report">
             <EntityTypeMapping TypeName="YueBoDBModel.Report">
               <MappingFragment StoreEntitySet="Report">
-                <ScalarProperty Name="ReportTime" ColumnName="ReportTime" />
                 <ScalarProperty Name="ReportID" ColumnName="ReportID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="PostID" ColumnName="PostID" />
                 <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
                 <ScalarProperty Name="Reason" ColumnName="Reason" />
                 <ScalarProperty Name="IsSeccess" ColumnName="IsSeccess" />
+                <ScalarProperty Name="ReportTime" ColumnName="ReportTime" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1388,6 +1485,27 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="proc_UserByPaging" FunctionName="YueBoDBModel.Store.proc_UserByPaging">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="YueBoDBModel.proc_UserByPaging_Result">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserNick" ColumnName="UserNick" />
+                <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+                <ScalarProperty Name="Signature" ColumnName="Signature" />
+                <ScalarProperty Name="UserPwd" ColumnName="UserPwd" />
+                <ScalarProperty Name="UserPic" ColumnName="UserPic" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IDcard" ColumnName="IDcard" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
+                <ScalarProperty Name="CreditScore" ColumnName="CreditScore" />
+                <ScalarProperty Name="IsBan" ColumnName="IsBan" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
