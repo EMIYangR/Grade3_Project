@@ -1,0 +1,326 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+.loader {
+  width: 250px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  position: absolute;
+  top: 250px;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  font-family: helvetica, arial, sans-serif;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: #ce4233;
+  letter-spacing: 0.2em;
+}
+.loader::before, .loader::after {
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: #ce4233;
+  position: absolute;
+  -webkit-animation: load .7s infinite alternate ease-in-out;
+  animation: load .7s infinite alternate ease-in-out;
+}
+.loader::before {
+  top: 0;
+}
+.loader::after {
+  bottom: 0;
+}
+
+@-webkit-keyframes load {
+  0% {
+    left: 0;
+    height: 30px;
+    width: 15px;
+  }
+  50% {
+    height: 8px;
+    width: 40px;
+  }
+  100% {
+    left: 235px;
+    height: 30px;
+    width: 15px;
+  }
+}
+
+@keyframes load {
+  0% {
+    left: 0;
+    height: 30px;
+    width: 15px;
+  }
+  50% {
+    height: 8px;
+    width: 40px;
+  }
+  100% {
+    left: 235px;
+    height: 30px;
+    width: 15px;
+  }
+}
+/* 输入框样式 */
+/* .wave-group {
+    position: relative;
+  }
+  
+  .wave-group .input {
+    font-size: 16px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 200px;
+    border: none;
+    border-bottom: 1px solid #515151;
+    background: transparent;
+  }
+  
+  .wave-group .input:focus {
+    outline: none;
+  }
+  
+  .wave-group .label {
+    color: #999;
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    display: flex;
+  }
+  
+  .wave-group .label-char {
+    transition: 0.2s ease all;
+    transition-delay: calc(var(--index) * .05s);
+  }
+  
+  .wave-group .input:focus ~ label .label-char,
+  .wave-group .input:valid ~ label .label-char {
+    transform: translateY(-20px);
+    font-size: 14px;
+    color: #5264AE;
+  }
+  
+  .wave-group .bar {
+    position: relative;
+    display: block;
+    width: 200px;
+  }
+  
+  .wave-group .bar:before,.wave-group .bar:after {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 1px;
+    position: absolute;
+    background: #5264AE;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+  
+  .wave-group .bar:before {
+    left: 50%;
+  }
+  
+  .wave-group .bar:after {
+    right: 50%;
+  }
+  
+  .wave-group .input:focus ~ .bar:before,
+  .wave-group .input:focus ~ .bar:after {
+    width: 50%;
+  } */
+
+  .input {
+    max-width: 190px;
+    height: 30px;
+    border: 2px solid transparent;
+    outline: none;
+    border-bottom: 2px solid #3f3f3f;
+    caret-color: #3f3f3f;
+    background-color: #212121;
+    padding: 5px;
+    -webkit-transition: .5s linear;
+    transition: .5s linear;
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+  
+  .input:focus {
+    border: 2px solid #fa4753;
+    caret-color: #fa4753;
+    color: #fa4753;
+    -webkit-box-shadow: 4px 4px 10px #070707;
+            box-shadow: 4px 4px 10px #070707;
+  }
+  
+  .input:focus::-webkit-input-placeholder {
+    color: #fa4753;
+  }
+  
+  .input:focus::-moz-placeholder {
+    color: #fa4753;
+  }
+  
+  .input:focus:-ms-input-placeholder {
+    color: #fa4753;
+  }
+  
+  .input:focus::-ms-input-placeholder {
+    color: #fa4753;
+  }
+  
+  .input:focus::placeholder {
+    color: #fa4753;
+  }
+    /* 输入框样式 */
+ 
+  /* 按钮样式 */
+  button {
+    margin-top: 50px;
+    margin-left: 12%;
+    align-items: center;
+    background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-family: Phantomsans, sans-serif;
+    font-size: 18px;
+    justify-content: center;
+    line-height: 1em;
+    max-width: 100%;
+    min-width: 140px;
+    padding: 3px;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+   }
+   
+   button:active,
+   button:hover {
+    outline: 0;
+   }
+   
+   button span {
+    background-color: rgb(5, 6, 45);
+    padding: 16px 24px;
+    border-radius: 6px;
+    width: 100%;
+    height: 100%;
+    transition: 300ms;
+   }
+   
+   button:hover span {
+    background: none;
+   }
+   
+   button:active {
+    transform: scale(0.9);
+   }
+     /* 按钮样式 */
+#all{
+    width: 100%;
+    height: 800px;
+    background-image: url("../Content/img/02.png");
+}
+#register{
+    border-radius: 10px;
+    position: relative;
+    top:10%;
+    left: 15%;
+    width: 70%;
+    height: 600px;
+    /* background-color: #FFFFFF; */
+    /* background-image: linear-gradient(to right top, rgba(255,255,255,0.3), rgba(255,255,255,0.7)); */
+    box-shadow: 0 5px 15px rgba(20, 20, 20, 0.8);
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(50px);
+    /* 重点：使元素背景模糊化 */
+    /* backdrop-filter: blur(11px); */
+    /* 设置上高光和左高光，使其看起来更加逼真 */
+    /* border-top: 1px solid rgba(255,255,255,.8);
+    border-left: 1px solid rgba(255,255,255,.8); */
+}
+#register #register1{
+  /* margin-left: 5%;
+  margin-top: 50px; */
+}
+#register #register1-1{
+  margin-left: 10%;
+  float: left;
+  width: 50%;
+  height: 100%;
+}
+#register #register1-2{
+  margin-right: 10%;
+  margin-top: -5%;
+  float: right;
+  width: 30%;
+  height: 100vh;
+  text-align: center; 
+}
+#register #register1-2 h1{
+  margin-top: 180px;
+}
+#register #register1 p{
+  margin-left: 10%;
+  margin-top: 20px;
+}
+#register #register1 p label{
+  color: red;
+  font-size: 14px;
+}
+#register #register1 div{
+    /* margin-left: 10%;
+   margin-top: 20px; */
+}
+#register #choose ul{
+    padding: 40px;
+}
+#register #choose ul li{
+    float: left;
+}
+#register .s{
+  letter-spacing: 1.5rem;
+}
+#register .s1{
+  letter-spacing: 0.65rem;
+}
+#register .s2{
+  letter-spacing: 0.25rem;
+}
+#register input{
+  width: 100%;
+}
+#register #choose ul li a{
+    font-size: 22px;
+    color: black;}
+#yzm{
+  width: 10%;
+  height: 5vh;
+  float: right;
+  margin-right: 5%;
+  margin-top: -5%;
+}
+#yzm1{
+  width: 10px;
+}

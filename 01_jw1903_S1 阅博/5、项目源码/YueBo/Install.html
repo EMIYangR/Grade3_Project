@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设置</title>
+    <link rel="stylesheet" href="CSS/UserInfo.css">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/antd.min.css">
+    <script src="JS/jquery-3.4.1.min.js"></script>
+    <script src="JS/bootstrap.min.js"></script>
+    <script src="JS/vue.min.js"></script>
+    <script src="JS/antd.min.js"></script>
+    <style>
+        #div1,
+        #div2,
+        #div3 {
+            width: 100%;
+            height: 370px;
+            border: 1px solid gray;
+            background-color: white;
+        }
+
+        #div4 {
+            width: 100%;
+            border: 1px solid gray;
+            background-color: white;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div id="section">
+        <div id="left">
+            <ul>
+                <li id="li1">个人主页</li>
+                <li><a href="UserInfo.html">我的主页</a></li>
+                <li><a href="Attention.html">我的关注</a></li>
+                <li><a href="Fans.html">我的粉丝</a></li>
+                <li><a href="Dynamic.html">我的动态</a></li>
+                <li><a href="Install.html">设置</a></li>
+                <li><a href="Personal.html">我的私信</a></li>
+            </ul>
+        </div>
+        <div id="Content">
+            <!-- 信息设置 -->
+            <div id="div1">
+                <h1>信息设置</h1>
+                <p>
+                    头像&nbsp;&nbsp;
+                    <img v-bind:src="Uimg+user.UserPic" style="border-radius:24px 24px 24px 24px" width="50"
+                        height="50">
+                        <label class="input-file-button" for="input" style="padding: 6px 25px;
+                        background: #00bfff;
+                        border-radius: 4px;
+                        color: white;
+                        cursor: pointer;
+                        display: block; 
+                        width: 20%;
+                        height: 40px;"> 上传头像图片 </label>
+                    <input type="file" id="input" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+                        onchange="UrlImage(this)" style="display: none;" data-toggle="modal" data-target="#imgupdate" />
+
+                <div class="modal fade" id="imgupdate" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" @click="udaImage">
+                                    确认修改
+                                </button>
+                                <button type="button" id="noupdate" class="btn btn-secondary"
+                                    data-dismiss="modal">取消修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </p>
+                <p>昵称:&nbsp;<span v-text="user.UserNick"></span></p>
+                <p>签名:&nbsp;<span v-text="user.Signature"></span></p>
+                <p>性别:&nbsp;<span v-text="user.Sex"></span></p>
+                <p>生日:&nbsp;<span v-text="user.Birthday"></span></p>
+                <a-button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Signature">
+                    修改信息
+                </a-button>
+                <div class="modal fade" id="Signature" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">用户信息修改</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="color:black">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    <span style="color:red;" id="isnot1">&nbsp;</span>
+                                </p>
+                                <p>
+                                    昵称:
+                                    <a-input v-model="user.UserNick"></a-input>
+                                </p>
+                                <p>
+                                    签名:
+                                    <a-input v-model="user.Signature"></a-input>
+                                </p>
+                                <p>
+                                    性别:
+                                    <span v-text="user.Sex"></span>
+                                    更换:
+                                    <input id="r" type="radio" name="xb" value="1" checked="true">男
+                                    <input id="r" type="radio" name="xb" value="0">女
+                                </p>
+                                <p>
+                                    生日:
+                                    <span v-text="user.Birthday"></span>
+                                    <select name="years" id="years" onchange="selectYmd()"></select>年
+                                    <select name="months" id="months" onchange="selectYmd()"></select>月
+                                    <select name="dates" id="dates"></select>日
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" onclick="return false;" class="btn btn-secondary"
+                                    data-dismiss="modal">取消修改</button>
+                                <a-button class="btn btn-primary" @click="updateSignature">完成修改</a-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 标签设置 -->
+            <div id="div2">
+                <h1>标签设置</h1>
+                <p>
+                    标签
+                    <span v-for="(item,index) in UserLabel" :key="index" v-text="item.TypeName">
+
+                    </span>
+                </p>
+                <a-button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Types">
+                    添加标签
+                </a-button>
+                <a-button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UserLabels">
+                    删除标签
+                </a-button>
+                <div class="modal fade" id="Types" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div style="width: 100%;height: 300px;border: 1px solid rebeccapurple;">
+                                    <div v-for="(item,index) in Types" :key="index"
+                                        style="margin-top: 10px;display: inline-flex;margin-left: 10%;">
+                                        <a-button v-text="item.TypeName" type="button" class="btn btn-primary"
+                                            @click="TypesButton(item.TypeID)"></a-button>
+                                    </div>
+                                </div>
+                                <p>点击想要添加的标签</p>
+                                <button type="button" id="noupdate" class="btn btn-primary" data-dismiss="modal"
+                                    @click="load()">完成添加</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="UserLabels" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div style="width: 100%;height: 100px;border: 1px solid rebeccapurple;">
+                                    <div v-for="(item,index) in UserLabel" :key="index"
+                                        style="margin-top: 10px;display: inline-flex;margin-left: 10%;">
+                                        <a-button v-text="item.TypeName" type="button" class="btn btn-primary"
+                                            @click="UserLabelsButton(item.UserLabelID)"></a-button>
+                                    </div>
+                                </div>
+                                <p>点击想要删除的标签</p>
+                                <button type="button" id="noupdate" class="btn btn-primary" data-dismiss="modal"
+                                    @click="load()">完成删除</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p>身份认证:
+                    <span v-for="(item,index) in UserTypeDetail" :key="index" v-text="item.UserTypeName"
+                        style="color: royalblue;">
+
+                    </span>
+                </p>
+                <a-button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UserTypes">
+                    新增认证
+                </a-button>
+                <div class="modal fade" id="UserTypes" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                认证类型:
+                                <select id="option">
+                                    <option v-for="(item,index) in UserTypes" v-text="item.UserTypeName"
+                                        :value="item.UserTypeID" :key="index">
+
+                                    </option>
+                                </select>
+                                <div style="width: 380px;height: 300px;border: 1px solid rebeccapurple;">
+                                    <!-- 保存用户自定义的背景图片 -->
+                                    <img id="cropedBigImg" value='custom' alt="" data-address='' title="上传图片"
+                                        width="200px" height="180px" />
+                                    <label class="input-file-button" for="chooseImage" style="padding: 6px 25px;
+                                        background: #00bfff;
+                                        border-radius: 4px;
+                                        color: white;
+                                        cursor: pointer;
+                                        display: block; 
+                                        width: 30%;
+                                        height: 35px;"> 上传文件 </label>
+                                    <input type="file" id="chooseImage" name="file" style="display: none;"
+                                        accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+                                        onchange="UrlImage2(this)">
+                                </div>
+                                <button type="button" class="btn btn-primary" @click="Authentication()">
+                                    提交认证
+                                </button>
+                                <button type="button" id="noupdate" class="btn" data-dismiss="modal"
+                                    @click="load()">取消认证
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 隐私设置 -->
+            <div id="div3">
+                <h1>隐私设置</h1>
+                <p>姓名:&nbsp;<span v-text="user.UserName"></span></p>
+                <p>电话:&nbsp;<span v-text="user.Phone"></span></p>
+                <p>身份证号:&nbsp;<span v-text="user.IDcard"></span></p>
+                <p>邮箱:&nbsp;<span v-text="user.Email"></span></p>
+                <a-button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UserAution">
+                    实名认证
+                </a-button>
+                <div class="modal fade" id="UserAution" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div>
+                                    <p>
+                                        真实姓名:
+                                        <input type="text" id="userNameAu">
+                                    </p>
+                                    <p>
+                                        身份证号:
+                                        <input type="text" id="userNumAu">
+                                    </p>
+                                </div>
+                                <button type="button" class="btn btn-primary" @click="AutionUser()">
+                                    提交认证
+                                </button>
+                                <button type="button" id="noupdate" class="btn" data-dismiss="modal"
+                                    @click="load()">取消认证
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a-button type="button" class="btn btn-primary" data-toggle="modal" data-target="#UserPhone">
+                    修改电话
+                </a-button>
+                <div class="modal fade" id="UserPhone" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div>
+                                    <p>
+                                        新的电话:
+                                        <input type="text" id="userphone">
+                                    </p>
+                                </div>
+                                <button type="button" class="btn btn-primary" @click="PutPhone()">
+                                    确认修改
+                                </button>
+                                <button type="button" id="noupdate" class="btn" data-dismiss="modal"
+                                    @click="load()">取消修改
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 审核认证 -->
+            <div id="div4">
+                <h1>审核认证</h1>
+                <div style="width: 100%;height: 80px;border: 1px solid sienna;">
+                    <ul>
+                        <li style="display: inline-flex;margin-left: 3%;width: 10%;line-height: 80px;">认证类型</li>
+                        <li style="display: inline-flex;margin-left: 15%;width: 10%;">认证材料</li>
+                        <li style="display: inline-flex;margin-left: 15%;width: 10%;">认证状态</li>
+                        <li style="display: inline-flex;margin-left: 17%;width: 10%;">操作</li>
+                    </ul>
+                </div>
+                <div v-for="(item,index) in Useraudit" :key="index"
+                    style="width: 100%;height: 80px;border: 1px solid sienna;">
+                    <ul>
+                        <li style="display: inline-flex;margin-left: 3%;width: 10%; line-height: 80px;">
+                            <span v-text="item.UserTypeName"></span>
+                        </li>
+                        <li style="display: inline-flex;margin-left: 15%;width: 10%;">
+                            <img v-bind:src="Uimg2+item.ReviewPic" width="60" height="60">
+                        </li>
+                        <li style="display: inline-flex;margin-left: 15%;width: 10%;">
+                            <span v-text="item.IsAuthentication"></span>
+                        </li>
+                        <li style="display: inline-flex;margin-left: 15%;width: 10%;">
+                            <a-button type="button" class="btn btn-primary" @click="Userappeal(item.IsAuthentication)">
+                                申诉
+                            </a-button>
+                </div>
+            </div>
+                        </li>
+                    </ul>
+                </div>
+
+
+                
+            <script>
+                window.onload = function () {
+                    ymd();
+                }
+                //进入页面初始化，非登录点击将会被退出,通过判断cookie是否存在
+                // window.onload = function () {
+                //     var UserID = getCookie("UserID");
+                //     if (UserID != "") {
+                //         Getvue(UserID);
+                //         ymd();
+                //     } else {
+                //         alert('正在前往登录.....')
+                //         location.href = "Login.html";
+                //     }
+                // };
+                //user通过cookie获取用户信息，Uimg软件路劲，
+                //Fans粉丝信息，Attention关注信息，UserTypeDetail用户认证的身份信息
+                //Manifestation信誉分表现状态，UserLabel用户标签
+                //function Getvue(UserID){
+                var vm = new Vue({
+                    el: "#Content",
+                    data: {
+                        user: "",
+                        Uimg: "https://localhost:44364/Content/images/tx/",
+                        Uimg2: "https://localhost:44364/Content/images/Authentication/",
+                        Fans: "",
+                        Attention: "",
+                        Manifestation: "",
+                        UserTypeDetail: "",
+                        UserLabel: "",
+                        Types: "",
+                        UserTypes: "",
+                        Useraudit: ""
+                    },
+                    created() {
+                        //UserID参数放入其中
+                        this.user = GetUser(1);
+                        this.Fans = GetFollowUser(this.user.UserID);
+                        this.Attention = GetUserFollow(this.user.UserID);
+                        if (this.user.CreditScore == 100) {
+                            this.Manifestation = "优秀";
+                        } else if (this.user.CreditScore < 100 && this.user.CreditScore >= 80) {
+                            this.Manifestation = "良好";
+                        } else if (this.user.CreditScore < 80 && this.user.CreditScore >= 60) {
+                            this.Manifestation = "一般";
+                        } else if (this.user.CreditScore < 60) {
+                            this.Manifestation = "差";
+                        }
+                        if (GetUserTypeDateil(this.user.UserID).length > 0) {
+                            this.UserTypeDetail = "";
+                            this.UserTypeDetail = GetUserTypeDateil(this.user.UserID);
+                        } else {
+                            this.UserTypeDetail = [{ UserTypeName: "暂无" }]
+                        }
+                        if (GetUserLabel(this.user.UserID).length > 0) {
+                            this.UserLabel = "";
+                            this.UserLabel = GetUserLabel(this.user.UserID);
+                        } else {
+                            this.UserLabel = [{ TypeName: "暂无" }]
+                        }
+                        this.Types = GetType();
+                        this.UserTypes = GetUserType();
+                        this.Useraudit = GetUseraudit(this.user.UserID);
+                        for (i = 0; i < this.Useraudit.length; i++) {
+                            if (this.Useraudit[i].IsAuthentication == 0) {
+                                this.Useraudit[i].IsAuthentication = "未通过";
+                            } else if (this.Useraudit[i].IsAuthentication == 1) {
+                                this.Useraudit[i].IsAuthentication = "已通过";
+                            } else {
+                                this.Useraudit[i].IsAuthentication = "正在审核中";
+                            }
+                        }
+                    },
+                    methods: {
+                        updateSignature() {
+                            var month = $("#months").val();
+                            var day = $("#dates").val();
+                            var Birthday1 = $("#years").val() + "-" + month + "-" + day;
+                            var sex1;
+                            $("input[type=radio]:checked").each(function () {
+                                if ($(this).val() == "1") {
+                                    sex1 = "男";
+                                } else {
+                                    sex1 = "女"
+                                }
+                            })
+                            let user1 = {
+                                "UserID": this.user.UserID,
+                                "UserNick": this.user.UserNick,
+                                "Signature": this.user.Signature,
+                                "Birthday": Birthday1,
+                                "Sex": sex1
+                            };
+                            if (this.user.UserNick != "") {
+                                if (this.user.Signature != "") {
+                                    $.ajax({
+                                        url: GetIp("UpdateUser"),
+                                        type: "Post",
+                                        async: false,
+                                        data: user1,
+                                        success: function (res) {
+                                            if (res) {
+                                                alert('修改成功');
+                                                location.reload(true);
+                                            } else {
+                                                alert('修改失败');
+                                            }
+                                        },
+                                        error: function () {
+                                            alert('出现错误')
+                                        }
+                                    })
+                                } else {
+                                    $("#isnot1").html('签名不能为空');
+                                }
+                            } else {
+                                $("#isnot1").html('昵称不能为空');
+                            }
+                        },
+                        udaImage() {
+                            PutImage(this.user.UserID, $("#input").get(0).files[0].name);
+                        },
+                        TypesButton(tid) {
+                            this.UserLabel = GetUserLabel(this.user.UserID);
+                            var pl = false;
+                            if (this.UserLabel.length > 3) {
+                                alert("标签最多存在4个");
+                                return;
+                            }
+                            for (var i = 0; i < this.UserLabel.length; i++) {
+                                if (tid == this.UserLabel[i].TypeID) {
+                                    pl = true;
+                                }
+                            }
+                            if (!pl) {
+                                if (GetAddUl(this.user.UserID, tid)) {
+                                    alert("添加标签成功");
+                                } else {
+                                    alert("添加标签失败");
+                                }
+                            } else {
+                                alert("已有该标签");
+                            }
+
+                        },
+                        load() {
+                            location.reload(true);
+                        },
+                        UserLabelsButton(ulid) {
+                            this.UserLabel = GetUserLabel(this.user.UserID);
+                            if (this.UserLabel.length < 2) {
+                                alert("标签最少存在1个");
+                                return;
+                            }
+                            if (GetDeleteUl(this.user.UserID, ulid)) {
+                                alert("删除标签成功");
+                                location.reload(true);
+                            } else {
+                                alert("删除标签失败");
+                            }
+                        },
+                        Authentication() {
+                            this.UserTypes = GetUserType();
+                            var utid = $("#option option:selected").val();
+                            var pl = false;
+                            for (var i = 0; i < this.UserTypeDetail.length; i++) {
+                                if (utid == this.UserTypeDetail[i].UserTypeID) {
+                                    pl = true;
+                                }
+                            }
+                            if (!pl) {
+                                PutImage2(this.user.UserID, $("#chooseImage").get(0).files[0].name, utid);
+                            } else {
+                                alert('您已经有该认证');
+                            }
+
+                        },
+                        AutionUser() {
+                            if (this.user.name == "" && this.user.IDcard == "") {
+                                var userNameAu = $("#userNameAu").val();
+                                var userNumAu = $("#userNumAu").val();
+                                if (userNumAu != "" && userNameAu != "") {
+                                    if (checkPsidno(userNumAu)) {
+                                        UserAu(this.user.UserID, userNameAu, userNumAu)
+                                    } else {
+                                        alert('请输入正确的18位中华人民共和国身份证号');
+                                    }
+                                } else {
+                                    alert('认证信息不能为空')
+                                }
+                            } else {
+                                alert('您已经认证')
+                            }
+                        },
+                        PutPhone() {
+                            var userPhone = $("#userphone").val();
+                            if (userPhone != "") {
+                                if (checkTelephone(userPhone)) {
+                                    putuserphone(this.user.UserID, userPhone);
+                                } else {
+                                    alert('您输入的电话不符合规格要求');
+                                }
+                            } else {
+                                alert('新的电话不能为空');
+                            }
+                        },
+                        Userappeal(disteil) {
+                            if (disteil == "已通过") {
+                                alert('您已经通过此身份验证');
+                                location.reload(true);
+                            } else if (disteil == "正在审核中") {
+                                alert('您的申请正在审核中，请等待。。。。');
+                                location.reload(true);
+                            }else{
+                                alert('申诉成功');
+                            }
+                        }
+                    }
+                })
+                //}
+                //修改电话
+                function putuserphone(id, phone) {
+                    var k
+                    $.ajax({
+                        url: "https://localhost:44364/api/PutUserPhone?uid=" + id + "&phone=" + phone,
+                        type: "Post",
+                        async: false,
+                        data: "",
+                        success: function (res) {
+                            k = res
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    if (k == "true") {
+                        alert('修改成功');
+                        location.reload(true);
+                    } else if (k == "repeat") {
+                        alert('电话已被注册');
+                    } else {
+                        alert('修改失败');
+                    }
+                }
+                //身份验证
+                function UserAu(id, name, num) {
+                    var k
+                    $.ajax({
+                        url: "https://localhost:44364/api/PutUserNum?uid=" + id + "&name=" + name + "&num=" + num,
+                        type: "Post",
+                        async: false,
+                        data: "",
+                        success: function (res) {
+                            k = res
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    if (k) {
+                        alert('认证成功');
+                        location.reload(true);
+                    } else {
+                        alert('此身份信息暂无或已被认证');
+                    }
+                }
+                //更改用户头像
+                function PutImage(id, image) {
+                    var k
+                    $.ajax({
+                        url: GetIp("PutImage"),
+                        type: "Post",
+                        async: false,
+                        data: { "UserID": id, "UserPic": image },
+                        success: function (res) {
+                            k = res
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    if (k == "repeat") {
+                        alert('正在使用此头像');
+                        location.reload(true);
+                    } else if (k == "true") {
+                        alert('修改成功');
+                        location.reload(true);
+                    } else {
+                        alert('修改失败');
+                    }
+                }
+                //提交认证信息
+                function PutImage2(id, image, utid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("TypeDetailadd"),
+                        type: "Post",
+                        async: false,
+                        data: { "UserID": id, "UserTypeID": utid, "ReviewPic": image },
+                        success: function (res) {
+                            k = res
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    if (k) {
+                        alert('提交认证成功');
+                        location.reload(true);
+                    } else {
+                        alert('提交认证失败');
+                    }
+                }
+                // 添加标签
+                function GetAddUl(uid, tid) {
+                    var k
+                    $.ajax({
+                        url: "https://localhost:44364/api/PutUserLabeladd?uid=" + uid + "&tid=" + tid,
+                        type: "POST",
+                        async: false,
+                        data: "",
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                // 删除标签
+                function GetDeleteUl(uid, ulid) {
+                    var k
+                    $.ajax({
+                        url: "https://localhost:44364/api/PutUserLabeldelete?uid=" + uid + "&ulid=" + ulid,
+                        type: "POST",
+                        async: false,
+                        data: "",
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取用户信息
+                function GetUser(uid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("GetUserInfo"),
+                        type: "Get",
+                        async: false,
+                        data: { "uid": uid },
+                        success: function (res) {
+                            //字符串转日期后格式化
+                            let d = new Date(res.Birthday)
+                            res.Birthday = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                            //字符串转日期后格式化
+                            let d1 = new Date(res.RegisterTime)
+                            res.RegisterTime = d1.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取所有标签信息
+                function GetType() {
+                    var k;
+                    $.ajax({
+                        url: GetIp("GetType"),
+                        type: "Get",
+                        async: false,
+                        data: "",
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取所有类型信息
+                function GetUserType() {
+                    var k;
+                    $.ajax({
+                        url: GetIp("GetUserType"),
+                        type: "Get",
+                        async: false,
+                        data: "",
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //链接端口只改变末位端口值，简化代码
+                function GetIp(IPdet) {
+                    return "https://localhost:44364/api/" + IPdet;
+                }
+                //获取当前用户关注信息
+                function GetUserFollow(uid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("GetUserFollow"),
+                        type: "Get",
+                        async: false,
+                        data: { "uid": uid },
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取当前用户粉丝信息
+                function GetFollowUser(uid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("GetFollowUser"),
+                        type: "Get",
+                        async: false,
+                        data: { "uid": uid },
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取用户身份验证信息
+                function GetUserTypeDateil(uid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("TypeDetail"),
+                        type: "Get",
+                        async: false,
+                        data: { "uid": uid },
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取用户所有身份验证
+                function GetUseraudit(uid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("GetUseraudit"),
+                        type: "Get",
+                        async: false,
+                        data: { "uid": uid },
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //获取用户标签信息信息
+                function GetUserLabel(uid) {
+                    var k
+                    $.ajax({
+                        url: GetIp("GetLabel"),
+                        type: "Get",
+                        async: false,
+                        data: { "uid": uid },
+                        success: function (res) {
+                            k = res;
+                        },
+                        error: function () {
+                            alert('出现错误')
+                        }
+                    })
+                    return k;
+                }
+                //清除所有cookie
+                function clearCookie() {
+                    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+                    if (keys) {
+                        for (var i = keys.length; i--;) {
+                            document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                            document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                            document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                        }
+                    }
+                    console.log('已清除');
+                }
+                //读取cookie
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i].trim();
+                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+                    }
+                    return "";
+                }
+                //创建Cookie
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                    var expires = "expires=" + d.toGMTString();
+                    document.cookie = cname + "=" + cvalue + "; " + expires;
+                }
+                //退出清除指定cookie
+                function clearCookie(name) {
+                    setCookie(name, "", -1)
+                }
+                // 循环输出年月日函数
+                function initSelect(obj, start, end) {
+                    for (var i = start; i <= end; i++) {
+                        // 在obj对象下添加条目，文本为i，值为i
+                        obj.options.add(new Option(i, i))
+                    }
+                }
+
+                // 选中年、月输出天数的函数
+                function selectYmd() {
+                    // 用getElementById()方法，返回指定id的元素
+                    // 返回年的
+                    var yy = document.getElementById("years");
+                    // 返回月的
+                    var mm = document.getElementById("months");
+                    // 返回日的
+                    var dd = document.getElementById("dates");
+                    // 将月的value转换成数字类型,便于比较
+                    var m = parseInt(mm.value);
+                    // 声明最后天数，用于接收判断结果
+                    var dayEnd;
+                    // 判断并输出天数
+                    if (m == 4 || m == 6 || m == 9 || m == 11) {
+                        // 4月、6月、9月、11月是30天
+                        dayEnd = 30;
+                    } else if (m == 2) {
+                        // 不闰年2月28天
+                        dayEnd = 28;
+                        // 闰年的话2月29天
+                        // 将年份转换成数字类型，便于判断
+                        y = parseInt(yy.value);
+                        // 能被4整除，但不能被100整除 或者 能被400整除 就是闰年
+                        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) {
+                            dayEnd = 29;
+                        }
+                    } else {
+                        // 其他月份31天
+                        dayEnd = 31;
+                    }
+                    // 删除已经输出的31天
+                    dd.options.length = 0;
+                    //重新输出判断后的天数，dayEnd为最后一天
+                    initSelect(dd, 1, dayEnd)
+                }
+
+                // 函数Ymd()：增加下拉年、月、日的条目
+                function ymd() {
+                    // 获取时间Date对象，用于处理日期和时间
+                    var d = new Date();
+                    // 获取当前年份
+                    var nowYear = d.getFullYear();
+                    // 用getElementById()方法，返回指定id的元素
+                    // 返回年的
+                    var yy = document.getElementById("years");
+                    // 返回月的
+                    var mm = document.getElementById("months");
+                    // 返回日的
+                    var dd = document.getElementById("dates");
+
+                    // 调用initSelect()函数
+                    // 输出年下拉框的年份,从1975-今年
+                    initSelect(yy, 1975, nowYear);
+                    // 输出月下拉框的月份，从1-12月
+                    initSelect(mm, 1, 12);
+                    // 输出日下拉框的天数
+                    initSelect(dd, 1, 31);
+                    // //调用选中年、月输出天数的函数
+                    selectYmd();
+                }
+
+                function UrlImage(inp) {
+                    var formData = new window.FormData();
+                    formData.append('name', inp.files[0]);
+                    //ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "https://localhost:44364/api/UrlImage",
+                        data: formData,
+                        dataType: 'json',
+                        processData: false, // 告诉jQuery不要去处理发送的数据
+                        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                        xhrFields: { withCredentials: false },
+                        async: true,    //默认是true：异步，false：同步。
+                        success: function (data) {
+                            if (data) {
+                                alert('上传成功')
+                            } else {
+                                alert('上传失败')
+                            }
+                        },
+                        error: function (data) {
+                            alert('请求异常');
+                        },
+                    });
+                }
+                function UrlImage2(inp) {
+                    var formData = new window.FormData();
+                    formData.append('name', inp.files[0]);
+                    //ajax请求
+                    $.ajax({
+                        type: "post",
+                        url: "https://localhost:44364/api/UrlImage2",
+                        data: formData,
+                        dataType: 'json',
+                        processData: false, // 告诉jQuery不要去处理发送的数据
+                        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                        xhrFields: { withCredentials: false },
+                        async: true,    //默认是true：异步，false：同步。
+                        success: function (data) {
+                            if (data) {
+                                alert('上传成功')
+                            } else {
+                                alert('上传失败')
+                            }
+                        },
+                        error: function (data) {
+                            alert('请求异常');
+                        },
+                    });
+                }
+                $('#chooseImage').on('change', function () {
+                    var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
+                        fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+                    // 检查是否是图片
+                    if (!fileFormat.match(/.png|.jpg|.jpeg|.gif|.svg/)) {
+                        error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                        return;
+                    }
+                    $('#cropedBigImg').attr('src', filePath);
+                    $('#loding').show();
+                });
+
+                $('#chooseImage').on('change', function () {
+                    var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
+                        fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+                        src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
+
+                    // 检查是否是图片
+                    if (!fileFormat.match(/.png|.jpg|.jpeg|.gif|.svg/)) {
+                        error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                        return;
+                    }
+
+                    $('#cropedBigImg').attr('src', src);
+                });
+                /**
+             * @description : 校验身份证号是否合规（18位、15位）
+             * @param        {String|Number} value
+             * @return       {Boolean} true-合规 false-不合规
+             */
+                function checkPsidno(value) {
+                    const psidno = String(value)
+                    // 1.校验身份证号格式和长度
+                    const regPsidno = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[X])$)$/
+                    if (!regPsidno.test(psidno)) {
+                        return false
+                    }
+                    // 2.校验前两位的省份编码是否正确
+                    const province = { 11: '北京', 12: '天津', 13: '河北', 14: '山西', 15: '内蒙古', 21: '辽宁', 22: '吉林', 23: '黑龙江 ', 31: '上海', 32: '江苏', 33: '浙江', 34: '安徽', 35: '福建', 36: '江西', 37: '山东', 41: '河南', 42: '湖北 ', 43: '湖南', 44: '广东', 45: '广西', 46: '海南', 50: '重庆', 51: '四川', 52: '贵州', 53: '云南', 54: '西藏 ', 61: '陕西', 62: '甘肃', 63: '青海', 64: '宁夏', 65: '新疆', 71: '台湾', 81: '香港', 82: '澳门', 91: '国外' }
+                    if (!province[Number(psidno.slice(0, 2))]) {
+                        return false
+                    }
+                    // 3.校验出生日期
+                    if (psidno.length === 15) {
+                        // 15位号码 省（2位）市（2位）县（2位）年（2位）月（2位）日（2位）校验码（3位）
+                        const reg = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/)
+                        const arrSplit = psidno.match(reg)
+                        // 15位号码在年份前补 19 或 20
+                        const year = Number(arrSplit[2].charAt(0)) > 0 ? '19' + arrSplit[2] : '20' + arrSplit[2]
+                        const month = arrSplit[3]
+                        const day = arrSplit[4]
+                        if (!validateBirthday(year, month, day)) {
+                            return false
+                        }
+                    } else if (psidno.length === 18) {
+                        // 18位号码 省（2位）市（2位）县（2位）年（4位）月（2位）日（2位）校验码（4位）
+                        const reg = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/)
+                        const arrSplit = psidno.match(reg)
+                        const year = arrSplit[2]
+                        const month = arrSplit[3]
+                        const day = arrSplit[4]
+                        if (!validateBirthday(year, month, day)) {
+                            return false
+                        }
+                    } else {
+                        return false
+                    }
+                    // 校验出生日期是否合理
+                    function validateBirthday(year, month, day) {
+                        year = Number(year) // 年
+                        month = Number(month) // 月
+                        day = Number(day) // 日
+                        const nowTime = new Date().getTime() // 当前时间戳
+                        const birthTime = new Date(`${year}-${month}-${day}`).getTime() // 获取出生日期的时间戳
+                        // 不能是明天出生的吧
+                        if (birthTime > nowTime) {
+                            return false
+                        }
+                        // 一般人活不到150岁吧
+                        const nowYear = new Date().getFullYear()
+                        if ((nowYear - year) > 150) {
+                            return false
+                        }
+                        // 不能是13月出生的吧
+                        if (month < 1 || month > 12) {
+                            return false
+                        }
+                        // 不能是2月30号、4月31号、5月32号出生的吧
+                        const date = new Date(year, month, 0) // 获取当月的最后一天
+                        if (day < 1 || day > date.getDate()) {
+                            return false
+                        }
+                        return true
+                    }
+                    // 4.18位号码校验生成的校验码
+                    if (psidno.length === 18) {
+                        const Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2] // 加权因子
+                        const parity = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'] // 校验码
+                        let sum = 0
+                        for (let i = 0; i < 17; i++) {
+                            sum += Number(psidno.charAt(i)) * Wi[i]
+                        }
+                        if (parity[sum % 11] !== psidno[17]) {
+                            return false
+                        }
+                    }
+                    return true
+                }
+                // 验证电话是否合规
+                function checkTelephone(telephone) {
+                    var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                    if (!reg.test(telephone)) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+            </script>
+</body>
+
+</html>

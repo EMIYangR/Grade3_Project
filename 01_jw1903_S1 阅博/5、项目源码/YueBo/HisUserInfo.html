@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>他人主页</title>
+    <link rel="stylesheet" href="CSS/UserInfo.css">
+    <link rel="stylesheet" href="CSS/User1.css">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/antd.min.css">
+    <script src="JS/jquery-3.4.1.min.js"></script>
+    <script src="JS/bootstrap.min.js"></script>
+    <script src="JS/vue.min.js"></script>
+    <script src="JS/antd.min.js"></script>
+</head>
+
+<body>
+    <div id="section">
+        <div id="left">
+            <ul>
+
+                <li id="li1">他人主页</li>
+                <li><a href="HisUserInfo.html">主页</a></li>
+                <li><a href="HisDynamic.html">动态</a></li>
+                <li><button onclick="retu()" class="btn btn-primary">返回</button></li>
+            </ul>
+        </div>
+        <div id="Content">
+            <div id="d1">
+                <div id="ner">
+
+                </div>
+                <div id="d2">
+                    <img v-bind:src="Uimg+user.UserPic" style="border-radius:24px 24px 24px 24px" width="50" height="50">
+                    <p>
+                        <span>昵称:&nbsp;{{ user.UserNick }}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        在&nbsp;{{ user.RegisterTime }}&nbsp;加入了阅博
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a-button type="button" class="btn btn-primary" style="background-color: skyblue;" @click="UserPersonal()">
+                            私信他
+                        </a-button>
+                    </p>
+                    <p>
+                        粉丝:&nbsp;{{ Fans.length }}&nbsp;&nbsp;&nbsp;
+                        关注:&nbsp;{{ Attention.length }}
+                    </p>
+                    <p>
+                        签名: {{ user.Signature }}
+                    </p>
+                    <p>
+                        <span>性别:&nbsp;{{ user.Sex }} </span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span>生日:&nbsp;{{ user.Birthday }}</span>
+                    </p>
+                    <p>
+                        信誉分:&nbsp;<span style="color: burlywood;">{{ user.CreditScore }}</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        表现:&nbsp;<span style="color: aqua;">{{ Manifestation }}</span>
+                    </p>
+                    <p>
+                        官方认证:
+                        <span v-for="(item,index) in UserTypeDetail" :key="index">
+                            {{ item.UserTypeName }}
+                        </span>
+                    </p>
+                    <p>
+                        标签:
+                        <span v-for="(item,index) in UserLabel" :key="index">
+                            {{ item.TypeName }}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        //进入页面初始化，非登录点击将会被退出
+        window.onload = function () {
+            var HisUserID = getCookie("HisUserID");
+            // var UserIDaon = getCookie("UserID");
+            if (HisUserID != "") {
+                    Getvue(HisUserID,1);
+                } else {
+                    location.href = "UserInfo.html";
+                }
+        };
+        function retu(){
+            clearCookie("HisUserID");
+            location.href="UserInfo.html"
+        }
+        function Getvue(HisUserID,UserIDaon){
+                var vm = new Vue({
+                    el: "#Content",
+                    data: {
+                        user: "",
+                        Uimg: "https://localhost:44364/Content/images/tx/",
+                        Fans:"",
+                        Attention:"",
+                        Manifestation:"",
+                        UserTypeDetail:"",
+                        UserLabel:""
+                    },
+                    created(){
+                        //UserID参数放入其中
+                        this.user=GetUser(HisUserID);
+                        this.Fans=GetFollowUser(this.user.UserID);
+                        this.Attention=GetUserFollow(this.user.UserID);
+                        if(this.user.CreditScore==100){
+                            this.Manifestation="优秀";
+                        }else if(this.user.CreditScore<100&&this.user.CreditScore>=80){
+                            this.Manifestation="良好";
+                        }else if(this.user.CreditScore<80&&this.user.CreditScore>=60){
+                            this.Manifestation="一般";
+                        }else if(this.user.CreditScore<60){
+                            this.Manifestation="差";
+                        }
+                        if(GetUserTypeDateil(this.user.UserID).length>0){
+                            this.UserTypeDetail="";
+                            this.UserTypeDetail=GetUserTypeDateil(this.user.UserID);
+                        }else{
+                            this.UserTypeDetail=[{UserTypeName:"暂无"}]
+                        }
+                        if(GetUserLabel(this.user.UserID).length>0){
+                            this.UserLabel="";
+                            this.UserLabel=GetUserLabel(this.user.UserID);
+                        }else{
+                            this.UserLabel=[{TypeName:"暂无"}]
+                        }  
+                    },
+                    methods:{
+                        UserPersonal(){
+                            var k=GetPrivateMessagesIsNot(UserIDaon,this.user.UserID);
+                            if(k=="true"){
+                                location.href="Personal.html";
+                            }else if(k=="false"){
+                                if(GetPrivateMessagesAdd(UserIDaon,this.user.UserID)){
+                                    location.href="Personal.html";
+                                }else{
+                                    alert('暂时无法与对方私信');
+                                }
+                            }else if(k=="forbid"){
+                                alert('您已被对方禁言');
+                            }
+                        }
+                    }
+                })
+            
+        }
+        //获取双方有无私信
+        function GetPrivateMessagesIsNot(uid1,uid2) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesIsNot?uid1="+uid1+"&uid2="+uid2,
+                type: "Get",
+                async: false,
+                data: "",
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //建立私信
+        function GetPrivateMessagesAdd(uid1,uid2) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesAdd?uid1="+uid1+"&uid2="+uid2,
+                type: "Get",
+                async: false,
+                data: "",
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取用户信息
+        function GetUser(uid) {
+            var k
+            $.ajax({
+                url: GetIp("GetUserInfo"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    //字符串转日期后格式化
+                    let d=new Date(res.Birthday)
+                    res.Birthday=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
+                     //字符串转日期后格式化
+                     let d1=new Date(res.RegisterTime)
+                    res.RegisterTime=d1.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //链接端口只改变末位端口值，简化代码
+        function GetIp(IPdet) {
+            return "https://localhost:44364/api/" + IPdet;
+        }
+        //获取当前用户关注信息
+        function GetUserFollow(uid){
+            var k
+            $.ajax({
+                url: GetIp("GetUserFollow"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取当前用户粉丝信息
+        function GetFollowUser(uid){
+            var k
+            $.ajax({
+                url: GetIp("GetFollowUser"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取用户标签信息信息
+        function GetUserTypeDateil(uid) {
+            var k
+            $.ajax({
+                url: GetIp("TypeDetail"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取用户标签信息信息
+        function GetUserLabel(uid) {
+            var k
+            $.ajax({
+                url: GetIp("GetLabel"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //清除所有cookie
+        function clearCookie() {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+                for (var i = keys.length; i--;) {
+                    document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                }
+            }
+            console.log('已清除');
+        }
+         //读取cookie
+         function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //创建Cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //退出清除指定cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1)
+        }
+    </script>
+</body>
+
+</html>

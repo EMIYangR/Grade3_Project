@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的私信</title>
+    <link rel="stylesheet" href="CSS/UserInfo.css">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/antd.min.css">
+    <script src="JS/jquery-3.4.1.min.js"></script>
+    <script src="JS/bootstrap.min.js"></script>
+    <script src="JS/vue.min.js"></script>
+    <script src="JS/antd.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div id="section">
+        <div id="left">
+            <ul>
+                <li id="li1">个人主页</li>
+                <li><a href="UserInfo.html">我的主页</a></li>
+                <li><a href="Attention.html">我的关注</a></li>
+                <li><a href="Fans.html">我的粉丝</a></li>
+                <li><a href="Dynamic.html">我的动态</a></li>
+                <li><a href="Install.html">设置</a></li>
+                <li><a href="Personal.html">我的私信</a></li>
+            </ul>
+        </div>
+        <div id="Content">
+            <h1>我的私信</h1>
+            <p>
+                <a href="Index.html" style="color: blueviolet;" v-html="Hint"></a>
+            </p>
+            <div>
+                <div v-for="(item,index) in Privateletter" id="d1" :key="index" class="table-bordered"
+                    style="background-color: white;height: 90px;width: 100%;cursor:pointer;overflow: hidden;"
+                    data-toggle="modal" data-target="#Massage" @click="GetChat(item.PrivateMessageUserID,item.UserNick)">
+                    <p>
+                        <img v-bind:src="Uimg+item.UserPic" style="border-radius:24px 24px 24px 24px;"
+                            width="50" height="50">
+                    </p>
+                    <p>
+                        <span v-text="item.UserNick"></span>
+                    </p>
+                </div>
+                <div class="modal fade" id="Massage" data-backdrop="static" data-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 style="text-align: center;" class="modal-title"  id="myModalLabel">与&nbsp;<span v-text="advname"></span>&nbsp;的私信</h4>
+                            </div>
+                            <div id="myby" class="modal-body" style="height: 400px;overflow-y:auto;">
+                                <p style="color: blueviolet;text-align: center;" v-html="Hint2">
+                                </p>
+                                <div v-for="(item,index) in Chatset">
+                                    <div v-if="item.P0Weight=='right'" style="
+                                        margin-left: 45%;margin-top: 5px;">
+                                        <img v-bind:src="Uimg+item.UserPic" style="border-radius:24px 24px 24px 24px;display: block;margin-left: 80%;"
+                                        width="50" height="50">
+                                        <span v-text="item.PrivateMessageTime" style="margin-left: 62%;"></span>
+                                        <p v-text="item.PrivateMessageContent" style="background-color: beige;border-radius: 5px;padding: 10px 20px 10px 10px;text-align: right;"></p>
+                                    </div>
+                                    <div v-if="item.P0Weight=='left'" style="margin-right: 45%;
+                                        margin-top: 5px;">
+                                        <img v-bind:src="Uimg+item.UserPic" style="border-radius:24px 24px 24px 24px;display: block;margin-right: 80%;"
+                                        width="50" height="50">
+                                        <span v-text="item.PrivateMessageTime"></span>
+                                        <p v-text="item.PrivateMessageContent" style="background-color: beige;border-radius: 5px;padding: 10px 10px 10px 20px;">
+                                        </p>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <p style="width: 100%;text-align: center;">
+                                    <input type="text" id="text1" style="max-width: 190px;
+                                    padding: 12px;
+                                    border: none;
+                                    border-radius: 4px;
+                                    box-shadow: 2px 2px 7px 0 rgb(0, 0, 0, 0.2);
+                                    outline: none;
+                                    color: dimgray;
+                                    overflow:auto;" placeholder="请输入你想要发送的内容">
+                                    <a-button type="button" class="btn btn-primary" @click="setChat()">
+                                        发送
+                                    </a-button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+        <!-- <div id="Chatbox" style="position: fixed;width: 48%;height: 500px;background-color: skyblue;top: 15px;left: 41.5%;border: 3px solid goldenrod;border-radius: 5px;">
+
+            </div> -->
+    </div>
+    </div>
+    <script>
+         var divscll = document.getElementById('myby');
+  divscll.scrollTop = divscll.scrollHeight;
+        //进入页面初始化，非登录点击将会被退出,通过判断cookie是否存在
+        // window.onload = function () {
+        //     var UserID = getCookie("UserID");
+        //     if (UserID != "") {
+        //         Getvue(UserID);
+        //     } else {
+        //         alert('正在前往登录.....')
+        //         location.href = "Login.html";
+        //     }
+        // };
+        //user通过cookie获取用户信息，Uimg软件路劲，
+        //Fans粉丝信息，Attention关注信息
+        //
+        //function Getvue(UserID){
+        var vm = new Vue({
+            el: "#Content",
+            data: {
+                user: "",
+                Uimg: "https://localhost:44364/Content/images/tx/",
+                Hint: "",
+                Privateletter: "",
+                Chatset:"",
+                advname:"",
+                Hint2:""
+            },
+            created() {
+                //UserID参数放入其中
+                this.user = GetUser(1);
+                this.Privateletter = GetPrivateMessages(this.user.UserID);
+                if (this.Privateletter.length == 0) {
+                    this.Hint = "您暂时没有和何人有私信，去私信他人吧"
+                }
+            },
+            methods: {
+                GetChat(adverseuid,name){
+                    this.Hint2="";
+                    this.Chatset=GetPrivateMessagesDateil(this.user.UserID,adverseuid);
+                    if(this.Chatset.length ==0){
+                        this.Hint2 = "发送一条消息吧"
+                    }
+                    this.advname=name;
+                    var toid=0;
+                    $.each(this.Chatset,function (index,item) {
+                        if(item.P0Weight=="right"){
+                            toid=item.PrivateMessageID
+                            return;
+                        }
+                    })
+                    GetPrivateMessagesDateilRead(toid);
+                    var divscll = document.getElementById('myby');
+                    divscll.scrollTop = divscll.scrollHeight;
+                },
+                setChat(){
+                    var advid=0;
+                    var toid=0;
+                    $.each(this.Chatset,function (index,item) {
+                        if(item.P0Weight=="right"){
+                            advid=item.PrivateMessageID
+                            toid=item.PrivateMessageUserID
+                            return;
+                        }
+                    })
+                    var content=$("#text1").val();
+                    if(content!=""){
+                        if(GetPrivateMessagesDateiladd(advid,content)){
+                            this.Chatset=GetPrivateMessagesDateil(this.user.UserID,toid);
+                            var divscll = document.getElementById('myby');
+                            divscll.scrollTop = divscll.scrollHeight;
+                        }else{
+                            alert('发送失败');
+                        }
+                        $("#text1").val("");
+                    }else{
+                        alert('发送的内容不能为空哦');
+                    }
+                }
+            }
+        })
+
+        //}
+        function GetPrivateMessagesDateilnotRead(prid) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesDateilnotRead",
+                type: "Get",
+                async: false,
+                data: {"prid":prid},
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //已读所有消息
+        function GetPrivateMessagesDateilRead(prid) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesDateilRead",
+                type: "Get",
+                async: false,
+                data: {"prid":prid},
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取私信详情
+        function GetPrivateMessagesDateil(uid1,uid2) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesDateil?uid1="+uid1+"&uid2="+uid2,
+                type: "Get",
+                async: false,
+                data: "",
+                success: function (res) {
+                    $.each(res, function (index, item) {
+                        let d = new Date(item.PrivateMessageTime)
+                        item.PrivateMessageTime = d.getFullYear() + '.' + (d.getMonth() + 1) + '.' +
+                         d.getDate() + '        '+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                    })
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取私信详情
+        function GetPrivateMessagesDateiladd(advid,content) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesDateiladd?advid="+advid+"&content="+content,
+                type: "Get",
+                async: false,
+                data: "",
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        
+        //获取用户信息
+        function GetUser(uid) {
+            var k
+            $.ajax({
+                url: GetIp("GetUserInfo"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    //字符串转日期后格式化
+                    let d = new Date(res.Birthday)
+                    res.Birthday = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                    //字符串转日期后格式化
+                    let d1 = new Date(res.RegisterTime)
+                    res.RegisterTime = d1.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取用户私信信息
+        function GetPrivateMessages(uid) {
+            var k
+            $.ajax({
+                url: GetIp("GetPrivateMessages"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //链接端口只改变末位端口值，简化代码
+        function GetIp(IPdet) {
+            return "https://localhost:44364/api/" + IPdet;
+        }
+        //获取当前用户关注信息
+        function GetUserFollow(uid) {
+            var k
+            $.ajax({
+                url: GetIp("GetUserFollow"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    $.each(res, function (index, item) {
+                        if (item.Sex == "男") {
+                            item.Sex = "他"
+                        } else {
+                            item.Sex = "她"
+                        }
+                        let d = new Date(item.FollowTime)
+                        item.FollowTime = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                    })
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //获取当前用户粉丝信息
+        function GetFollowUser(uid) {
+            var k
+            $.ajax({
+                url: GetIp("GetFollowUser"),
+                type: "Get",
+                async: false,
+                data: { "uid": uid },
+                success: function (res) {
+                    $.each(res, function (index, item) {
+                        if (item.Sex == "男") {
+                            item.Sex = "他"
+                        } else {
+                            item.Sex = "她"
+                        }
+                        let d = new Date(res.FollowTime)
+                        res.FollowTime = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                    })
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        //清除所有cookie
+        function clearCookie() {
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+                for (var i = keys.length; i--;) {
+                    document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                }
+            }
+            console.log('已清除');
+        }
+        //读取cookie
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i].trim();
+                if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+            }
+            return "";
+        }
+        //创建Cookie
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        //退出清除指定cookie
+        function clearCookie(name) {
+            setCookie(name, "", -1)
+        }
+    </script>
+</body>
+
+</html>

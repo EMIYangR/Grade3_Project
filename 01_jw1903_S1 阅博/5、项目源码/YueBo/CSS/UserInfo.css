@@ -1,0 +1,38 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+#body{
+    background-color: rgb(240,240,240);
+}
+#section{
+    width: 84%;
+    margin-left: 8%;
+}
+#left{
+    background-color: white;
+    width: 20%;
+    height: 700px;
+    position: fixed;
+}
+#left ul li{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+}
+#Content{
+    background-color: white;
+    width: 72%;
+    margin-left: 25%;
+    height: 700px;
+}
+#li1{
+    font-size: 20px;
+    color: black;
+}

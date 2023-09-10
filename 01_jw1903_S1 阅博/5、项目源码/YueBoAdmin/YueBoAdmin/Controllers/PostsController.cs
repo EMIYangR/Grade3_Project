@@ -123,17 +123,37 @@ namespace YueBoAdmin.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
-            int Aid = int.Parse(Response.Cookies["AdminID"].Value);
-            Post post = db.Post.Find(id);
+            return RedirectToAction("Index");
+        }
+        public ActionResult Hot(int id)
+        {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            //Post post = db.Post.Find(id);
             AdminControl ac = new AdminControl();
-            ac.AdminContent = "删除了帖子";
+            ac.AdminContent = "设置了帖子上热门";
             ac.PostID = id;
             ac.ReportID = null;
             ac.UserID = null;
             ac.RecordTime = DateTime.Now;
             ac.AdminID = Aid;
-            db.AdminControl.Find(Aid).Admin.AdminControl.Add(ac);
-            db.Post.Remove(post);
+            db.AdminControl.Add(ac);
+            db.Post.Find(id).IsHot = true;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        public ActionResult CancelHot(int id)
+        {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            //Post post = db.Post.Find(id);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "取消了帖子上热门";
+            ac.PostID = id;
+            ac.ReportID = null;
+            ac.UserID = null;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
+            db.Post.Find(id).IsHot = false;
             db.SaveChanges();
             return RedirectToAction("Index");
         }

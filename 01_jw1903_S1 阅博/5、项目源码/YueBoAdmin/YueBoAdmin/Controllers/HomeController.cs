@@ -45,6 +45,10 @@ namespace YueBoAdmin.Controllers
         {
             return View();
         }
+        public ActionResult Help()
+        {
+            return View();
+        }
         //protected override void OnActionExecuted(ActionExecutedContext filterContext)
         //{
         //    base.OnActionExecuted(filterContext);

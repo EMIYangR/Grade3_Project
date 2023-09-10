@@ -1,0 +1,32 @@
+#head {
+    overflow: hidden;
+    background-color: cadetblue;
+    height: 60px;
+}
+
+li {
+    list-style: none;
+    float: left;
+    margin-left: 8%;
+}
+
+a {
+    text-decoration: none;
+    display: block;
+    height: 50px;
+}
+
+span {
+    color: white;
+}
+#foot{
+    height: 30px;
+    background-color: gray;
+    opacity: 0.7;
+    color: white;
+    font: 100 10px "幼圆";
+    box-shadow: 0px 0px 10px 2px gray;
+}
+#foot h5{
+    color: white;
+}

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9abacf67e3e94911a62eb62d79a40a74" Name="Diagram1">
+        <EntityTypeShape EntityType="YueBoDBModel.Admin" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.AdminControl" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Content" Width="1.5" PointX="3" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Follow" Width="1.5" PointX="3" PointY="15.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Forward" Width="1.5" PointX="6" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Like" Width="1.5" PointX="6" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Post" Width="1.5" PointX="6" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.PostStatus" Width="1.5" PointX="3.75" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.PostType" Width="1.5" PointX="8.25" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.PrivateMessage" Width="1.5" PointX="3" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.PrivateMessageDetail" Width="1.5" PointX="5.25" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Report" Width="1.5" PointX="8.25" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.ReportType" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.SensitiveWord" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.Type" Width="1.5" PointX="6" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.UserInfo" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.UserLabel" Width="1.5" PointX="3" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.UserType" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="YueBoDBModel.UserTypeDetail" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="YueBoDBModel.FK_AdminControl_Admin" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Content_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Content_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Follow_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Forward_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Forward_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Like_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Like_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Post_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Post_PostStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_PostType_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Report_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_PostType_PostType" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_PrivateMessage_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_PrivateMessageDetail_PrivateMessageDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Report_ReportType" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_Report_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_UserType_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_UserType_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_UserTypeDetail_UserInfo" ManuallyRouted="false" />
+        <AssociationConnector Association="YueBoDBModel.FK_UserTypeDetail_UserType" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

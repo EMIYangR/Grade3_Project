@@ -1,0 +1,586 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="YueBoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Admin">
+    <Key>
+      <PropertyRef Name="AdminID" />
+    </Key>
+    <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AdminAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AdminPwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="AdminControl" Relationship="Self.FK_AdminControl_Admin" FromRole="Admin" ToRole="AdminControl" />
+  </EntityType>
+  <EntityType Name="AdminControl">
+    <Key>
+      <PropertyRef Name="AdminControlID" />
+    </Key>
+    <Property Name="AdminControlID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AdminID" Type="Int32" Nullable="false" />
+    <Property Name="AdminContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Admin" Relationship="Self.FK_AdminControl_Admin" FromRole="AdminControl" ToRole="Admin" />
+  </EntityType>
+  <EntityType Name="Content">
+    <Key>
+      <PropertyRef Name="ContentID" />
+    </Key>
+    <Property Name="ContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContentPic" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ContentDesc" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="ContentTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FatherContentID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="PostID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Content_Post" FromRole="Content" ToRole="Post" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_Content_UserInfo" FromRole="Content" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="Follow">
+    <Key>
+      <PropertyRef Name="FollowID" />
+    </Key>
+    <Property Name="FollowID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FollowTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FollowUserID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_Follow_UserInfo" FromRole="Follow" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="Forward">
+    <Key>
+      <PropertyRef Name="ForwardID" />
+    </Key>
+    <Property Name="ForwardID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ForwardContent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="PostID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Forward_Post" FromRole="Forward" ToRole="Post" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_Forward_UserInfo" FromRole="Forward" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="Like">
+    <Key>
+      <PropertyRef Name="LikeID" />
+    </Key>
+    <Property Name="LikeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostID" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Like_Post" FromRole="Like" ToRole="Post" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_Like_UserInfo" FromRole="Like" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="Post">
+    <Key>
+      <PropertyRef Name="PostID" />
+    </Key>
+    <Property Name="PostID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PostPic" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PostVideo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PostContent" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="IsHot" Type="Boolean" Nullable="false" />
+    <Property Name="IsBan" Type="Boolean" Nullable="false" />
+    <Property Name="IsDIY" Type="Boolean" Nullable="false" />
+    <Property Name="PostTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Content" Relationship="Self.FK_Content_Post" FromRole="Post" ToRole="Content" />
+    <NavigationProperty Name="Forward" Relationship="Self.FK_Forward_Post" FromRole="Post" ToRole="Forward" />
+    <NavigationProperty Name="Like" Relationship="Self.FK_Like_Post" FromRole="Post" ToRole="Like" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_Post_Post" FromRole="Post" ToRole="UserInfo" />
+    <NavigationProperty Name="PostStatus" Relationship="Self.FK_Post_PostStatus" FromRole="Post" ToRole="PostStatus" />
+    <NavigationProperty Name="PostType" Relationship="Self.FK_PostType_Post" FromRole="Post" ToRole="PostType" />
+    <NavigationProperty Name="Report" Relationship="Self.FK_Report_Post" FromRole="Post" ToRole="Report" />
+    <Property Name="ClickSum" Type="Int32" />
+  </EntityType>
+  <EntityType Name="PostStatus">
+    <Key>
+      <PropertyRef Name="StatusID" />
+    </Key>
+    <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Post_PostStatus" FromRole="PostStatus" ToRole="Post" />
+  </EntityType>
+  <EntityType Name="PostType">
+    <Key>
+      <PropertyRef Name="PostTypeID" />
+    </Key>
+    <Property Name="PostTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeID" Type="Int32" Nullable="false" />
+    <Property Name="PostID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_PostType_Post" FromRole="PostType" ToRole="Post" />
+    <NavigationProperty Name="Type" Relationship="Self.FK_PostType_PostType" FromRole="PostType" ToRole="Type" />
+  </EntityType>
+  <EntityType Name="PrivateMessage">
+    <Key>
+      <PropertyRef Name="PrivateMessageID" />
+    </Key>
+    <Property Name="PrivateMessageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="PrivateMessageUserID" Type="Int32" Nullable="false" />
+    <Property Name="IsBan" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_PrivateMessage_UserInfo" FromRole="PrivateMessage" ToRole="UserInfo" />
+    <NavigationProperty Name="PrivateMessageDetail" Relationship="Self.FK_PrivateMessageDetail_PrivateMessageDetail" FromRole="PrivateMessage" ToRole="PrivateMessageDetail" />
+  </EntityType>
+  <EntityType Name="PrivateMessageDetail">
+    <Key>
+      <PropertyRef Name="PrivateMessageDetailID" />
+    </Key>
+    <Property Name="PrivateMessageDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PrivateMessageID" Type="Int32" Nullable="false" />
+    <Property Name="PrivateMessageContent" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PrivateMessageTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="IsRead" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="PrivateMessage" Relationship="Self.FK_PrivateMessageDetail_PrivateMessageDetail" FromRole="PrivateMessageDetail" ToRole="PrivateMessage" />
+  </EntityType>
+  <EntityType Name="Report">
+    <Key>
+      <PropertyRef Name="ReportID" />
+    </Key>
+    <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="PostID" Type="Int32" Nullable="false" />
+    <Property Name="ReportTypeID" Type="Int32" Nullable="false" />
+    <Property Name="Reason" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsSeccess" Type="Boolean" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Report_Post" FromRole="Report" ToRole="Post" />
+    <NavigationProperty Name="ReportType" Relationship="Self.FK_Report_ReportType" FromRole="Report" ToRole="ReportType" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_Report_UserInfo" FromRole="Report" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="ReportType">
+    <Key>
+      <PropertyRef Name="ReportTypeID" />
+    </Key>
+    <Property Name="ReportTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReportTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Report" Relationship="Self.FK_Report_ReportType" FromRole="ReportType" ToRole="Report" />
+  </EntityType>
+  <EntityType Name="SensitiveWord">
+    <Key>
+      <PropertyRef Name="SensitiveWordID" />
+    </Key>
+    <Property Name="SensitiveWordID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SensitiveContent" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DeductionPoint" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="TypeID" />
+    </Key>
+    <Property Name="TypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FatherTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PostType" Relationship="Self.FK_PostType_PostType" FromRole="Type" ToRole="PostType" />
+    <NavigationProperty Name="UserLabel" Relationship="Self.FK_UserType_Type" FromRole="Type" ToRole="UserLabel" />
+  </EntityType>
+  <EntityType Name="UserInfo">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserNick" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Signature" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserPwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserPic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IDcard" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+    <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Birthday" Type="DateTime" Precision="3" />
+    <Property Name="RegisterTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreditScore" Type="Int32" Nullable="false" />
+    <Property Name="IsBan" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Content" Relationship="Self.FK_Content_UserInfo" FromRole="UserInfo" ToRole="Content" />
+    <NavigationProperty Name="Follow" Relationship="Self.FK_Follow_UserInfo" FromRole="UserInfo" ToRole="Follow" />
+    <NavigationProperty Name="Forward" Relationship="Self.FK_Forward_UserInfo" FromRole="UserInfo" ToRole="Forward" />
+    <NavigationProperty Name="Like" Relationship="Self.FK_Like_UserInfo" FromRole="UserInfo" ToRole="Like" />
+    <NavigationProperty Name="Post" Relationship="Self.FK_Post_Post" FromRole="UserInfo" ToRole="Post" />
+    <NavigationProperty Name="PrivateMessage" Relationship="Self.FK_PrivateMessage_UserInfo" FromRole="UserInfo" ToRole="PrivateMessage" />
+    <NavigationProperty Name="Report" Relationship="Self.FK_Report_UserInfo" FromRole="UserInfo" ToRole="Report" />
+    <NavigationProperty Name="UserLabel" Relationship="Self.FK_UserType_UserInfo" FromRole="UserInfo" ToRole="UserLabel" />
+    <NavigationProperty Name="UserTypeDetail" Relationship="Self.FK_UserTypeDetail_UserInfo" FromRole="UserInfo" ToRole="UserTypeDetail" />
+  </EntityType>
+  <EntityType Name="UserLabel">
+    <Key>
+      <PropertyRef Name="UserLabelID" />
+    </Key>
+    <Property Name="UserLabelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="TypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Type" Relationship="Self.FK_UserType_Type" FromRole="UserLabel" ToRole="Type" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_UserType_UserInfo" FromRole="UserLabel" ToRole="UserInfo" />
+  </EntityType>
+  <EntityType Name="UserType">
+    <Key>
+      <PropertyRef Name="UserTypeID" />
+    </Key>
+    <Property Name="UserTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="UserTypeDetail" Relationship="Self.FK_UserTypeDetail_UserType" FromRole="UserType" ToRole="UserTypeDetail" />
+  </EntityType>
+  <EntityType Name="UserTypeDetail">
+    <Key>
+      <PropertyRef Name="UserTypeDetailID" />
+    </Key>
+    <Property Name="UserTypeDetailID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+    <Property Name="ReviewPic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IsAuthentication" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="UserInfo" Relationship="Self.FK_UserTypeDetail_UserInfo" FromRole="UserTypeDetail" ToRole="UserInfo" />
+    <NavigationProperty Name="UserType" Relationship="Self.FK_UserTypeDetail_UserType" FromRole="UserTypeDetail" ToRole="UserType" />
+  </EntityType>
+  <Association Name="FK_AdminControl_Admin">
+    <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+    <End Role="AdminControl" Type="Self.AdminControl" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Admin">
+        <PropertyRef Name="AdminID" />
+      </Principal>
+      <Dependent Role="AdminControl">
+        <PropertyRef Name="AdminID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Content_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="Content" Type="Self.Content" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="Content">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Content_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="Content" Type="Self.Content" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Content">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Follow_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="Follow" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Follow">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Forward_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="Forward" Type="Self.Forward" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="Forward">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Forward_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="Forward" Type="Self.Forward" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Forward">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="Like" Type="Self.Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="Like">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="Like" Type="Self.Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Like">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_Post">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Post_PostStatus">
+    <End Role="PostStatus" Type="Self.PostStatus" Multiplicity="1" />
+    <End Role="Post" Type="Self.Post" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PostStatus">
+        <PropertyRef Name="StatusID" />
+      </Principal>
+      <Dependent Role="Post">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostType_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="PostType" Type="Self.PostType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="PostType">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_Post">
+    <End Role="Post" Type="Self.Post" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Post">
+        <PropertyRef Name="PostID" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="PostID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PostType_PostType">
+    <End Role="Type" Type="Self.Type" Multiplicity="1" />
+    <End Role="PostType" Type="Self.PostType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="PostType">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PrivateMessage_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="PrivateMessage" Type="Self.PrivateMessage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="PrivateMessage">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PrivateMessageDetail_PrivateMessageDetail">
+    <End Role="PrivateMessage" Type="Self.PrivateMessage" Multiplicity="1" />
+    <End Role="PrivateMessageDetail" Type="Self.PrivateMessageDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrivateMessage">
+        <PropertyRef Name="PrivateMessageID" />
+      </Principal>
+      <Dependent Role="PrivateMessageDetail">
+        <PropertyRef Name="PrivateMessageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_ReportType">
+    <End Role="ReportType" Type="Self.ReportType" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReportType">
+        <PropertyRef Name="ReportTypeID" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="ReportTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserType_Type">
+    <End Role="Type" Type="Self.Type" Multiplicity="1" />
+    <End Role="UserLabel" Type="Self.UserLabel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="TypeID" />
+      </Principal>
+      <Dependent Role="UserLabel">
+        <PropertyRef Name="TypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserType_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="UserLabel" Type="Self.UserLabel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserLabel">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserTypeDetail_UserInfo">
+    <End Role="UserInfo" Type="Self.UserInfo" Multiplicity="1" />
+    <End Role="UserTypeDetail" Type="Self.UserTypeDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserInfo">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="UserTypeDetail">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserTypeDetail_UserType">
+    <End Role="UserType" Type="Self.UserType" Multiplicity="1" />
+    <End Role="UserTypeDetail" Type="Self.UserTypeDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserType">
+        <PropertyRef Name="UserTypeID" />
+      </Principal>
+      <Dependent Role="UserTypeDetail">
+        <PropertyRef Name="UserTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="YueBoDB" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Admin" EntityType="Self.Admin" />
+    <EntitySet Name="AdminControl" EntityType="Self.AdminControl" />
+    <EntitySet Name="Content" EntityType="Self.Content" />
+    <EntitySet Name="Follow" EntityType="Self.Follow" />
+    <EntitySet Name="Forward" EntityType="Self.Forward" />
+    <EntitySet Name="Like" EntityType="Self.Like" />
+    <EntitySet Name="Post" EntityType="Self.Post" />
+    <EntitySet Name="PostStatus" EntityType="Self.PostStatus" />
+    <EntitySet Name="PostType" EntityType="Self.PostType" />
+    <EntitySet Name="PrivateMessage" EntityType="Self.PrivateMessage" />
+    <EntitySet Name="PrivateMessageDetail" EntityType="Self.PrivateMessageDetail" />
+    <EntitySet Name="Report" EntityType="Self.Report" />
+    <EntitySet Name="ReportType" EntityType="Self.ReportType" />
+    <EntitySet Name="SensitiveWord" EntityType="Self.SensitiveWord" />
+    <EntitySet Name="Type" EntityType="Self.Type" />
+    <EntitySet Name="UserInfo" EntityType="Self.UserInfo" />
+    <EntitySet Name="UserLabel" EntityType="Self.UserLabel" />
+    <EntitySet Name="UserType" EntityType="Self.UserType" />
+    <EntitySet Name="UserTypeDetail" EntityType="Self.UserTypeDetail" />
+    <AssociationSet Name="FK_AdminControl_Admin" Association="Self.FK_AdminControl_Admin">
+      <End Role="Admin" EntitySet="Admin" />
+      <End Role="AdminControl" EntitySet="AdminControl" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Content_Post" Association="Self.FK_Content_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="Content" EntitySet="Content" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Content_UserInfo" Association="Self.FK_Content_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="Content" EntitySet="Content" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Follow_UserInfo" Association="Self.FK_Follow_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="Follow" EntitySet="Follow" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Forward_Post" Association="Self.FK_Forward_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="Forward" EntitySet="Forward" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Forward_UserInfo" Association="Self.FK_Forward_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="Forward" EntitySet="Forward" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_Post" Association="Self.FK_Like_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="Like" EntitySet="Like" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_UserInfo" Association="Self.FK_Like_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="Like" EntitySet="Like" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_Post" Association="Self.FK_Post_Post">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Post_PostStatus" Association="Self.FK_Post_PostStatus">
+      <End Role="PostStatus" EntitySet="PostStatus" />
+      <End Role="Post" EntitySet="Post" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostType_Post" Association="Self.FK_PostType_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="PostType" EntitySet="PostType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_Post" Association="Self.FK_Report_Post">
+      <End Role="Post" EntitySet="Post" />
+      <End Role="Report" EntitySet="Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PostType_PostType" Association="Self.FK_PostType_PostType">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="PostType" EntitySet="PostType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PrivateMessage_UserInfo" Association="Self.FK_PrivateMessage_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="PrivateMessage" EntitySet="PrivateMessage" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PrivateMessageDetail_PrivateMessageDetail" Association="Self.FK_PrivateMessageDetail_PrivateMessageDetail">
+      <End Role="PrivateMessage" EntitySet="PrivateMessage" />
+      <End Role="PrivateMessageDetail" EntitySet="PrivateMessageDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_ReportType" Association="Self.FK_Report_ReportType">
+      <End Role="ReportType" EntitySet="ReportType" />
+      <End Role="Report" EntitySet="Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_UserInfo" Association="Self.FK_Report_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="Report" EntitySet="Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserType_Type" Association="Self.FK_UserType_Type">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="UserLabel" EntitySet="UserLabel" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserType_UserInfo" Association="Self.FK_UserType_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="UserLabel" EntitySet="UserLabel" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserTypeDetail_UserInfo" Association="Self.FK_UserTypeDetail_UserInfo">
+      <End Role="UserInfo" EntitySet="UserInfo" />
+      <End Role="UserTypeDetail" EntitySet="UserTypeDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserTypeDetail_UserType" Association="Self.FK_UserTypeDetail_UserType">
+      <End Role="UserType" EntitySet="UserType" />
+      <End Role="UserTypeDetail" EntitySet="UserTypeDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

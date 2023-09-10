@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="YueBoDBModelStoreContainer" CdmEntityContainer="YueBoDB">
+    <EntitySetMapping Name="Admin">
+      <EntityTypeMapping TypeName="YueBoDBModel.Admin">
+        <MappingFragment StoreEntitySet="Admin">
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="AdminNumber" ColumnName="AdminNumber" />
+          <ScalarProperty Name="AdminAccount" ColumnName="AdminAccount" />
+          <ScalarProperty Name="AdminPwd" ColumnName="AdminPwd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminControl">
+      <EntityTypeMapping TypeName="YueBoDBModel.AdminControl">
+        <MappingFragment StoreEntitySet="AdminControl">
+          <ScalarProperty Name="AdminControlID" ColumnName="AdminControlID" />
+          <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+          <ScalarProperty Name="AdminContent" ColumnName="AdminContent" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Content">
+      <EntityTypeMapping TypeName="YueBoDBModel.Content">
+        <MappingFragment StoreEntitySet="Content">
+          <ScalarProperty Name="ContentID" ColumnName="ContentID" />
+          <ScalarProperty Name="ContentPic" ColumnName="ContentPic" />
+          <ScalarProperty Name="ContentDesc" ColumnName="ContentDesc" />
+          <ScalarProperty Name="ContentTime" ColumnName="ContentTime" />
+          <ScalarProperty Name="FatherContentID" ColumnName="FatherContentID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Follow">
+      <EntityTypeMapping TypeName="YueBoDBModel.Follow">
+        <MappingFragment StoreEntitySet="Follow">
+          <ScalarProperty Name="FollowID" ColumnName="FollowID" />
+          <ScalarProperty Name="FollowTime" ColumnName="FollowTime" />
+          <ScalarProperty Name="FollowUserID" ColumnName="FollowUserID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Forward">
+      <EntityTypeMapping TypeName="YueBoDBModel.Forward">
+        <MappingFragment StoreEntitySet="Forward">
+          <ScalarProperty Name="ForwardID" ColumnName="ForwardID" />
+          <ScalarProperty Name="ForwardContent" ColumnName="ForwardContent" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Like">
+      <EntityTypeMapping TypeName="YueBoDBModel.Like">
+        <MappingFragment StoreEntitySet="Like">
+          <ScalarProperty Name="LikeID" ColumnName="LikeID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Post">
+      <EntityTypeMapping TypeName="YueBoDBModel.Post">
+        <MappingFragment StoreEntitySet="Post">
+          <ScalarProperty Name="ClickSum" ColumnName="ClickSum" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="PostPic" ColumnName="PostPic" />
+          <ScalarProperty Name="PostVideo" ColumnName="PostVideo" />
+          <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+          <ScalarProperty Name="IsHot" ColumnName="IsHot" />
+          <ScalarProperty Name="IsBan" ColumnName="IsBan" />
+          <ScalarProperty Name="IsDIY" ColumnName="IsDIY" />
+          <ScalarProperty Name="PostTime" ColumnName="PostTime" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostStatus">
+      <EntityTypeMapping TypeName="YueBoDBModel.PostStatus">
+        <MappingFragment StoreEntitySet="PostStatus">
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PostType">
+      <EntityTypeMapping TypeName="YueBoDBModel.PostType">
+        <MappingFragment StoreEntitySet="PostType">
+          <ScalarProperty Name="PostTypeID" ColumnName="PostTypeID" />
+          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PrivateMessage">
+      <EntityTypeMapping TypeName="YueBoDBModel.PrivateMessage">
+        <MappingFragment StoreEntitySet="PrivateMessage">
+          <ScalarProperty Name="PrivateMessageID" ColumnName="PrivateMessageID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PrivateMessageUserID" ColumnName="PrivateMessageUserID" />
+          <ScalarProperty Name="IsBan" ColumnName="IsBan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PrivateMessageDetail">
+      <EntityTypeMapping TypeName="YueBoDBModel.PrivateMessageDetail">
+        <MappingFragment StoreEntitySet="PrivateMessageDetail">
+          <ScalarProperty Name="PrivateMessageDetailID" ColumnName="PrivateMessageDetailID" />
+          <ScalarProperty Name="PrivateMessageID" ColumnName="PrivateMessageID" />
+          <ScalarProperty Name="PrivateMessageContent" ColumnName="PrivateMessageContent" />
+          <ScalarProperty Name="PrivateMessageTime" ColumnName="PrivateMessageTime" />
+          <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Report">
+      <EntityTypeMapping TypeName="YueBoDBModel.Report">
+        <MappingFragment StoreEntitySet="Report">
+          <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="PostID" ColumnName="PostID" />
+          <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+          <ScalarProperty Name="Reason" ColumnName="Reason" />
+          <ScalarProperty Name="IsSeccess" ColumnName="IsSeccess" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReportType">
+      <EntityTypeMapping TypeName="YueBoDBModel.ReportType">
+        <MappingFragment StoreEntitySet="ReportType">
+          <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+          <ScalarProperty Name="ReportTypeName" ColumnName="ReportTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SensitiveWord">
+      <EntityTypeMapping TypeName="YueBoDBModel.SensitiveWord">
+        <MappingFragment StoreEntitySet="SensitiveWord">
+          <ScalarProperty Name="SensitiveWordID" ColumnName="SensitiveWordID" />
+          <ScalarProperty Name="SensitiveContent" ColumnName="SensitiveContent" />
+          <ScalarProperty Name="DeductionPoint" ColumnName="DeductionPoint" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Type">
+      <EntityTypeMapping TypeName="YueBoDBModel.Type">
+        <MappingFragment StoreEntitySet="Type">
+          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="FatherTypeID" ColumnName="FatherTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInfo">
+      <EntityTypeMapping TypeName="YueBoDBModel.UserInfo">
+        <MappingFragment StoreEntitySet="UserInfo">
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserNick" ColumnName="UserNick" />
+          <ScalarProperty Name="UserAccount" ColumnName="UserAccount" />
+          <ScalarProperty Name="Signature" ColumnName="Signature" />
+          <ScalarProperty Name="UserPwd" ColumnName="UserPwd" />
+          <ScalarProperty Name="UserPic" ColumnName="UserPic" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IDcard" ColumnName="IDcard" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="RegisterTime" ColumnName="RegisterTime" />
+          <ScalarProperty Name="CreditScore" ColumnName="CreditScore" />
+          <ScalarProperty Name="IsBan" ColumnName="IsBan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserLabel">
+      <EntityTypeMapping TypeName="YueBoDBModel.UserLabel">
+        <MappingFragment StoreEntitySet="UserLabel">
+          <ScalarProperty Name="UserLabelID" ColumnName="UserLabelID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="TypeID" ColumnName="TypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserType">
+      <EntityTypeMapping TypeName="YueBoDBModel.UserType">
+        <MappingFragment StoreEntitySet="UserType">
+          <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+          <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserTypeDetail">
+      <EntityTypeMapping TypeName="YueBoDBModel.UserTypeDetail">
+        <MappingFragment StoreEntitySet="UserTypeDetail">
+          <ScalarProperty Name="UserTypeDetailID" ColumnName="UserTypeDetailID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+          <ScalarProperty Name="ReviewPic" ColumnName="ReviewPic" />
+          <ScalarProperty Name="IsAuthentication" ColumnName="IsAuthentication" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
