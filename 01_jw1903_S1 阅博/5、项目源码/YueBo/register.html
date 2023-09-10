@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="CSS/register.css">
+    <script src="JS/jquery-3.4.1.js"></script>   
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="JS/vue.js"></script>
+</head>
+<body>
+  <div id="loading">
+    <div id="loading_bg">
+        <div class="loader">Loading...</div>
+    </div>
+</div>
+<script>
+  document.onreadystatechange=function () {
+      if (document.readyState=="complete"){
+          loadingFade();
+      }
+  }
+  function loadingFade() {
+      var opacity=1;
+      //var loadingPage=document.getElementById('loading');
+      var loadingBackground=document.getElementById('loading_bg');
+      var time=setInterval(function () {
+          if (opacity<=0){
+              clearInterval(time);
+              //loadingPage.remove();
+              $('#loading').remove();
+          }
+
+          loadingBackground.style.opacity=opacity;
+          opacity-=0.4;
+      },100);
+  }
+</script>
+    <div id="all">
+        <div id="register">
+            <div id="choose">
+                <ul>
+                    <li><a href="">个人注册</a></li>
+                    <li>丨</li>
+                    <li><a href="">官方注册</a></li>
+                </ul>
+            </div>
+            <div id="register1">
+              <div id="register1-1">
+                <form action="">
+                  <p>
+                    <span class="s">账号</span>
+                    <input placeholder="Type here" id="user" v-model="user" class="input" name="text" type="text">
+                    <label for="" class="user">{{userTip}}</label>
+                  </p>
+                  <p>
+                    <span class="s">密码</span>
+                    <input placeholder="Type here" id="pwd" v-model="pwd" class="input" name="password" type="password">
+                    <label for="" class="user">{{pwdTip}}</label>
+                  </p>
+                  <p>
+                    <span class="s2">确认密码</span>
+                    <input placeholder="Type here" id="pwd1" v-model="pwd1" class="input" name="password" type="password">
+                    <label for="" class="user">{{pwd1Tip}}</label>
+                  </p>
+                  <p>
+                    <span class="s">邮箱</span>
+                    <input placeholder="Type here"id="email" v-model="email" class="input" name="email" type="email">
+                    <label for="" class="user">{{emailTip}}</label>
+                  </p><button id="yzm" type="button">点击获取验证码</button>
+                  <p>
+                    <span class="s1"> 验证码</span>
+                    <input placeholder="Type here" id="yzm1" class="input" name="password" type="text">
+                  </p>
+                  <!-- <p>性别：
+                    <input type="radio" name="xb" value="1" checked ="checked">男
+			              <input type="radio" name="xb" value="0">女
+                  </p>
+                  <p>生日：
+                    <select name="yyyy" id="year" onchange="selectYmd()"></select>年
+                    <select name="mm" id="month" onchange="selectYmd()"></select>月
+                    <select name="dd" id="day"></select>日 -->
+                  </p>
+                      <button type="button" >
+                        <span class="text" id="btn">注册</span>
+                      </button>
+                </form>
+                
+              </div>
+              <div id="register1-2">
+                <h1>欢迎你注册阅博</h1>
+                <p></a><a href="xy.html">《阅博使用说明》</a></p>
+                <p><a href="gr.html">《阅博个人信息保护说明》</a></p>
+                <p>已有账号？<a href="Login.html">点击登录</a></a></p>
+              </div>
+
+            </div>           
+        </div>
+        <script src="JS/register.js"></script>
+        <script>
+          let u1="123456"
+          var reg = new RegExp("^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$");
+          $.ajax({
+                        url:"https://localhost:44364/api/UserInfoes",
+                        type:"GET",
+                        success:function(res){
+                          data=res
+                        }
+                      })
+          
+            $(document).ready(function(){
+              let vm=new Vue({
+                        el:"#register1",
+                        data:{
+                          user:"",
+                          pwd:"",
+                          pwd1:"",
+                          email:"",
+                          userTip:"",
+                          pwdTip:"",
+                          pwd1Tip:"",
+                          emailTip:""
+                        },
+                        watch:{
+                          user:function(res){
+                            if(res==""){
+                              this.userTip="账号不能为空"
+                            }else if(res==u1){
+                              this.userTip="账号已被注册"
+                            }else{
+                              this.userTip=""
+                            }
+                          },
+                          pwd:function(res){
+                            if(res!=""){
+                              if(res.length<6||res.length>12){
+                                this.pwdTip="密码长度为6-12";
+                              }else{
+                                this.pwdTip="";
+                              }
+                            }else{
+                              this.pwdTip="密码不能为空"
+                            }
+                          },
+                          pwd1:function(res){
+                            if(res!=""){
+                              if(res!=this.pwd){
+                                this.pwd1Tip="密码不一致";
+                              }else{
+                                this.pwd1Tip="";
+                              }
+                            }else{
+                              this.pwd1Tip="密码不能为空"
+                            }
+                          },
+                          email:function(res){
+                            if(res!=""){
+                              if(!reg.test(res)){
+                                this.emailTip="邮箱格式不正确";
+                              }else{
+                                this.emailTip="";
+                              }
+                            }else{
+                              this.emailTip="邮箱不能为空"
+                            }
+                          }
+                        }
+                      })
+                      let cookie;
+                      let data=""
+                      // $.ajax({
+                      //   url:"https://localhost:44364/api/UserInfoes",
+                      //   type:"GET",
+                      //   success:function(res){
+                      //     data=res
+                      //   }
+                      // })
+                      $("#yzm").click(function(){
+                        if($("#email").val()!=""){
+                          $.ajax({
+                            url:"https://localhost:44364/api/Email?email="+$("#email").val(),
+                            type:"GET",
+                            success:function(res){
+                              if(res!=null){
+                                cookie=res;
+                              } 
+                              btn();                   
+                            }
+                          })
+                        }
+                        
+                      })
+                      function btn(){
+                        let time=60
+                        let c=setInterval(function(){
+                          $("#yzm").attr("disabled", true);
+                          $("#yzm").html(time);
+                          time-=1;
+                          if(time<=0){
+                            $("#yzm").attr("disabled", false);
+                            $("#yzm").html("点击获取验证码");
+                            clearInterval(c);
+                          }
+                        },1000)
+                      }
+                      $("#btn").click(function(e){
+                        let user=$("#user").val()
+                        let pwd=$("#pwd").val()
+                        let pwd1=$("#pwd1").val()
+                        let email=$("#email").val()
+                        let yzm=$("#yzm1").val()
+                        // let Sex=$("input[name='xb']:checked").val();
+                        // let year=$('#year').find('option:selected').val()
+                        // let month=$('#month').find('option:selected').val()
+                        // let day=$('#day').find('option:selected').val()
+                        // if(month<10){
+                        //   month="0"+month
+                        // }
+                        // if(day<10){
+                        //   day="0"+day
+                        // }
+                        // let brithday=year+"-"+month+"-"+day;
+                        let flag=true;
+                        let newU={UserAccount:user,UserPwd:pwd,Email:email}
+                        // console.log(brithday);
+                        // var date = eval('new Date(' + brithday.replace(/\d+(?=-[^-]+$)/,
+                        //     function(a) {
+                        //       return parseInt(a, 10) - 1;
+                        //     }).match(/\d+/g) + ')');
+                        $.each(data,function(n,value){
+                          if(value.UserAccount==user){
+                            flag=false;
+                            vm.data.userTip="账号已被注册"
+                          }
+                        })
+                        if(user!=""&&pwd!=""&&email!=""&&yzm!=""){
+                          if(pwd==pwd1){
+                            if(yzm==cookie){
+                              if(flag){
+                              $.ajax({
+                                url:"https://localhost:44364/api/UserInfoes",
+                                type:"POST",
+                                data:newU,
+                                success:function(res){
+                                  if(res>0){
+                                    $.cookie('user',user)
+                                    $.cookie('pwd',pwd)
+                                    $("#user").val("")
+                                    $("#pwd").val("")
+                                    $("#pwd1").val("")
+                                    $("#email").val("")
+                                    $("#yzm").val("")
+                                    if(confirm("注册成功是否跳转登录？")){
+                                      window.open("login.html");
+                                    } 
+                                  }
+                                },
+                                error:function(res){
+                                  console.log(res);
+                                }
+                              })
+                            }else{
+                              this.userTip="账号已存在"
+                            }
+                            }else{
+                          console.log("验证码输入错误");
+                        } 
+                            
+                          }else{
+                          console.log("两次密码不一致");
+                        } 
+
+                        }   else{
+                          console.log("不能为空");
+                        }                    
+                      })  
+                  })
+      </script>
+    </div>
+</body>
+</html>

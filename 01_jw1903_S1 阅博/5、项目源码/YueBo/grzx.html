@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="JS/jquery-3.4.1.js"></script>
+    <script src="JS/vue.js"></script>
+</head>
+<style>
+    #c {
+  opacity: 0;  /* 初始设置为透明 */
+}
+
+    #c.visible {
+  opacity: 1;  /* 鼠标悬停时逐渐显示 */
+}
+</style>
+<body>
+    <div id="all" v-model="name">
+        这里是{{name}}个人中心
+    </div>
+    <div id="postContainer">
+        <div id="b">
+            hero
+        </div>
+        <!-- 动态生成的帖子数据 -->
+        <div id="c">
+            yes
+        </div>
+    </div>
+    
+</body>
+<script>
+    let v1=new Vue({
+        el:"#all",
+        data(){
+            return{
+                name:""
+            }
+        }
+    })
+    $(document).ready(function() {
+  $('#postContainer').on('mouseenter', '#b', function() {
+    alert("^")
+  });
+
+  $('#postContainer').on('mouseleave', '.avatar', function() {
+    
+  });
+});
+    let f=getid('uid');
+    let c
+    $.ajax({
+        url:"https://localhost:44364/api/UserInfoes/"+f,
+        type:"get",
+        async:false,
+        success:function(res){
+            v1.name=res[0].UserName              
+        }
+        }) 
+    function getid(name)
+    {
+        var reg= new RegExp("(^|&)"+
+        name +"=([^&]*)(&|$)");
+        var r= window.location.search.substr(1).match(reg);
+        if (r!=null) return unescape(r[2]); return null;
+        
+    }
+    
+</script>
+</html>

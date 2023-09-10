@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅博-随时随地发现新鲜事</title>
+    <link rel="icon" href="">
+    <script src="JS/jquery-3.4.1.js"></script>
+    <script src="JS/vue.js"></script>
+    <link rel="stylesheet" href="./CSS/base.css">
+    <link rel="stylesheet" href="./CSS/Muban.css">
+    <link rel="stylesheet" href="./CSS/PostDetail.css">
+    <link rel="stylesheet" href="./albb/font_a5jalowfoe/iconfont.css">
+    <link rel="stylesheet" href="./albb/font_wtqi9yoho/iconfont.css">
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="JS/base64.js"></script>
+</head>
+<body>
+    <div id="loading">
+        <div id="loading_bg">
+            <div class="loader">Loading...</div>
+        </div>
+    </div>
+    <script>
+        document.onreadystatechange=function () {
+            if (document.readyState=="complete"){
+                loadingFade();
+            }
+        }
+        document.getElementsByClassName("loader1").onreadystatechange=function () {
+                loadingFade1();
+        }
+        function loadingFade() {
+            var opacity=1;
+            //var loadingPage=document.getElementById('loading');
+            var loadingBackground=document.getElementById('loading_bg');
+            var time=setInterval(function () {
+                if (opacity<=0){
+                    clearInterval(time);
+                    //loadingPage.remove();
+                    $('#loading').remove();
+                }
+
+                loadingBackground.style.opacity=opacity;
+                opacity-=0.4;
+            },100);
+        }
+        function loadingFade1() {
+            var opacity=1;
+            //var loadingPage=document.getElementById('loading');
+            var time=setInterval(function () {
+                if (opacity<=0){
+                    clearInterval(time);
+                    //loadingPage.remove();
+                    $('.loader1').remove();
+                }
+
+                loadingBackground.style.opacity=opacity;
+                opacity-=0.4;
+            },100);
+        }
+    </script>
+    <!-- 顶部导航 -->
+    <!-- 顶部导航条 -->
+    <div id="nav">
+        <div class="nav-center">
+            <div class="nav-center-logo">
+                <img src="./Content/img/logo.png" style="width: 10%;height: 10%;" alt="">
+            </div>
+            <div class="nav-center-search">
+                <div class="iconfont icon-sousuo active"></div>
+                <input type="text" placeholder="搜索阅博">
+                <div class="radius"></div>
+                <div class="content">
+                    <span class="iconfont icon-jubao"></span>
+                </div>
+            </div>
+            <div class="nav-center-five">
+                <div class="iconfont icon-shouye"></div>
+                <div class="iconfont icon-shipin"></div>
+                <div class="iconfont icon-huo"></div>
+                <div class="iconfont icon-duanxin"></div>
+                <div class="iconfont icon-geren"></div>
+            </div>
+            <div class="nav-center-four">
+                <div class="nav-center-login" v-if="falg">
+                    登录
+                </div>
+                <div class="nav-center-register" v-if="falg">
+                    注册
+                </div>
+                <div class="nav-center-sun iconfont icon-sun" id="sun">
+                    
+                </div>
+                <div class="nav-center-liuyan iconfont icon-liuyan">
+                    
+                </div>
+            </div>
+            <div class="nav-center-barrier">
+                无障碍
+            </div>
+        </div>
+    </div>
+    <!-- 主体区域 -->
+    <div id="main">
+        <div class="main-center">
+            <!-- 主体左侧 -->
+            <div class="main-left">
+                <div>
+                    <span class="iconfont icon-huo"></span>
+                    热门微博
+                </div>
+                <div>
+                    <span class="iconfont icon-time"></span>
+                    热门榜单
+                </div>
+                <div>
+                    <span class="iconfont icon-huatifuhao"></span>
+                    话题榜
+                </div>
+                <div>
+                    <span class="iconfont icon-sousuo"></span>
+                    热搜榜
+                </div>
+                <div></div>
+            </div>
+            <div>
+                <a href="javascript:;" id="back">back</a></a>
+            </div>
+            <!-- 主体部分 -->
+            <div class="main">
+                 <!-- <div class="main-top">
+                    <div class="">热门</div>
+                    <div class="">热门</div>
+                    <div class="">同城</div>
+                    <div class="">放映厅</div>
+                    <div class="">明星</div>
+                    <div class="">好物优选</div>
+                    <div class="">搞笑</div>
+                    <div class="iconfont icon-et-more1"></div>
+                 </div>    -->
+                 <div class="main-bottom-template" >
+                    <div class="main-bottom" v-for="t in data">
+                        <div class="main-bottom-blog">
+                            <div class="title">
+                                <div class="title-img">
+                                    <img :src="t.tx" alt="">
+                                    <span class="iconfont icon-renzheng"></span>
+                                </div>
+                                <div class="title-name">
+                                    <div class="title-name-top">
+                                        <span>{{t.user}}</span>
+                                        <span class="iconfont icon-huangguan"></span>
+                                    </div>
+                                    <div class="title-name-hour">
+                                        {{t.time}}
+                                    </div>
+                                    <div class="title-name-show">
+                                        来自小米6
+                                    </div>
+                                </div>
+                                <div v-if="t.uidf">
+                                    <div class="title-name-focus" v-if="t.bg">
+                                        关注
+                                        <span class="iconfont icon-jiahao1"></span>
+                                    </div>
+                                    <div class="title-name-focus" v-else>
+                                        已关注
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div v-if="t.fv1"> -->
+                                <div class="blog" v-if="t.f1===true">
+                                    <div class="">
+                                        {{t.content}}
+                                    </div>
+                                    <div>
+                                        <img :src="t.pic" alt="">
+                                        <!-- <img src="./Content/img/02.png" alt="">
+                                        <img src="./Content/img/03.png" alt="">
+                                        <img src="./Content/img/04.png" alt=""> -->
+                                    </div>   
+                                </div>
+                                <div class="blog" v-if="t.v1===true">
+                                    <div class="">
+                                        {{t.content}}
+                                    </div>
+                                    <video :src="t.vidio" class="sp" controls>11</video>
+                                </div>
+                            <!-- </div> -->
+                            <div class="blog" v-else>
+                                <div class="">
+                                    {{t.content}}
+                                </div>                               
+                            </div>
+                            <div class="share">
+                                <div class="iconfont icon-fenxiang">
+                                    {{t.zf}}
+                                </div>
+                                <div class="iconfont icon-pinglun" >
+                                    {{t.pl}}
+                                </div>
+                                <div class="iconfont icon-dianzan">
+                                    {{t.dz}}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>                   
+                </div> 
+                <div class="main-center-pl" id="a11">
+                    <div class="main-center-pl-top" >
+                        <div class="pl" >
+                            <img v-model="upic"  :src="upic" alt="">
+                            <textarea name="" id="te1">
+
+                            </textarea>
+                        </div>
+                        <div class="btn">发送</div>
+                    </div>
+                    <div class="main-center-pl-center">
+                        <div class="fenlei">
+                            <div class="s">按热度</div>
+                            <div>按时间</div>
+                        </div>
+                        <div id="app" v-for="t1 in data4">
+                            <div class="pl1"   v-if="t1.fid===0">
+                                
+                                <div class="right">
+                                    <div class="left">
+                                        <img :src="t1.upic" alt="">
+                                    </div>
+                                    <div class="right-top">
+                                        <span class="zz" v-if="iszz">作者</span>
+                                        <a href="" id="{{t1.cid}}" class="{{t1.uid}}">{{t1.name}}</a><br>
+                                        <p>{{t1.nr}}</p> 
+                                    </div>
+                                    <div class="right-center">
+                                        <div class="time">{{t1.ctime}}</div>
+                                        <div class="three">
+                                            <div class="iconfont icon-pinglun" ></div>
+                                        </div>
+                                    </div>
+                                        <div class="right-end" v-for="t2 in filteredArray2(t1.cid)" :key="t2.cid">
+                                            <div class="left1">
+                                                <img :src="t1.upic" alt="">
+                                            </div>
+                                            <div class="top">
+                                                <span class="zz" v-if="!t.uidf">作者</span>
+                                                <a href="">{{t2.name}}</a><br>
+                                                <p class="top-1">{{t2.nr}}</p>
+                                            </div>
+                                            <div class="center">
+                                                <div class="time">{{t2.time}}</div>
+                                                <div class="three">
+                                                    <div class="iconfont icon-pinglun"></div>
+                                                </div>
+                                            </div>
+                                            <!-- <hr> -->
+                                        </div>
+                                    
+                                </div>
+                            
+                            </div>
+                            
+                            <!-- <div class="pl2">
+                                暂无评论f
+                            </div> -->
+                        </div> 
+                    </div>
+                </div>   
+                <div class="main-center-pl" id="a22">
+                    <div class="main-center-pl-top">
+                        <div class="pl">
+                            <img src="Content/img/02.png" alt=""><textarea name="" id="te2"></textarea>
+                        </div>
+                        <div class="zfbtn">转发</div>
+                    </div>
+                    <div class="main-center-pl-center">
+                        <div class="fenlei">
+                            <div class="s">按热度</div>
+                            <div>按时间</div>
+                        </div>
+                        <div id="app" v-for="t1 in data6">
+                            <div class="pl1" >
+                                <div class="left">
+                                    <img :src="t1.upic" alt="">
+                                </div>
+                                <div class="right">
+                                    <div class="right-top">
+                                    <a href="" id="{{t1.cid}}"><span style="color: red;" v-if="iszz">作者</span>{{t1.name}}</a>
+                                        {{t1.nr}}   
+                                    </div>
+                                    <div class="right-center">
+                                        <div class="time">{{t1.ctime}}</div>
+                                    </div>    
+                                </div>
+                            
+                            </div>
+                            <!-- <div class="pl2">
+                                暂无评论f
+                            </div> -->
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- 主体右侧 -->
+            <div class="main-right">
+                <div class="main-right-top" v-if="falg">
+                    <img src="./Content/img/text.png" alt="介绍">
+                    <div class="login">
+                        登录
+                    </div>
+                    <div class="register">
+                        还没有微博?<a href="register.html">立即注册</a>
+                    </div>
+                </div>
+                <div class="main-right-hotsearch">
+                    <div class="hotsearch">
+                        <div class="yuebo">
+                            阅博热搜
+                        </div>
+                        <div class="refresh">
+                            <div class="iconfont icon-shuaxin">
+                                点击刷新
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hot">
+                        <div class="iconfont icon-changjiantou-shang"></div>
+                        <div>政府工作报告dasdsadasdas</div>
+                        <div>248.4万</div>
+                        <div>热</div>
+                    </div>
+                    <div class="hot" v-for="(v,i) in Hots" id="{{i.pid}}">
+                        <div class="iconfont icon-{{v+1}}" style="font-size:18px;"></div>
+                        <div>{{i.PostContent}}</div>
+                        <div>{{i.ClickSum}}</div>
+                        <div>热</div>
+                    </div>
+                    <div class="template">
+                        查看完整表单
+                    </div>
+                </div>
+                <div class="main-right-footer">
+                    <div class="help">
+                        <div class="iconfont icon-jubao">举报中心</div>
+                        <span>123</span>
+                        <span>456</span>
+                        <span>789</span>
+                    </div>
+                    <div class="help">
+                        <div class="iconfont icon-jubao">举报中心</div>
+                        <span>123</span>
+                        <span>456</span>
+                        <span>789</span>
+                    </div>
+                    <div class="help">
+                        <div class="iconfont icon-jubao">举报中心</div>
+                        <span>123</span>
+                        <span>456</span>
+                        <span>789</span>
+                    </div>
+                    <div class="help">
+                        <div class="iconfont icon-jubao">举报中心</div>
+                        <span>123</span>
+                        <span>456</span>
+                        <span>789</span>
+                    </div>
+                    <div class="help">
+                        <div class="iconfont icon-jubao"></div>
+                        <span>备案信息</span>
+                        <span>Copyright &copy; 2009-2022 YUEBO</span>
+                        <span>789</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="JS/PostDetail.js"></script>
+</body>
+</html>

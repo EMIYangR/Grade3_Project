@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./CSS/report.css">
+    <script src="JS/jquery-3.4.1.js"></script>
+    <script src="JS/vue.js"></script>
+    <link rel="stylesheet" href="./CSS/base.css">
+    <link rel="stylesheet" href="./albb/font_a5jalowfoe/iconfont.css">
+    <link rel="stylesheet" href="./albb/font_wtqi9yoho/iconfont.css">
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+</head>
+<body>
+    <div id="all">
+        <div id="center">
+            <h1>举报帖子</h4>
+            <div>
+                <img src="./Content/img/生气.png" alt="">
+            </div>
+            <div>
+                <div id="Rid">
+                    <div>举报帖子链接</div>
+                    <div class="cx">点击查看</div>
+                </div>
+                <div id="RContent">
+                    <div>举报内容</div>
+                    <div>{{data[0].content}}</div>
+                </div>
+                <div id="Rtype">
+                    <div>违规类型</div>
+                    <select name="" id="select" >
+                        <option v-for="(i,t) in type" value="{{i+1}}">{{t}}</option>
+                    </select>
+                </div>
+                <div id="Rdesc">
+                    <div>举报描述</div>
+                    <textarea name="" id="desc" cols="30" rows="10"></textarea>
+                </div>
+                <div id="Rbtn"> 
+                    <button id="btn">提交</button>
+                    <button id="btn1">返回</button>
+                </div>
+            </div>          
+        </div>
+    </div>
+    <script src="JS/report.js"></script>
+</body>
+</html>

@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_PublishTargetUrl>D:\桌面\CS1</_PublishTargetUrl>
-    <History>True|2023-06-17T15:07:49.8447549Z;True|2023-06-12T15:10:54.5355797+08:00;</History>
+    <_PublishTargetUrl>D:\EMI\YueBo</_PublishTargetUrl>
+    <History>True|2023-09-10T19:29:34.9304419Z;False|2023-09-11T03:27:09.8814891+08:00;False|2023-09-11T03:26:46.7481845+08:00;False|2023-09-11T02:48:35.7617767+08:00;False|2023-09-11T02:46:54.2240510+08:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="Areas/HelpPage/HelpPage.css">
@@ -288,10 +288,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/23/2014 13:57:34</publishTime>
     </File>
     <File Include="bin/YueBoMS.dll">
-      <publishTime>06/17/2023 23:07:43</publishTime>
+      <publishTime>09/11/2023 03:29:32</publishTime>
     </File>
     <File Include="bin/YueBoMS.pdb">
-      <publishTime>06/17/2023 23:07:43</publishTime>
+      <publishTime>09/11/2023 03:29:32</publishTime>
     </File>
     <File Include="bin/zh-Hans/EntityFramework.resources.dll">
       <publishTime>03/02/2015 17:32:38</publishTime>
@@ -353,6 +353,135 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Content/bootstrap.min.css.map">
       <publishTime>06/10/2023 14:17:39</publishTime>
     </File>
+    <File Include="Content/images/01.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/02.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/03.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/04.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/05.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/1.ad7400cd.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/1.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/2.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/3.1_评论.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/3.1转发.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/bg.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/logo.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/text.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像1.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像10.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像11.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像12.jpg">
+      <publishTime>09/11/2023 03:29:22</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像13.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像14.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像2.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像3.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像4.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像5.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像6.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像7.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像8.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/tx/头像9.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/user.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/wx.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/发现.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/密码.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/搜索小 %281%29.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/搜索小.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/游戏.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/点赞 %281%29.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/点赞.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/生气.png">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/用户背景/bjtp.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/用户背景/bjtp1.jpg">
+      <publishTime>06/28/2023 13:45:17</publishTime>
+    </File>
+    <File Include="Content/images/用户背景/bjtp2.jpg">
+      <publishTime>06/28/2023 13:45:18</publishTime>
+    </File>
+    <File Include="Content/images/用户背景/bjtp3.jpg">
+      <publishTime>06/28/2023 13:45:18</publishTime>
+    </File>
+    <File Include="Content/images/视频.png">
+      <publishTime>06/28/2023 13:45:18</publishTime>
+    </File>
+    <File Include="Content/images/首页.png">
+      <publishTime>06/28/2023 13:45:18</publishTime>
+    </File>
     <File Include="Content/Site.css">
       <publishTime>06/10/2023 14:17:32</publishTime>
     </File>
@@ -378,7 +507,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/10/2023 14:17:32</publishTime>
     </File>
     <File Include="Models/Model1.edmx.diagram">
-      <publishTime>06/10/2023 14:19:28</publishTime>
+      <publishTime>09/08/2023 10:39:01</publishTime>
     </File>
     <File Include="Scripts/bootstrap.js">
       <publishTime>06/10/2023 14:17:39</publishTime>
@@ -468,7 +597,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/10/2023 14:17:32</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/17/2023 23:07:45</publishTime>
+      <publishTime>09/11/2023 02:45:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

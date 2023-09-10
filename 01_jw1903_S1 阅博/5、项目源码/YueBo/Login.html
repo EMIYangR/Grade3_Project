@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阅博登录</title>
+    <script src="JS/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="CSS/Login.css">
+    <script  src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
+    <script src="JS/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="JS/login.js"></script>
+</head>
+<body>
+    <div id="loading">
+        <div id="loading_bg">
+            <div class="loader">Loading...</div>
+        </div>
+    </div>
+    <div id="all">
+        <div id="top">
+            <div id="logo">
+                <img src="Content/img/logo.png" alt=""  id="l1">
+            </div>
+            <div id="search">
+                <input type="text" id="search2">
+                <a href="javascript:void (0);" id="ss"><img src="Content/img/搜索小.png" class="search" alt=""></a>
+                <script>
+                    // $("#ss").click(function(){
+                    //     var keyword={word:$("#search2").val(),click:1};
+                    //     if(keyword){
+                    //         var keywords=[{word:"王励",click:5}]
+                    //         keywords.push(keyword);
+                    //         $.ajax({
+                    //             url:"./data.json",
+                    //             type:"POST",
+                    //             data:JSON.stringify(keywords),
+                    //             contentType: 'application/json',
+                    //             success:function(res){
+                    //                 console.log(res)
+                    //             },
+                    //             error:function(res){
+                    //                 console.log(res)
+                    //                 console.error("错误")
+                    //             }
+
+                    //         })
+                    //         // $.getJSON("data.json",function(data){
+                    //         //     console.log("得到了")
+                    //         //     keywords=data;
+                    //         //     keywords.push(keyword);
+                    //         //     var jsonData=JSON.stringify(keywords);
+                    //         //     var blob=new Blob([jsonData],{type:"application/json"});
+                    //         //     var url=URL.createObjectURL(blob);
+                    //         //     var a=$("<a>").attr("href",url).attr("download",data.json).appendTo("body");
+                    //         //         a[0].click();
+                    //         //         a.remove();
+                    //         //         URL.revokeObjectURL(url);
+
+                    //         // });
+                    //     }
+                    //     console.log(keywords)
+                    //     console.log(keyword)
+                    // });
+                </script>
+                <div id="search1" tabindex="1">
+                    <ul>
+                        <li v-for="(i,v) in wd">
+                            {{v}}
+                        </li>
+                    </ul>
+                </div>
+                <script>
+                    document.onreadystatechange=function () {
+                        if (document.readyState=="complete"){
+                            loadingFade();
+                        }
+                    }
+                    document.getElementsByClassName("loader1").onreadystatechange=function () {
+                            loadingFade1();
+                    }
+                    function loadingFade() {
+                        var opacity=1;
+                        //var loadingPage=document.getElementById('loading');
+                        var loadingBackground=document.getElementById('loading_bg');
+                        var time=setInterval(function () {
+                            if (opacity<=0){
+                                clearInterval(time);
+                                //loadingPage.remove();
+                                $('#loading').remove();
+                            }
+
+                            loadingBackground.style.opacity=opacity;
+                            opacity-=0.4;
+                        },100);
+                    }
+                    function loadingFade1() {
+                        var opacity=1;
+                        //var loadingPage=document.getElementById('loading');
+                        var time=setInterval(function () {
+                            if (opacity<=0){
+                                clearInterval(time);
+                                //loadingPage.remove();
+                                $('.loader1').remove();
+                            }
+
+                            loadingBackground.style.opacity=opacity;
+                            opacity-=0.4;
+                        },100);
+                    }
+                </script>
+            </div>
+            
+                <ul>
+                    <li>
+                        <a href="index1.html"><img src="Content/img/首页.png" alt="">
+                        <span>首页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""><img src="Content/img/视频.png" alt=""><span>视频</span>
+                            </a>
+                    </li>
+                    <li><a href=""><img src="Content/img/发现.png" alt=""><span>发现</span> </a></li>
+                    <li><a href=""><img src="Content/img/游戏.png" alt=""><span>游戏</span> </a></li>
+                </ul>
+            <div id="dl">
+                <div id="wdl" class="s">
+                    <ul>
+                        <li><a href="">登录</a></li>
+                        <li>丨</li>
+                        <li><a href="">注册</a></li>
+                    </ul>
+                </div>
+                <div id="ydl" class="f">
+                    <a href=""><img src="Content/img/1.ad7400cd.jpg" alt=""><p class="name">mz</p></a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        <div id="center">
+            <div id="left">
+                <ul >
+                    <li class="x1">
+                        <a href="">热门</a></li>
+                    <li class="x2"><a href="">头条</a></li>
+                    <li class="x2"><a href="">视频</a></li>
+                    <li class="x2"><a href="">搞笑</a></li>
+                    <li class="x2"><a href="">社会</a></li>
+                    <li class="x2"><a href="">时尚</a></li>
+                    <li class="x2"><a href="">电影</a></li>
+                    <li class="x2"><a href="">体育</a></li>
+                    <li class="x2"><a href="">动漫</a></li>
+                </ul>
+            </div>
+            <div id="zhongjian">
+                <div class="shell">
+                    <ui class="images">
+                        <li class="img"></li><li class="img"></li><li class="img"></li><li class="img"></li><li class="img"></li>
+                    </ui>
+                    <ui class="min">
+                        <li class="m"></li><li class="m"></li><li class="m"></li><li class="m"></li><li class="m"></li>
+                    </ui>
+                    <div class="button">
+                    <div class="button-left"><</div>
+                    <div class="button-right">></div>
+                    </div>
+                    </div>
+                <div id="text">
+                        <div id="tz" v-for="(i,v) in Posts">
+                            <div id="img1" class="img1" style="display: block;">
+                                <a href="javascript:void (0);"><img src="Content/img/01.png" alt=""></a>
+                            </div>
+                            <div id="text1" style="display: block;">
+                                <div class="nr">
+                                    <a href="">
+                                        <p style="margin-top: 20px;">{{v.PostContent}}</p>
+                                    </a>
+                                    <p style="margin-top: 20px;"><a href="" class="mz">{{v.username}}</a><span class="time">{{v.PostTime}}</span></p>
+                                </div>
+                                <div class="dz"> 
+                                    <ul>
+                                        <li class="zf1" onclick="zf()"><a href="javascript:void (0);"><img src="Content/img/3.1转发.png" alt=""><span>{{v.Forwards}}</span></a></li>
+                                        <li>丨</li>
+                                        <li class="pl1" onclick="pl()"><a href="javascript:void (0);"><img src="Content/img/3.1_评论.png" alt=""><span>{{v.ContentS}}</span></a></li>
+                                        <li>丨</li>
+                                        <li class="dz1" onclick="dz(this)"><a href="javascript:void (0);"><img class="dzpic" src="Content/img/点赞.png" alt=""><span class="dzsum">{{v.Likes}}</span></a></li>
+                                    </ul>
+                                </div>  
+                            </div>
+                            
+                                
+                        </div>
+                    
+                    
+                    <!-- <div id="tz">
+                        <div id="img1" class="img1">
+                            <a href="javascript:void (0);"><img src="Content/img/01.png" alt=""></a>
+                        </div>
+                        <div id="text1" style="overflow: hidden;">
+                            <div class="nr">
+                                <a href="">
+                                    <p style="margin-top: 20px;">1</p>
+                                    <p>{{v.PostContent}}</p>
+                                    <p>1</p>
+                                </a>
+                                
+                                <p style="margin-top: 20px;"><a href="" class="mz">用户名</a><span class="time">时间</span></p>
+                            </div>
+                            <div class="dz"> 
+                                <ul>
+                                    <li class="zf1" onclick="zf()"><a href="javascript:void (0);"><img src="Content/img/3.1转发.png" alt=""><span>111</span></a></li>
+                                    <li>丨</li>
+                                    <li class="pl1" onclick="pl()"><a href="javascript:void (0);"><img src="Content/img/3.1_评论.png" alt=""><span>111</span></a></li>
+                                    <li>丨</li>
+                                    <li class="dz1" onclick="dz(this)"><a href="javascript:void (0);"><img class="dzpic1" src="Content/img/点赞.png" alt=""><span class="dzsum1">111</span></a></li>
+                                </ul>
+                            </div>  
+                        </div>    
+                    </div> -->
+                    
+                    
+                </div>
+                <!-- <input type="button" value="添加帖子" id="cs"> -->
+            </div>
+            <div id="right">
+                <div id="login">
+                    <div id="login1">
+                        <div id="choose">
+                            <div id="UserL1" class="choose x3">
+                                <a href="javascript:void (0);">账号登录</a>
+                                </div>
+                            <div id="SmL1" class="choose">
+                                <a href="javascript:void (0);">安全登录</a>
+                            </div>
+                        </div>
+                        <div id="userL" class="s">   
+                            <form action="" method="post">
+                                <div>      
+                                    <img src="Content/img/user.png" alt="">                                                      
+                                    <input type="text" id="Login-user" class="lo" required="required">
+                                </div>
+                                <div>   
+                                    <img src="Content/img/密码.png" alt="">                                  
+                                    <input type="password" id="Login-pwd" class="lo" required="required">
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="rember"><span>记住我</span>
+                                    <a href="" id="forget">忘记密码</a>
+                                </div>
+                                <div>
+                                    <input type="button" value="登录" id="Loginsub">
+                                </div>
+                                <div>
+                                    <p>还没有阅博？<a href="register.html">立即注册!</a></p>
+                                </div>
+                                <hr>
+                            </form>  
+                        
+                        </div>
+                        <div id="SmL" class="f">
+                            <img src="Content/img/wx.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div id="phb">
+                    <h3>微博热门话题</h1>
+                    <div id="phb1">
+                        <div class="left">
+                            <img src="Content/img/01.png" alt="">
+                        </div>
+                        <div class="right">
+                            <p><a href="">#标题#</a></p>
+                            <p><a href="">评论</a></p>
+                        </div>   
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="gotop">
+            <a href="javascript:void (0);" id="gotop1" onclick="top()">TOP</a>
+        </div>
+        <div id="end"></div>
+    </div>
+    <script type="text/javascript">
+        let left = document.querySelector(".button-left")
+            let right = document.querySelector(".button-right")
+            let m = document.querySelectorAll(".m")
+            let images = document.querySelector(".images")
+            // 我们先设置一个index用来计算和控制图片的位置，再设置一个time作为定时器
+            let index = 0
+            let time
+            // 在这里我们先创建一个position为复用函数，作用就是结合index来定义当前图片的位置的
+            function position() {
+            images.style.left = (index * -100) + "%"
+            }
+            // 然后我们创建一个复用函数add为加函数，如果当前图片的位置值index大于等于当前图片数量的话，
+            // 就说明超出了计算范围，所以得清零，如若不然index就加一
+            function add() {
+            if (index >= m.length - 1) {
+            index = 0
+            } else {
+            index++
+            }
+            }
+            // 反之desc为减函数，如果当前图片的位置值index小于1了，那么他的值就反弹到最顶端，也就是轮播图的最后面，如若不然index就减一
+            function desc() {
+            if (index < 1) {
+            index = m.length - 1
+            } else {
+            index--
+            }
+            }
+            // 创建一个timer来当做复用时间的函数，，每隔3秒钟index就加一，然后加入增加add函数和desc函数来判断一下，再加入定位函数
+            function timer() {
+            time = setInterval(() => {
+            index++
+            desc()
+            add()
+            position()
+            }, 3000)
+            }
+            // 接下来我们设置一下按钮，left为左边的按钮，因为点击时图片会反方向倒退，所以我们套入desc减函数进去，顺便定位一下
+            // 点击的时候我们必须先把定时器给停掉再重新执行一遍，不然会在你点击下一张图片时，定时器倒计时一到也跟着生效，这样子就会连跳两张图片了
+            left.addEventListener("click", () => {
+            desc()
+            position()
+            clearInterval(time)
+            timer()
+            })
+            // 右边的按钮和左边也是差不多
+            right.addEventListener("click", () => {
+            add()
+            position()
+            clearInterval(time)
+            timer()
+            })
+            // 在弄好左右两个按钮的时候，我们还需要生效下面的小图片按钮，
+            // 首先我们先遍历一遍，然后获取当前点击的那个小图片按钮的值并赋值给index，这样子就可以随之跳转
+            for (let i = 0; i < m.length; i++) {
+            m[i].addEventListener("click", () => {
+            index = i;
+            position();
+            clearInterval(time)
+            timer()
+            })
+            }
+        // 最后的最后我们将定时器开起来，这样子图片就可以自动轮播啦
+        timer()
+    </script>
+</body>
+</html>

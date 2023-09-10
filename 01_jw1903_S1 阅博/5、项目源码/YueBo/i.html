@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="JS/jquery-3.4.1.js"></script>
+    <script src="JS/vue.js"></script>
+</head>
+<style>
+    .myBtn{
+        padding: 5px 10px;
+        background: rgb(92,184,92);
+        color: white;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    </style>
+<body>
+    <form id="uploadForm">
+        <input type="file" name="image" id="image">
+        <button type="submit">上传图片</button>
+      </form>
+    <img id="image1" src="" alt="" width="100px" height="100px">
+    <div class="image"></div>
+    <script>
+    
+    $(document).ready(function() {
+  $('#uploadForm').submit(function(e) {
+    e.preventDefault();
+    console.log(this)
+    var fileInput = document.getElementById('image');
+var file = fileInput.files[0];
+    // 判断文件大小是否符合规定（10MB）
+    if (file.size > 10 * 1024 * 1024) {
+    alert('上传文件不能大于10MB');
+    } else {
+    // 文件大小符合规定，进行其他操作
+    }
+    var formData = new FormData(this);
+    $.ajax({
+      url: 'https://localhost:44364/api/Pic2',
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(response) {
+        console.log(response);
+      },
+      error: function(xhr, status, error) {
+        console.log(xhr.responseText);
+      }
+    });
+  });
+  var folderName = "Uploads";
+  var fileName = "现状.jpg";
+  url="https://localhost:44364//api/GeiPic?folderName=" + encodeURIComponent(folderName) + "&fileName=" + encodeURIComponent(fileName);
+  $("#image1").attr("src", url);
+//   发起 AJAX 请求
+//   $.ajax({
+//     url: url,
+//     type: "GET",
+//     responseType: 'blob',
+//     success: function(data) {
+//     let blob = new Blob([data],{type: "image/png"});
+//       // 将响应数据转换成 Blob URL
+//       var imageUrl = URL.createObjectURL(blob);
+//       console.log(imageUrl)
+
+//       // 将 Blob URL 设置为图像元素的 src 属性，从而在页面上显示图片
+      
+      
+//       URL.revokeObjectURL(imageUrl);
+//     },
+//     error: function(jqXHR, textStatus, errorThrown) {
+//       console.log(textStatus + ": " + errorThrown);
+//     }
+//   });
+// 使用XMLHttpRequest对象发送GET请求
+// var xhr = new XMLHttpRequest();
+// url="https://localhost:44364//api/GeiPic?folderName=" + encodeURIComponent(folderName) + "&fileName=" + encodeURIComponent(fileName);
+// xhr.open('GET', url,true);
+
+// //设置响应类型为"blob"
+// xhr.responseType = 'blob';
+
+// xhr.onload = function() {
+//   //请求完成时处理响应数据
+//   if (this.status == 200) {
+//     var blob = this.response;
+//     var url = URL.createObjectURL(blob); //生成Blob URL
+//     console.log(url);
+//     let reader = new FileReader();
+// reader.readAsDataURL(blob); 
+// console.log(reader[8])
+// console.log(reader)
+// console.log(reader.readyState)
+// console.log(reader.result)
+// console.log(reader.FileReader)
+//   }
+// };
+
+// //发送请求
+// xhr.send();
+
+
+// 调用函数以获取图片
+});
+    </script>
+</body>
+</html>
