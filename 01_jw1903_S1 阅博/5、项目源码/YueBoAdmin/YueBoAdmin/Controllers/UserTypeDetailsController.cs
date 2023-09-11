@@ -32,16 +32,12 @@ namespace YueBoAdmin.Controllers
         public ActionResult Authentication(int? id)
         {
             db.UserTypeDetail.Find(id).IsAuthentication = 2;
-            //int utid = db.UserTypeDetail.Find(id).UserTypeID;
-          
             db.SaveChanges();
             return RedirectToAction("Index");
         }
         public ActionResult NotAuthentication(int? id)
         {
             db.UserTypeDetail.Find(id).IsAuthentication = 1;
-            //int utid = db.UserTypeDetail.Find(id).UserTypeID;
-
             db.SaveChanges();
             return RedirectToAction("Index");
         }

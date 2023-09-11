@@ -12,11 +12,6 @@ namespace YueBoAdmin.Controllers
         private YueBoDB db = new YueBoDB();
         public ActionResult Index()
         {
-            //string aid = Response.Cookies["AdminID"].Value;
-            //if (aid == "" || aid == null)
-            //{
-            //    return RedirectToAction("Login");
-            //}
             return View();
         }
 
@@ -49,14 +44,6 @@ namespace YueBoAdmin.Controllers
         {
             return View();
         }
-        //protected override void OnActionExecuted(ActionExecutedContext filterContext)
-        //{
-        //    base.OnActionExecuted(filterContext);
-        //    if (Response.Cookies["AdminID"] == null)
-        //    {
-        //        filterContext.HttpContext.Response.Redirect("/Home/Login");
-        //    }
-        //}
         protected override void Dispose(bool disposing)
         {
             if (disposing)

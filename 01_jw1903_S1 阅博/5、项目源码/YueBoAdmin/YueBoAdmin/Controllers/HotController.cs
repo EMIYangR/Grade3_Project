@@ -20,20 +20,6 @@ namespace YueBoAdmin.Controllers
         {
             Response.Write("<script>alert('设置成功！')</script>");
             return View();
-            //return RedirectToAction("Index");
-            //int res = db.Admin.Where(a => a.AdminAccount == Account).Where(a => a.AdminPwd == Pwd).Count();
-            //if (res > 0)
-            //{
-            //    Response.Write("<script>alert('登录成功！')</script>");
-            //    int id = db.Admin.FirstOrDefault(a => a.AdminAccount.Contains(Account)).AdminID;
-            //    Response.Cookies["AdminID"].Value = id.ToString();
-            //    return RedirectToAction("Index");
-            //}
-            //else
-            //{
-            //    Response.Write("<script>alert('登录失败！');history.go(-1)</script>");
-            //}
-            //return View();
         }
         protected override void Dispose(bool disposing)
         {

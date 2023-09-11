@@ -19,7 +19,6 @@ namespace YueBoAdmin.Controllers
         public ActionResult Index(int page = 1)
         {
             var ui = db.UserInfo.Include(l => l.UserTypeDetail).OrderBy(l => l.UserAccount);
-            //.Include(UserTypeDetail.UserType);
             return View(ui.OrderBy(a => a.UserID).ToPagedList(page, 10));
         }
         [HttpPost]

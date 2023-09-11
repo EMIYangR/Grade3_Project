@@ -123,12 +123,23 @@ namespace YueBoAdmin.Controllers
 
         public ActionResult DeleteConfirmed(int id)
         {
+            int Aid = int.Parse(Request.Cookies["AdminID"].Value);
+            AdminControl ac = new AdminControl();
+            ac.AdminContent = "删除了帖子";
+            ac.PostID = id;
+            ac.ReportID = null;
+            ac.UserID = null;
+            ac.RecordTime = DateTime.Now;
+            ac.AdminID = Aid;
+            db.AdminControl.Add(ac);
+            Post p = db.Post.Find(id);
+            db.Post.Remove(p);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
         public ActionResult Hot(int id)
         {
             int Aid = int.Parse(Request.Cookies["AdminID"].Value);
-            //Post post = db.Post.Find(id);
             AdminControl ac = new AdminControl();
             ac.AdminContent = "设置了帖子上热门";
             ac.PostID = id;
@@ -144,7 +155,6 @@ namespace YueBoAdmin.Controllers
         public ActionResult CancelHot(int id)
         {
             int Aid = int.Parse(Request.Cookies["AdminID"].Value);
-            //Post post = db.Post.Find(id);
             AdminControl ac = new AdminControl();
             ac.AdminContent = "取消了帖子上热门";
             ac.PostID = id;
@@ -160,7 +170,6 @@ namespace YueBoAdmin.Controllers
         public ActionResult Ban(int id)
         {
             int Aid = int.Parse(Request.Cookies["AdminID"].Value);
-            //Post post = db.Post.Find(id);
             AdminControl ac = new AdminControl();
             ac.AdminContent = "屏蔽了帖子";
             ac.PostID = id;
@@ -176,7 +185,6 @@ namespace YueBoAdmin.Controllers
         public ActionResult CancelBan(int id)
         {
             int Aid = int.Parse(Request.Cookies["AdminID"].Value);
-            //Post post = db.Post.Find(id);
             AdminControl ac = new AdminControl();
             ac.AdminContent = "取消屏蔽了帖子";
             ac.PostID = id;

@@ -18,10 +18,6 @@ namespace YueBoAdmin.Controllers
         // GET: SensitiveWords
         public ActionResult Index(int page = 1)
         {
-            //byte[] bytes = db.SensitiveWord.Select(a => new { a.SensitiveContent }).ToList();
-            ////byte[] bytes = System.Convert.FromBase64String(str);
-            //string str = System.Text.Encoding.UTF8.GetString(bytes);
-
             return View(db.SensitiveWord.OrderBy(a => a.SensitiveWordID).ToPagedList(page, 15));
 
         }
