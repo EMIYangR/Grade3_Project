@@ -124,7 +124,7 @@
                 }
             </td>
             <td>
-                <a href="/Posts/DeleteConfirmed/@item.PostID">删除</a> |
+                <a href="/Posts/DeleteConfirmed/@item.PostID">删除</a> <br />
                 @if (item.IsBan == true)
                 {
                     <a href="/Posts/CancelBan/@item.PostID">取消屏蔽</a>
@@ -133,7 +133,15 @@
                 {
                     <a href="/Posts/Ban/@item.PostID">屏蔽</a>
                 }
-
+                <br />
+                @if (item.IsHot == false)
+                {
+                    <a href="/Posts/Hot/@item.PostID">上热门</a>
+                }
+                else
+                {
+                    <a href="/Posts/CancelHot/@item.PostID">取消上热门</a>
+                }
             </td>
         </tr>
     }

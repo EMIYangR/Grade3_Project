@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\EMI\YueBoAdmin</_PublishTargetUrl>
-    <History>True|2023-09-10T14:24:04.1793349Z;</History>
+    <History>True|2023-09-10T20:10:59.9366022Z;True|2023-09-10T22:24:04.1793349+08:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -207,10 +207,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>01/23/2014 13:57:34</publishTime>
     </File>
     <File Include="bin/YueBoAdmin.dll">
-      <publishTime>09/10/2023 23:59:41</publishTime>
+      <publishTime>09/11/2023 04:10:56</publishTime>
     </File>
     <File Include="bin/YueBoAdmin.pdb">
-      <publishTime>09/10/2023 23:59:41</publishTime>
+      <publishTime>09/11/2023 04:10:56</publishTime>
     </File>
     <File Include="bin/zh-Hans/EntityFramework.resources.dll">
       <publishTime>03/02/2015 17:32:38</publishTime>
@@ -6840,40 +6840,46 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/09/2023 21:27:34</publishTime>
     </File>
     <File Include="Content/User/Head/头像1.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像10.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像11.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像12.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
+    </File>
+    <File Include="Content/User/Head/头像13.jpg">
+      <publishTime>09/11/2023 04:09:50</publishTime>
+    </File>
+    <File Include="Content/User/Head/头像14.jpg">
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像2.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像3.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像4.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像5.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像6.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像7.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像8.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/Head/头像9.jpg">
-      <publishTime>06/19/2023 20:17:07</publishTime>
+      <publishTime>09/11/2023 04:09:50</publishTime>
     </File>
     <File Include="Content/User/image/01.png">
       <publishTime>06/19/2023 19:31:06</publishTime>
@@ -6915,7 +6921,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/10/2023 09:41:58</publishTime>
     </File>
     <File Include="Content/User/video/1.mp4">
-      <publishTime>06/19/2023 19:08:05</publishTime>
+      <publishTime>09/11/2023 04:10:26</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>06/15/2023 19:37:04</publishTime>
@@ -7028,6 +7034,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Home/Developed.cshtml">
       <publishTime>06/19/2023 00:38:31</publishTime>
     </File>
+    <File Include="Views/Home/Help.cshtml">
+      <publishTime>09/11/2023 02:09:30</publishTime>
+    </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>06/18/2023 22:01:41</publishTime>
     </File>
@@ -7050,7 +7059,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/18/2023 23:10:44</publishTime>
     </File>
     <File Include="Views/Posts/Index.cshtml">
-      <publishTime>09/10/2023 23:30:44</publishTime>
+      <publishTime>09/11/2023 02:16:10</publishTime>
     </File>
     <File Include="Views/Reports/Create.cshtml">
       <publishTime>06/15/2023 21:17:10</publishTime>
@@ -7089,7 +7098,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/15/2023 19:37:03</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>09/10/2023 23:53:30</publishTime>
+      <publishTime>09/11/2023 01:45:12</publishTime>
     </File>
     <File Include="Views/UserInfoes/Ban.cshtml">
       <publishTime>09/10/2023 17:00:31</publishTime>
@@ -7107,7 +7116,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/16/2023 10:20:56</publishTime>
     </File>
     <File Include="Views/UserInfoes/Index.cshtml">
-      <publishTime>09/10/2023 20:36:53</publishTime>
+      <publishTime>09/11/2023 02:27:49</publishTime>
     </File>
     <File Include="Views/UserTypeDetails/Create.cshtml">
       <publishTime>06/18/2023 22:12:54</publishTime>
