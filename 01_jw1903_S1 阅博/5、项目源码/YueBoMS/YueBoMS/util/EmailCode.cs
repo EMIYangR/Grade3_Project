@@ -27,13 +27,13 @@ namespace YueBoMS.util
             m.Subject = "阅博_注册验证码";//标题
             //邮件内容
             m.Body = "你正在注册,您的验证码为:" +code
- + ", \r\n请勿转告他人,感谢您的使用  \r\n By:特价淘网";
+ + ", \r\n请勿转告他人,感谢您的使用  \r\n By:阅博网";
             m.SubjectEncoding = System.Text.Encoding.UTF8;
             m.BodyEncoding = System.Text.Encoding.UTF8;
 
             SmtpClient s = new SmtpClient();
             //创建发送对象
-            s.Credentials = new NetworkCredential("918610601@qq.com", "uzhjfqspevvdbcbj");//邮箱 授权码 
+            s.Credentials = new NetworkCredential("918610601@qq.com", "jfqfvnvxkemxbdfd");//邮箱 授权码 
             s.Host = "smtp.qq.com";//服务器地址
             s.Send(m);//发送
             return code;

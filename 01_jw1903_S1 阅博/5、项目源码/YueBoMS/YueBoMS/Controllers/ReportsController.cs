@@ -78,17 +78,10 @@ namespace YueBoMS.Controllers
 
         // POST: api/Reports
         [ResponseType(typeof(Report))]
-        public IHttpActionResult PostReport(Report report)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+        public bool PostReport(Report report)
+        {            
             db.Report.Add(report);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = report.ReportID }, report);
+            return db.SaveChanges()>0;
         }
 
         // DELETE: api/Reports/5

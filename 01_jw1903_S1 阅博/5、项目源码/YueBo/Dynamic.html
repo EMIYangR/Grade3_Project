@@ -7,11 +7,52 @@
     <link rel="stylesheet" href="CSS/UserInfo.css">
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
     <link rel="stylesheet" href="CSS/antd.min.css">
+    <link rel="stylesheet" href="./albb/font_a5jalowfoe/iconfont.css">
+    <link rel="stylesheet" href="./albb/font_wtqi9yoho/iconfont.css">
     <script src="JS/jquery-3.4.1.min.js"></script>
     <script src="JS/vue.min.js"></script>
     <script src="JS/antd.min.js"></script>
+    <script src="JS/Dynamic.js"></script>
+    
+    <script src="JS/UserInfo.js"></script>
 </head>
 <body id="body">
+    <div id="nav">
+        <div class="nav-center">
+            <div class="nav-center-logo">
+                <img src="./Content/img/logo.png" style="width: 10%;height: 10%;" alt="">
+            </div>
+            <div class="nav-center-search">
+                <div class="iconfont icon-sousuo active"></div>
+                <input type="text" placeholder="搜索阅博">
+                <div class="radius"></div>
+            </div>
+            <div class="nav-center-five">
+                <div class="iconfont icon-shouye show1"></div>
+                <div class="iconfont icon-shipin"></div>
+                <div class="iconfont icon-huo"></div>
+                <div class="iconfont icon-duanxin"></div>
+                <div class="iconfont icon-geren"></div>
+            </div>
+            <div class="nav-center-four">
+                <div class="nav-center-login" v-if="falg">
+                    登录
+                </div>
+                <div class="nav-center-register" v-if="falg">
+                    注册
+                </div>
+                <div class="nav-center-sun iconfont icon-sun" id="sun">
+
+                </div>
+                <div class="nav-center-liuyan iconfont icon-liuyan">
+
+                </div>
+            </div>
+            <!-- <div class="nav-center-barrier">
+                无障碍
+            </div> -->
+        </div>
+    </div>
     <div id="section">
         <div id="left">
             <ul>
@@ -24,8 +65,70 @@
                 <li><a href="Personal.html">我的私信</a></li>
             </ul>
         </div>
-        <div id="Content">
+        <div id="Content" >
             <h1>我的动态</h1>
+            <div v-for="(index,t) in data">
+                <div class="main-bottom-blog" id="{{index.uid}}">
+                    <button class="xq" id="{{index.pid}}">查看全文</button>
+                    <span class="jb iconfont icon-jubao" id="{{index.pid}}"></span>
+                    <div class="title" id="title" >
+                        <div class="title-img" id="title-img" @mouseenter="showActions(index.pid)" @mouseleave="hideActions(index.pid)">
+                            <img :src="index.tx" alt="">
+                            <span class="iconfont icon-renzheng"></span>
+                        </div>                               
+                        <div class="title-name">
+                            <div class="title-name-top">
+                                <span>{{index.user}}</span>
+                                <span class="iconfont icon-huangguan"></span>
+                            </div>
+                            <div class="title-name-hour">
+                                {{index.time}}
+                            </div>
+                            <div class="title-name-show">
+                                来自小米6
+                            </div>
+                        </div>
+                     </div>                   
+                    <!-- <div v-if="index.fv1"> -->
+                        <div class="blog" v-if="index.f1===true">
+                            <div class="">
+                                {{index.content}}
+                            </div>
+                            <div>
+                                <img :src="index.pic" alt="">
+                                <!-- <img src="./Content/img/02.png" alt="">
+                                <img src="./Content/img/03.png" alt="">
+                                <img src="./Content/img/04.png" alt=""> -->
+                            </div>   
+                        </div>
+                        <div class="blog" v-if="index.v1===true">
+                            <div class="">
+                                {{index.content}}
+                            </div>
+                            <video :src="index.vidio" class="sp" controls>11</video>
+                        </div>
+                    <!-- </div> -->
+                    <div class="blog" v-else>
+                        <div class="">
+                            {{index.content}}
+                        </div>                               
+                    </div>
+                    <div class="share">
+                        <div class="iconfont icon-fenxiang">
+                            {{index.zf}}
+                        </div>
+                        <div class="iconfont icon-pinglun" id="pl">
+                            {{index.pl}}
+                        </div>
+                        <div class="iconfont icon-dianzan" v-if="!index.like" id="dz">
+                            {{index.dz}}
+                        </div>
+                        <div class="iconfont icon-dianzan" style="color: orange;" v-else id="dz">
+                            {{index.dz}}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

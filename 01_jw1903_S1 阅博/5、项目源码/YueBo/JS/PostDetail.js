@@ -24,7 +24,7 @@ $(function(){
     })
     //点击切换背景色
     $(".nav-center-four .nav-center-sun").click(function(){
-        console.log($("#sun").attr('class'))
+        // console.log($("#sun").attr('class'))
         if($("#sun").is('.icon-sun')){
             $(".nav-center-four .nav-center-sun").attr('class','nav-center-sun iconfont icon-yueliang')
             $("body").css("background-color",yueliang)
@@ -117,18 +117,48 @@ $(function(){
     //点击关注
     $(document).on("click",".title-name-focus",function(x){
         if($.cookie("uid")!=null){
+            userid=$.cookie("uid");
             let icon="<span class='iconfont icon-jiahao1'></span>";
+            let uid1=$(this).parent().parent().parent().attr("id")
+            let a=$(this);
+            let a1=a.children();
             if($(this).children().length>0){
                 if(confirm("是否关注？")){
-                    $(this).children().remove()
-                    $(this).addClass('f1')
-                    $(this).html("已关注")
+                    $.ajax({
+                        url:"https://localhost:44364/api/Follows",
+                        type:"post",
+                        data:{UserID:userid,FollowUserID:uid1},
+                        success:function(res){
+                            if(res==true){
+                                a1.remove()
+                                a.addClass('f1')
+                                a.html("已关注")
+                                posts.length=0;
+                                data2.length=0;
+                                load("https://localhost:44364/api/Posts")
+                            }
+                        }
+                    })                    
                 } 
             }else{
                 if(confirm("是否取消关注？")){
-                    $(this).removeClass('f1')
-                    $(this).html("关注")
-                    prepend:$(this).append(icon)  
+                    $.ajax({
+                        url:"https://localhost:44364/api/Delete1?id="+userid+"&uid="+uid1,
+                        type:"GET",
+                        success:function(res){
+                            if(res==true){
+                                a.removeClass('f1')
+                                a.html("关注")
+                                prepend:a.append(icon)
+                                posts.length=0;
+                                data2.length=0; 
+                                // load("https://localhost:44364/api/Posts")
+                                loading()
+                            }
+                        }
+                    })
+                     
+                     
                 }
             }
         }else{
@@ -136,22 +166,31 @@ $(function(){
                 window.location.href="Login.html"
             }
         }
-        
-    })
+    }) 
     
         
 })
+let fatherid=0;
 $(document).ready(function(){
-    
     let userid=0;
     if($.cookie("uid")!=null){
         userid=$.cookie("uid")
     }
     let data=[];
     let data4=[];
+    let data6=[];
+    let data5=[]
     let flag=[];
-    let f=true;
-    let pid=getid('pid')
+    let f=[];
+    let upic=[]
+    let iszz=false;
+    fatherid=0
+    const pid=getid('pid')
+    // console.log(pid)
+    let id;
+    //关注名单
+    let followd1=[];
+    let Like=[];
     // $(document).on("click",".icon-pinglun",function(){ 
     //     let v1=new Vue({
     //         el:".main-bottom-template .coment",
@@ -165,107 +204,221 @@ $(document).ready(function(){
         
         
     //     });
-    $(document).on("click",".plbtn",function(){  
-        let content=$("#text").val();
-        let pid=$(this).parent().parent().parent().attr("id").substr(1)
-        console.log("父级元素"+pid)
-        console.log("输入内容"+pid)
-        $(".pic").click(function(){
-            $(this).prev()('input[type="file"]')[0].click();
-        })
-        // $.ajax({
-        //     url:"https://localhost:44364/api/Contents?comtent="+content,
-        //     type:"GET",
-        //     success:function(res){
-        //         console.log(res)
-        //         if(res.length>0){
-        //             console.log("评论成功")
-        //         }
+    
+    $(document).on("click",".share .icon-pinglun",function(){ 
+        $("#a22").hide()
+        $("#a11").show()
+    })
+    $(document).on("click",".three .icon-pinglun",function(){  
+        
+        let a=$(this).parent().parent().parent().parent().parent().parent().prev().find(".btn")
+        id=$(this).parent().parent().prev().find("a").attr("id")
+        
+        if(a.html()=="发送"){
+            a.html("回复");
+            
+            $("#te1").attr("placeholder","回复  "+$(this).parent().parent().prev().find("a").html());
+            fatherid=id
+        }else{
+           a.html("发送");
+           
+           $("#te1").attr("placeholder","请写下你的评论");
+           fatherid=0
+        }
+        // $(this).parent().parent().next().toggle();
+        // data5.length=0;
+        // Vue.component('app', {
+        //     template: `
+        //         <div class="right-end" v-for="item in data5" :key="item.cid">
+        //         <div class="top" v-if="item.nr">
+        //             <a href="" v-if="item.name">{{item.name}}</a>
+        //             {{item.nr}}
+        //         </div>
+        //         <div class="center">
+        //             <div class="time" v-if="item.time">{{item.time}}</div>
+        //             <div class="three">
+        //                 <div class="iconfont icon-fenxiang"></div>
+        //                 <div class="iconfont icon-fenxiang"></div>
+        //                 <div class="iconfont icon-pinglun"></div>
+        //                 <div class="iconfont icon-dianzan"></div>
+        //             </div>
+        //         </div>
+        //     </div>
+        //     `,
+        //     data() {
+        //       return {
+                
+        //       };
+        //     },
+        //     methods: {
                 
         //     }
-
-        // })
-        
-        
+        //   });
         });
+    $(document).on("click",".icon-fenxiang",function(){
+        forward(pid)
+        $("#a11").hide()
+        $("#a22").show()
+    })
         // 点击图片后选择文件
-        $(document).on("click",".img",function(){  
-            $(this).prev('input[type="file"]')[0].click();        
-        });
+    $(document).on("click",".img",function(){  
+        $(this).prev('input[type="file"]')[0].click();        
+    });
     $(document).on("click",".pic",function(){  
-            $(this).prev('input[type="file"]')[0].click();        
-        });
-    
-        $(document).on("change","#submit1",function(e){
-            loadimg(e,1);
-                    
+        $(this).prev('input[type="file"]')[0].click();        
+    });
+    $(document).on("change","#submit1",function(e){
+        loadimg(e,1);
+    })
+    $(document).on("change","#submit2",function(e){
+        loadimg(e,2);               
+    })
+    //获取用户的关注
+    $.ajax({
+        url:"https://localhost:44364/api/GetByUid?uid="+userid,
+        type:"GET",
+        success:function(res){
+            
+            if(res!=null){
+                $.each(res,function(i,v){
+                    let f=[
+                        fid=res[i].FollowUserID,
+                        ftime=res[i].FollowTime
+                    ]
+                    followd1.push(f)
+                })
+                
+            }
+        }
+    })
+    function son(x){
+        $.ajax({
+            url:"https://localhost:44364/api/GetSon?id="+x,
+            type:"GET",
+            success:function(res){
+                if(res!=null){
+                    // console.log(res.length)
+                    return res.length
+                }
+                return 0
+            }
         })
-        $(document).on("change","#submit2",function(e){
-            loadimg(e,2);               
-        })
-    // 加载图片
-    // function loadimg(e,index){
-    //     var file = e.target.files[0] || e.dataTransfer.files[0];
-    //     if (file) {
-    //         console.log("有文件")
-    //         var reader = new FileReader();
-    //         reader.onload = function () {
-    //             console.log("加载了")
-    //             if(index==1){
-    //                 $(".img1").css("background-image","url("+this.result+")").css(" background-repeat","no-repeat").css('background-size','100% 100%')
-    //             }
-    //             else{
-    //                 $(".imgs .imgs-img").css("background-image","url("+this.result+")").css(" background-repeat","no-repeat").css('background-size','100% 100%')
-    //                 .css("display","block")
-    //             }
-    //         }
-    //         reader.readAsDataURL(file);
-    //     }
-    // }
-    
+    }
     function getid(name)
     {
-    var reg= new RegExp("(^|&)"+
-    name +"=([^&]*)(&|$)");
-    var r= window.location.search.substr(1).match(reg);
-    if (r!=null) return unescape(r[2]); return null;
+        var reg= new RegExp("(^|&)"+
+        name +"=([^&]*)(&|$)");
+        var r= window.location.search.substr(1).match(reg);
+        if (r!=null) return unescape(r[2]); return null;
+        
     }
+    
     $(document).on("click",".imgs-x",function(){  
         $(".imgs .imgs-img").css("display","none").css("background-image","none")    
-        });
-        let pl=[]
-        loading();
-        function loading(){
-            data4.length=0
-            data.length=0
+    });
+    let pl=[]
+    loading();
+    mine()
+    function loading(){
+        data4.length=0
+        data6.length=0
+        data.length=0
+        data5.length=0
+        post(pid);
+        // forward(pid);
+        content(pid)
+        }
+        // console.log(data)
+        // console.log(data4)
+        // console.log(data5)
+        function pic1(p){
+            if(p=="无"||p==""||p==null){
+                return "./Content/img/01.png";
+            }else{
+                return url1+encodeURIComponent(p)
+            }
+        }
+        function content(pid){
+            var folderName = "Uploads";
+            url1="https://localhost:44364//api/GeiPic?folderName=" + encodeURIComponent(folderName) + "&fileName=";
+            url2="https://localhost:44364//api/Geivi?fileName=";
             $.ajax({
                 url:"https://localhost:44364/api/Contents/"+pid,
                 type:"GET",
                 success:function(res){
-                    console.log(res)
+                    //console.log(res)
                     $.each(res,function(v,i){
                         let pl1={
-                        nr:res[v].ContentDesc,
-                        name:res[v].UserName,
-                        upic:"/Content/img/tx/"+res[v].UserPic,
-                        ctime:convertDateFromString(res[v].ContentTime),
-                        f:pl.length>0
+                            nr:res[v].ContentDesc,//评论内容
+                            name:res[v].UserNick,//评论人
+                            upic:pic1(res[v].UserPic),//评论人头像
+                            ctime:convertDateFromString(res[v].ContentTime),//评论时间
+                            f:son(res[v].ContentID)>0,//评论是否有回复
+                            uid:res[v].UserID,//评论人id
+                            cid:res[v].ContentID,//评论id
+                            fid:res[v].FatherContentID//是否有父级评论id是什么
                         }
                         pl.push(pl1)
+                        data4.push(pl1)
+                        })                        
+                    }
+                })
+                $.ajax({
+                    url:"https://localhost:44364/api/GetSon1",
+                    type:"GET",
+                    success:function(res){
+                        //console.log("子评论"+res)
+                        $.each(res,function(v,i){
+                            let pl1={
+                            nr:res[v].ContentDesc,
+                            name:res[v].UserNick,
+                            upic:pic1(res[v].UserPic),
+                            ctime:convertDateFromString(res[v].ContentTime),
+                            f:son(res[v].ContentID)>0,
+                            uid:res[v].UserID,
+                            cid:res[v].ContentID,
+                            fid:res[v].FatherContentID
+                            }
+                            pl.push(pl1)
+                            data5.push(pl1)
+                        })
+                        
+                        
+                    }
+        
+                })
+        }
+        function forward(p){
+            let pl2=[]
+            $.ajax({
+                url:"https://localhost:44364/api/GetByid?id="+p,
+                type:"GET",
+                success:function(res){
+                    $.each(res,function(v,i){
+                        let pl1={
+                            nr:res[v].ForwardContent,
+                            name:res[v].UserNick,
+                            upic:pic1(res[v].UserPic),
+                            pid:res[v].PostID,
+                            fid:res[v].ForwardID,
+                        }
+                        pl2.push(pl1)
                     })
-                    data4=pl;
-                    f=data4.length>0
-                    aaaaaaaa.f=f
-                    s.data4=data4               
-                    console.log(s.data4)
-                    console.log(aaaaaaaa.f)
+                    s.data6=pl2;
+                    for(i=0;i<s.data6.length;i++){
+                        //console.log(" pl"+s.data6[i])
+                    }                   
                 }
-    
-            })
+                })
+            }
+        function post(pid){
             $.ajax({
                 url:"https://localhost:44364/api/Posts/"+pid,
                 type:"GET",
-                success:function(res){           
+                success:function(res){  
+                    var folderName = "Uploads";
+                    url1="https://localhost:44364//api/GeiPic?folderName=" + encodeURIComponent(folderName) + "&fileName=";  
+                    //console.log(res[0].vidio)       
                     let d={
                         pid:res[0].Postid,
                         content:res[0].PostContent,
@@ -274,42 +427,151 @@ $(document).ready(function(){
                         pl:res[0].ContentS,
                         zf:res[0].Forwards,
                         dz:res[0].Likes,
-                        pic:"./Content/img/"+res[0].pic,
-                        vidio:res[0].vidio,
+                        pic:pic1(res[0].pic),
+                        vidio:vid1(res[0].vidio),
                         f1:res[0].pic!="无",
-                        tx:"/Content/img/tx/"+res[0].tx
+                        tx:pic1(res[0].tx),
+                        click:res[0].ClickSum,
+                        uid:res[0].UserID,
+                        uidf:res[0].UserID!=userid,
+                        v1:(res[0].vidio!="无"&&res[0].vidio!=""),
+                        // fv1:(!f1==v1)
+                        bg:!followme(res[0].UserID)
+                        
                     }
-                    if(res[0].pic.indexOf("base64")!=-1){
-                        var str = res[0].pic;      
-                        var str = str.substring(1,str.length-1);
-                        console.log(str)
-                        d.pic=str
-                    }        
+                    if(d.uid==userid){
+                        iszz=true;
+                    }       
                     data.push(d)
+                    function pic1(p){
+                        if(p=="无"||p==""||p==null){
+                            return "./Content/img/01.png";
+                        }else{
+                            return url1+encodeURIComponent(p)
+                        }
+                    }
+                    function vid1(p){
+                        if(p=="无"||p==""||p==null){
+                            return "无";
+                        }else{
+                            return url2+p
+                        }
+                    }
+                    function followme(x){
+                        for(i=0;i<followd1.length;i++){
+                            if(followd1[i][0]==x){
+                                return true
+                            }
+                            
+                        }
+                        return false
+                    }
+                    //console.log(data[0])
                 
                 }
+        })
+        }
+        function mine(){
+            // console.log(userid)
+            $.ajax({
+                url:"https://localhost:44364/api/UserInfoes/"+userid,
+                type:"get",
+                success:function(res){
+                    var folderName = "Uploads";
+                    url1="https://localhost:44364//api/GeiPic?folderName=" + encodeURIComponent(folderName) + "&fileName=";
+                    
+                    upic.push(url1+encodeURIComponent(res[0].UserPic))
+                }
+                
             })
+            // console.log(upic)
         }
     $("#back").click(function(){
-        window.history.back(-1)
+        window.history.go(-1)
     })
-    let fid=0;   
+    // 判断帖子是否被当前用户喜欢 1代表判断是否被关注、2代表判断是否被喜欢
+    // function fl(x,sign){
+    //     for(i=0;i<followd1.length;i++){
+    //         switch(sign){
+    //             case 1:{
+    //                 if(followd1.length>0){
+    //                     if(followd1[i][0]==x){
+    //                         return true
+    //                     }
+    //                 }   
+    //             }
+    //             case 2:{
+    //                 if(Like.length>0){
+    //                     if(Like[i][0]==x){
+    //                         return true
+    //                     }
+    //                 }
+                        
+    //             }
+    //         }
+    //     }
+    //     return false   
+    // }
+    //获取用户的喜爱
+    $.ajax({
+        url:"https://localhost:44364/api/Like/GetByUid?uid="+userid,
+        type:"GET",
+        success:function(res){
+            if(res!=null){
+                $.each(res,function(i,v){
+                    let l=[
+                        pid1=res[i].PostID
+                    ]
+                    Like.push(l)
+                })
+                
+            }
+        }
+    })
     $(".btn").click(function(){
         if($.cookie("uid")!=null){
-        let cont=$("#te1").val();
-        let pid=getid('pid')
-        let uid=$.cookie("uid")
-        let data1={ContentDesc:cont,PostID:pid,FatherContentID:fid,UserID:uid}
+            let cont=$("#te1").val();
+            let pid=getid('pid')
+            let uid=$.cookie("uid")
+            let data1={ContentDesc:cont,PostID:pid,FatherContentID:fatherid,UserID:uid}
         if(cont!=""){
             $.ajax({
                 url:"https://localhost:44364/api/Contents",
                 type:"post",
                 data:data1,
                 success:function(res){
-                    console.log(res);
+
                     $("#te1").val("")
                     loading();
                 }
+            })
+        }else{
+            alert("内容不能为空")
+        }
+    }
+        else{
+            if(confirm("你未登录是否登录")){
+                window.location.href="Login.html"
+            }
+        }
+    })
+    $(".zfbtn").click(function(){
+        if($.cookie("uid")!=null){
+        let c=$("#te2")
+        let cont=$("#te2").val();
+        let pid=getid('pid')
+        let uid=$.cookie("uid")
+        let data1={ForwardContent:cont,PostID:pid,UserID:uid}
+        
+        if(cont!=""){
+            $.ajax({
+                url:"https://localhost:44364/api/Forwards",
+                    type:"post",
+                    data:data1,
+                    success:function(res){
+                        c.val("")
+                        forward(pid);
+                    }
             })
         }else{
             alert("内容不能为空")
@@ -371,6 +633,38 @@ $(document).ready(function(){
             return s1+"秒前"
         } 
     }
+    let Hots=[]
+    GetHot()
+    function GetHot(){
+        $.ajax({
+            url:"https://localhost:44364/api/GetPostsHot?type=3",
+            type:"GET",
+            success:function(res){
+                for(i=res.length-1,sum=0;i>0,sum<10;i--){
+                    sum++
+                    Hots.push(res[i]);
+                }
+                hot.Hots=Hots
+            }
+        })
+        
+    }
+
+    $(document).on("click",".main-right-hotsearch .hot div",function(){
+        let id=$(this).parent(".hot").attr("id")
+        $.ajax({
+            url:"https://localhost:44364/api/Click?id="+id,
+            type:"get",
+            success:function(res){
+                res==true? window.location.href="PostDetail.html?pid="+id:console.log("sb")
+            }
+        })
+
+    })
+    let hot=new Vue({
+        el:".main-right-hotsearch",
+        data(){return{Hots}}
+    })
     let t=new Vue({
         el:".main-bottom-template",
         data(){return{data}},computed: {
@@ -387,12 +681,43 @@ $(document).ready(function(){
     })
     let s=new Vue({
         el:".main",
-        data(){return{data4}}
+        data(){
+            return{
+                data4,
+                data5,
+                data6,
+                upic,
+                iszz
+            }
+        },
+        methods:{
+            filteredArray2(pid) {
+                return this.data5.filter(item => item.fid === pid);
+              }
+        }
     })
-    let aaaaaaaa=new Vue({
-        el:"#app",
-        data(){return{f}}
+    $(".main-left div").click(function(){
+        qh(this)
     })
+    $(".nav-center-five div").click(function(){
+        qh1(this)
+    })
+    function qh(x){        
+        if($(x).hasClass("show")){
+            // console.log($(x).siblings(".show").attr("class"))
+        }else{
+            $(x).addClass("show")
+            $(x).siblings(".show").removeClass("show")                    
+        }
+    }
+    function qh1(x){
+        if($(x).hasClass("show1")){
+            // console.log($(x).siblings(".show1").attr("class"))
+        }else{
+            $(x).addClass("show1")
+            $(x).siblings(".show1").removeClass("show1")
+        }
+    }
     let u1=new Vue({
         el:"#main",
         data(){return{falg:(userid==0)}}

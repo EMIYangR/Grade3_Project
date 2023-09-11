@@ -18,7 +18,7 @@ li{
 #left{
     background-color: white;
     width: 20%;
-    height: 700px;
+    height: 535px;
     position: fixed;
 }
 #left ul li{
@@ -27,12 +27,464 @@ li{
     line-height: 30px;
 }
 #Content{
+    margin-top: 65px;
     background-color: white;
     width: 72%;
     margin-left: 25%;
-    height: 700px;
+    height: 535px;
+    overflow: auto;
 }
 #li1{
     font-size: 20px;
     color: black;
 }
+#nav {
+  width: 100%;
+  height: 57px;
+  border-top: 3px solid #ff8200;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  display: block;
+  z-index: 9;
+}
+
+#nav .nav-center {
+  width: 1340px;
+  height: 57px;
+  background-color: white;
+  margin: 0 auto;
+}
+
+#nav .nav-center .nav-center-logo {
+  width: 127px;
+  height: 43px;
+  float: left;
+}
+
+#nav .nav-center .nav-center-logo img {
+  width: 90px;
+  margin-top: 12px;
+  margin-left: 40px;
+}
+
+#nav .nav-center .nav-center-search {
+  width: 200px;
+  height: 32px;
+  float: left;
+  margin-top: 12.5px;
+  margin-left: 20px;
+}
+
+#nav .nav-center .nav-center-search div {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #eee;
+  border-radius: 15px 0px 0px 15px;
+  background-color: #eee;
+  text-align: center;
+  line-height: 32px;
+  font-size: 20px;
+  color: #000;
+  font-weight: 500;
+  float: left;
+}
+
+#nav .nav-center .nav-center-search input {
+  width: 132px;
+  height: 34px;
+  float: left;
+  border: none;
+  background-color: #eee;
+}
+
+#nav .nav-center .nav-center-search .radius {
+  border-radius: 0px 15px 15px 0px;
+}
+
+#nav .nav-center .nav-center-search .content {
+  font-size: 12px;
+  width: 200px;
+  min-height: 250px;
+  background-color: #fff;
+  border: 1px solid #f5f5f5;
+  border-radius: 0px 0px 5px 5px;
+  box-shadow: 1px 1px 1px 1px #f5f5f5;
+  text-align: center;
+  line-height: 250px;
+}
+
+#nav .nav-center .nav-center-search .content span {
+  font-size: 40px;
+  color: #507def;
+}
+
+#nav .nav-center .nav-center-search .content .content-tz {
+  font-size: 14px;
+  width: 100%;
+  min-height: 155px;
+  max-height: 155px;
+}
+
+#nav .nav-center .nav-center-search .content .content-tz div {
+  width: 100%;
+  height: 40px;
+  border-radius: 0;
+  background-color: red;
+}
+
+#nav .nav-center .nav-center-search .content .content-tz div span {
+  font-size: 14px;
+  float: left;
+  color: #000;
+}
+
+#nav .nav-center .nav-center-search .content .content-tz div .r {
+  float: right;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+#nav .nav-center .nav-center-search .content .content-tz div:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+#nav .nav-center .nav-center-search .content .content-user {
+  width: 100%;
+}
+
+#nav .nav-center .nav-center-search .content .content-user div {
+  width: 100%;
+  height: 60px;
+  border-radius: 0;
+  background-color: yellow;
+}
+
+#nav .nav-center .nav-center-search .content .content-user div img {
+  padding: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  float: left;
+}
+
+#nav .nav-center .nav-center-search .content .content-user div div {
+  padding-left: 5px;
+  border: none;
+  width: 65%;
+  height: 60px;
+  float: right;
+  font-size: 14px;
+  text-align: left;
+}
+
+#nav .nav-center .nav-center-search .content .content-user div:nth-child(1) {
+  height: 40px;
+}
+
+#nav .nav-center .nav-center-search .content .content-user div:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+#nav .nav-center .nav-center-five {
+  width: 580px;
+  height: 57px;
+  float: left;
+}
+
+#nav .nav-center .nav-center-five div {
+  width: 110px;
+  height: 55px;
+  text-align: center;
+  line-height: 57px;
+  float: left;
+  font-size: 30px;
+}
+
+#nav .nav-center .nav-center-five div:hover {
+  background-color: #eee;
+  color: #ff8200;
+}
+
+#nav .nav-center .nav-center-four {
+  width: 282px;
+  height: 30px;
+  float: left;
+  margin-top: 13px;
+}
+
+#nav .nav-center .nav-center-four .nav-center-login {
+  width: 60px;
+  height: 30px;
+  background-color: #ff8200;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 30px;
+  color: #fff;
+  float: left;
+}
+
+#nav .nav-center .nav-center-four .nav-center-login:hover {
+  cursor: pointer;
+}
+
+#nav .nav-center .nav-center-four .nav-center-register {
+  width: 60px;
+  height: 30px;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 30px;
+  color: #ccc;
+  float: left;
+}
+
+#nav .nav-center .nav-center-four .nav-center-register:hover {
+  cursor: pointer;
+}
+
+#nav .nav-center .nav-center-four .nav-center-sun {
+  width: 30px;
+  height: 30px;
+  background-color: #eee;
+  border-radius: 30px;
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  margin-left: 20px;
+}
+
+#nav .nav-center .nav-center-four .nav-center-liuyan {
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: #ff8200;
+  border-radius: 30px;
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  margin-left: 20px;
+}
+
+#nav .nav-center .nav-center-barrier {
+  width: 66px;
+  height: 30px;
+  border-radius: 15px;
+  background-color: #eee;
+  text-align: center;
+  line-height: 30px;
+  float: left;
+  margin-top: 13px;
+}
+
+
+
+#Content  .main-bottom-blog {
+    width: 600px;
+    min-height: 260px;
+    margin: 0 auto;
+    background-color: white;
+  }
+  #Content .main-bottom-blog .xq {
+    border: 0px;
+    background-color: white;
+    color: gainsboro;
+  }
+  #Content .main-bottom-blog .jb {
+    float: right;
+  }
+  #Content .main-bottom-blog .jb:hover {
+    color: orange;
+    font-size: 18px;
+  }
+  #Content .main-bottom-blog .title {
+    width: 600px;
+    height: 50px;
+    margin-top: 20px;
+  }
+  #Content .main-bottom-blog .title .title-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    float: left;
+    position: relative;
+  }
+  #Content .main-bottom-blog .title .title-img img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    object-fit: cover;
+  }
+  #Content .main-bottom-blog .title .title-img span {
+    display: inline-block;
+    position: absolute;
+    top: 35px;
+    left: 35px;
+    color: red;
+    border: 2px solid #ff8200;
+    border-radius: 50%;
+    font-size: 20px;
+  }
+  #Content .main-bottom-blog .title #mos1 {
+    width: 65%;
+    height: 200px;
+    border-radius: 10px;
+    position: relative;
+    top: 55px;
+    background-color: white;
+    z-index: 9;
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+  }
+  #Content .main-bottom-blog .title #mos1 div {
+    border-radius: 10px;
+    width: 100%;
+    height: 100px;
+  }
+  #Content .main-bottom-blog .title #mos1 div img {
+    margin-left: 25%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50px;
+    object-fit: cover;
+    border: 1px solid white;
+  }
+  #Content .main-bottom-blog .title #mos1 div p {
+    width: 30%;
+    float: left;
+    margin-left: 18%;
+  }
+  #Content .main-bottom-blog .title #mos1 div p:nth-child(2) {
+    margin-left: 20%;
+  }
+  #Content .main-bottom-blog .title #mos1 div ul {
+    position: relative;
+    top: 20px;
+  }
+  #Content .main-bottom-blog .title #mos1 div ul li {
+    width: 20%;
+    float: left;
+    margin-left: 15%;
+  }
+  #Content .main-bottom-blog .title #mos1 div ul li button {
+    border: 0;
+    width: 80%;
+    height: 50px;
+    border-radius: 30px;
+    cursor: pointer;
+  }
+  #Content .main-bottom-blog .title #mos1 div ul li:not(:first-child) {
+    margin-left: 5%;
+  }
+  #Content .main-bottom-blog .title #mos1 .mos-center {
+    overflow: hidden;
+  }
+  #Content .main-bottom-blog .title #mos1 .mos-center .fans {
+    font-size: 14px;
+    color: orange;
+  }
+  #Content .main-bottom-blog .title #mos1 div:first-child {
+    border-radius: 10px 10px 0 0;
+    background: url(../Content/img/03.png) center no-repeat;
+    background-size: cover;
+    background-position-y: top;
+    background-color: yellow;
+  }
+  #Content .main-bottom-blog .title .title-name {
+    float: left;
+    width: 450px;
+    height: 40px;
+    margin-top: 5px;
+    margin-left: 15px;
+  }
+  #Content .main-bottom-blog .title .title-name .title-name-top {
+    width: 460px;
+    height: 20px;
+  }
+  #Content .main-bottom-blog .title .title-name .title-name-top span:nth-child(1) {
+    font-weight: 800;
+  }
+  #Content .main-bottom-blog .title .title-name .title-name-top span:nth-child(2) {
+    color: #ff8200;
+  }
+  #Content .main-bottom-blog .title .title-name .title-name-hour {
+    width: 140px;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #ccc;
+    float: left;
+  }
+  #Content .main-bottom-blog .title .title-name .title-name-show {
+    margin-left: 15px;
+    width: 295px;
+    height: 20px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #ccc;
+    float: left;
+  }
+  #Content .main-bottom-blog .title .title-name-focus {
+    width: 64px;
+    height: 28px;
+    border-radius: 15px;
+    border: 1px solid #ff8200;
+    float: right;
+    text-align: center;
+    line-height: 28px;
+    margin-top: 11px;
+    color: #ff8200;
+    font-size: 14px;
+  }
+  #Content .main-bottom-blog .title .title-name-focus:hover {
+    cursor: pointer;
+  }
+  #Content .main-bottom-blog .title .f1 {
+    background-color: orange;
+    color: white;
+  }
+  #Content .main-bottom-blog .blog {
+    width: 550px;
+    min-height: 50px;
+    margin-top: 15px;
+    margin-left: 50px;
+  }
+  #Content .main-bottom-blog .blog div {
+    width: 540px;
+    min-height: 60px;
+    font-size: 14px;
+    color: #333;
+    word-wrap: break-word;
+  }
+  #Content .main-bottom-blog .blog img {
+    object-fit: cover;
+    cursor: -webkit-zoom-in;
+    width: 132px;
+    height: 156px;
+    border-radius: 8px;
+  }
+  #Content .main-bottom-blog .blog .sp {
+    width: 524px;
+    height: 305px;
+  }
+  #Content .main-bottom-blog .blog .tu {
+    width: 133px;
+    height: 133px;
+  }
+  #Content .main-bottom-blog .share {
+    width: 600px;
+    height: 40px;
+    margin-top: 10px;
+  }
+  #Content .main-bottom-blog .share div {
+    width: 200px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    float: left;
+    font-size: 16px;
+  }
+  #Content .main-bottom-blog .share div:hover {
+    color: #ff8200;
+    cursor: pointer;
+  }

@@ -55,6 +55,18 @@ $(document).ready(function(){
         let cont=$("#desc").val();
         let type=$("#select option:selected").val();
         console.log("内容"+cont+"类型"+type+"用户"+uid+"帖子"+pid)
+        let data1={UserID:uid,PostID:pid,ReportTypeID:type,Reason:cont,IsSeccess:false}
+        $.ajax({
+            url:"https://localhost:44364/api/Reports",
+            type:"post",
+            data:data1,
+            success:function(res){
+                if(res==true){
+                    console.log("cg ")
+                    window.location.href="index1.html"
+                }
+            }
+        })
     })
     $("#btn1").click(function(){
         window.location.href="index1.html"

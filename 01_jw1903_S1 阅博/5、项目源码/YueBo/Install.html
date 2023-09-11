@@ -7,11 +7,16 @@
     <title>设置</title>
     <link rel="stylesheet" href="CSS/UserInfo.css">
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
+
+    <link rel="stylesheet" href="./albb/font_a5jalowfoe/iconfont.css">
+    <link rel="stylesheet" href="./albb/font_wtqi9yoho/iconfont.css">
     <link rel="stylesheet" href="CSS/antd.min.css">
     <script src="JS/jquery-3.4.1.min.js"></script>
     <script src="JS/bootstrap.min.js"></script>
     <script src="JS/vue.min.js"></script>
     <script src="JS/antd.min.js"></script>
+
+    <script src="JS/UserInfo.js"></script>
     <style>
         #div1,
         #div2,
@@ -31,6 +36,42 @@
 </head>
 
 <body id="body">
+    <div id="nav">
+        <div class="nav-center">
+            <div class="nav-center-logo">
+                <img src="./Content/img/logo.png" style="width: 10%;height: 10%;" alt="">
+            </div>
+            <div class="nav-center-search">
+                <div class="iconfont icon-sousuo active"></div>
+                <input type="text" placeholder="搜索阅博">
+                <div class="radius"></div>
+            </div>
+            <div class="nav-center-five">
+                <div class="iconfont icon-shouye show1"></div>
+                <div class="iconfont icon-shipin"></div>
+                <div class="iconfont icon-huo"></div>
+                <div class="iconfont icon-duanxin"></div>
+                <div class="iconfont icon-geren"></div>
+            </div>
+            <div class="nav-center-four">
+                <!-- <div class="nav-center-login" v-if="falg">
+                    登录
+                </div>
+                <div class="nav-center-register" v-if="falg">
+                    注册
+                </div> -->
+                <div class="nav-center-sun iconfont icon-sun" id="sun">
+
+                </div>
+                <div class="nav-center-liuyan iconfont icon-liuyan">
+
+                </div>
+            </div>
+            <!-- <div class="nav-center-barrier">
+                无障碍
+            </div> -->
+        </div>
+    </div>
     <div id="section">
         <div id="left">
             <ul>
@@ -51,7 +92,7 @@
                     头像&nbsp;&nbsp;
                     <img v-bind:src="Uimg+user.UserPic" style="border-radius:24px 24px 24px 24px" width="50"
                         height="50">
-                        <label class="input-file-button" for="input" style="padding: 6px 25px;
+                    <label class="input-file-button" for="input" style="padding: 6px 25px;
                         background: #00bfff;
                         border-radius: 4px;
                         color: white;
@@ -320,37 +361,34 @@
                             </a-button>
                 </div>
             </div>
-                        </li>
-                    </ul>
-                </div>
+            </li>
+            </ul>
+        </div>
 
 
-                
-            <script>
-                window.onload = function () {
+
+        <script>
+            //进入页面初始化，非登录点击将会被退出,通过判断cookie是否存在
+            window.onload = function () {
+                var UserID = getCookie("uid");
+                if (UserID != "") {
+                    Getvue(UserID);
                     ymd();
+                } else {
+                    alert('正在前往登录.....')
+                    location.href = "Login.html";
                 }
-                //进入页面初始化，非登录点击将会被退出,通过判断cookie是否存在
-                // window.onload = function () {
-                //     var UserID = getCookie("UserID");
-                //     if (UserID != "") {
-                //         Getvue(UserID);
-                //         ymd();
-                //     } else {
-                //         alert('正在前往登录.....')
-                //         location.href = "Login.html";
-                //     }
-                // };
-                //user通过cookie获取用户信息，Uimg软件路劲，
-                //Fans粉丝信息，Attention关注信息，UserTypeDetail用户认证的身份信息
-                //Manifestation信誉分表现状态，UserLabel用户标签
-                //function Getvue(UserID){
+            };
+            //user通过cookie获取用户信息，Uimg软件路劲，
+            //Fans粉丝信息，Attention关注信息，UserTypeDetail用户认证的身份信息
+            //Manifestation信誉分表现状态，UserLabel用户标签
+            function Getvue(UserID) {
                 var vm = new Vue({
                     el: "#Content",
                     data: {
                         user: "",
-                        Uimg: "https://localhost:44364/Content/images/tx/",
-                        Uimg2: "https://localhost:44364/Content/images/Authentication/",
+                        Uimg: "https://localhost:44364/Uploads/images/tx/",
+                        Uimg2: "https://localhost:44364/Uploads/images/Authentication/",
                         Fans: "",
                         Attention: "",
                         Manifestation: "",
@@ -362,7 +400,7 @@
                     },
                     created() {
                         //UserID参数放入其中
-                        this.user = GetUser(1);
+                        this.user = GetUser(UserID);
                         this.Fans = GetFollowUser(this.user.UserID);
                         this.Attention = GetUserFollow(this.user.UserID);
                         if (this.user.CreditScore == 100) {
@@ -504,7 +542,8 @@
 
                         },
                         AutionUser() {
-                            if (this.user.name == "" && this.user.IDcard == "") {
+                            console.log(this.user);
+                            if (this.user.UserName == "无") {
                                 var userNameAu = $("#userNameAu").val();
                                 var userNumAu = $("#userNumAu").val();
                                 if (userNumAu != "" && userNameAu != "") {
@@ -539,558 +578,558 @@
                             } else if (disteil == "正在审核中") {
                                 alert('您的申请正在审核中，请等待。。。。');
                                 location.reload(true);
-                            }else{
+                            } else {
                                 alert('申诉成功');
                             }
                         }
                     }
                 })
-                //}
-                //修改电话
-                function putuserphone(id, phone) {
-                    var k
-                    $.ajax({
-                        url: "https://localhost:44364/api/PutUserPhone?uid=" + id + "&phone=" + phone,
-                        type: "Post",
-                        async: false,
-                        data: "",
-                        success: function (res) {
-                            k = res
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    if (k == "true") {
-                        alert('修改成功');
-                        location.reload(true);
-                    } else if (k == "repeat") {
-                        alert('电话已被注册');
-                    } else {
-                        alert('修改失败');
+            }
+            //修改电话
+            function putuserphone(id, phone) {
+                var k
+                $.ajax({
+                    url: "https://localhost:44364/api/PutUserPhone?uid=" + id + "&phone=" + phone,
+                    type: "Post",
+                    async: false,
+                    data: "",
+                    success: function (res) {
+                        k = res
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                if (k == "true") {
+                    alert('修改成功');
+                    location.reload(true);
+                } else if (k == "repeat") {
+                    alert('电话已被注册');
+                } else {
+                    alert('修改失败');
+                }
+            }
+            //身份验证
+            function UserAu(id, name, num) {
+                var k
+                $.ajax({
+                    url: "https://localhost:44364/api/PutUserNum?uid=" + id + "&name=" + name + "&num=" + num,
+                    type: "Post",
+                    async: false,
+                    data: "",
+                    success: function (res) {
+                        k = res
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                if (k) {
+                    alert('认证成功');
+                    location.reload(true);
+                } else {
+                    alert('此身份信息暂无或已被认证');
+                }
+            }
+            //更改用户头像
+            function PutImage(id, image) {
+                var k
+                $.ajax({
+                    url: GetIp("PutImage"),
+                    type: "Post",
+                    async: false,
+                    data: { "UserID": id, "UserPic": image },
+                    success: function (res) {
+                        k = res
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                if (k == "repeat") {
+                    alert('正在使用此头像');
+                    location.reload(true);
+                } else if (k == "true") {
+                    alert('修改成功');
+                    location.reload(true);
+                } else {
+                    alert('修改失败');
+                }
+            }
+            //提交认证信息
+            function PutImage2(id, image, utid) {
+                var k
+                $.ajax({
+                    url: GetIp("TypeDetailadd"),
+                    type: "Post",
+                    async: false,
+                    data: { "UserID": id, "UserTypeID": utid, "ReviewPic": image },
+                    success: function (res) {
+                        k = res
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                if (k) {
+                    alert('提交认证成功');
+                    location.reload(true);
+                } else {
+                    alert('提交认证失败');
+                }
+            }
+            // 添加标签
+            function GetAddUl(uid, tid) {
+                var k
+                $.ajax({
+                    url: "https://localhost:44364/api/PutUserLabeladd?uid=" + uid + "&tid=" + tid,
+                    type: "POST",
+                    async: false,
+                    data: "",
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            // 删除标签
+            function GetDeleteUl(uid, ulid) {
+                var k
+                $.ajax({
+                    url: "https://localhost:44364/api/PutUserLabeldelete?uid=" + uid + "&ulid=" + ulid,
+                    type: "POST",
+                    async: false,
+                    data: "",
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取用户信息
+            function GetUser(uid) {
+                var k
+                $.ajax({
+                    url: GetIp("GetUserInfo"),
+                    type: "Get",
+                    async: false,
+                    data: { "uid": uid },
+                    success: function (res) {
+                        //字符串转日期后格式化
+                        let d = new Date(res.Birthday)
+                        res.Birthday = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                        //字符串转日期后格式化
+                        let d1 = new Date(res.RegisterTime)
+                        res.RegisterTime = d1.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取所有标签信息
+            function GetType() {
+                var k;
+                $.ajax({
+                    url: GetIp("GetType"),
+                    type: "Get",
+                    async: false,
+                    data: "",
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取所有类型信息
+            function GetUserType() {
+                var k;
+                $.ajax({
+                    url: GetIp("GetUserType"),
+                    type: "Get",
+                    async: false,
+                    data: "",
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //链接端口只改变末位端口值，简化代码
+            function GetIp(IPdet) {
+                return "https://localhost:44364/api/" + IPdet;
+            }
+            //获取当前用户关注信息
+            function GetUserFollow(uid) {
+                var k
+                $.ajax({
+                    url: GetIp("GetUserFollow"),
+                    type: "Get",
+                    async: false,
+                    data: { "uid": uid },
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取当前用户粉丝信息
+            function GetFollowUser(uid) {
+                var k
+                $.ajax({
+                    url: GetIp("GetFollowUser"),
+                    type: "Get",
+                    async: false,
+                    data: { "uid": uid },
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取用户身份验证信息
+            function GetUserTypeDateil(uid) {
+                var k
+                $.ajax({
+                    url: GetIp("TypeDetail"),
+                    type: "Get",
+                    async: false,
+                    data: { "uid": uid },
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取用户所有身份验证
+            function GetUseraudit(uid) {
+                var k
+                $.ajax({
+                    url: GetIp("GetUseraudit"),
+                    type: "Get",
+                    async: false,
+                    data: { "uid": uid },
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //获取用户标签信息信息
+            function GetUserLabel(uid) {
+                var k
+                $.ajax({
+                    url: GetIp("GetLabel"),
+                    type: "Get",
+                    async: false,
+                    data: { "uid": uid },
+                    success: function (res) {
+                        k = res;
+                    },
+                    error: function () {
+                        alert('出现错误')
+                    }
+                })
+                return k;
+            }
+            //清除所有cookie
+            function clearCookie() {
+                var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+                if (keys) {
+                    for (var i = keys.length; i--;) {
+                        document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                        document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                        document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
                     }
                 }
-                //身份验证
-                function UserAu(id, name, num) {
-                    var k
-                    $.ajax({
-                        url: "https://localhost:44364/api/PutUserNum?uid=" + id + "&name=" + name + "&num=" + num,
-                        type: "Post",
-                        async: false,
-                        data: "",
-                        success: function (res) {
-                            k = res
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    if (k) {
-                        alert('认证成功');
-                        location.reload(true);
-                    } else {
-                        alert('此身份信息暂无或已被认证');
-                    }
+                console.log('已清除');
+            }
+            //读取cookie
+            function getCookie(cname) {
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
                 }
-                //更改用户头像
-                function PutImage(id, image) {
-                    var k
-                    $.ajax({
-                        url: GetIp("PutImage"),
-                        type: "Post",
-                        async: false,
-                        data: { "UserID": id, "UserPic": image },
-                        success: function (res) {
-                            k = res
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    if (k == "repeat") {
-                        alert('正在使用此头像');
-                        location.reload(true);
-                    } else if (k == "true") {
-                        alert('修改成功');
-                        location.reload(true);
-                    } else {
-                        alert('修改失败');
-                    }
+                return "";
+            }
+            //创建Cookie
+            function setCookie(cname, cvalue, exdays) {
+                var d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                var expires = "expires=" + d.toGMTString();
+                document.cookie = cname + "=" + cvalue + "; " + expires;
+            }
+            //退出清除指定cookie
+            function clearCookie(name) {
+                setCookie(name, "", -1)
+            }
+            // 循环输出年月日函数
+            function initSelect(obj, start, end) {
+                for (var i = start; i <= end; i++) {
+                    // 在obj对象下添加条目，文本为i，值为i
+                    obj.options.add(new Option(i, i))
                 }
-                //提交认证信息
-                function PutImage2(id, image, utid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("TypeDetailadd"),
-                        type: "Post",
-                        async: false,
-                        data: { "UserID": id, "UserTypeID": utid, "ReviewPic": image },
-                        success: function (res) {
-                            k = res
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    if (k) {
-                        alert('提交认证成功');
-                        location.reload(true);
-                    } else {
-                        alert('提交认证失败');
-                    }
-                }
-                // 添加标签
-                function GetAddUl(uid, tid) {
-                    var k
-                    $.ajax({
-                        url: "https://localhost:44364/api/PutUserLabeladd?uid=" + uid + "&tid=" + tid,
-                        type: "POST",
-                        async: false,
-                        data: "",
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                // 删除标签
-                function GetDeleteUl(uid, ulid) {
-                    var k
-                    $.ajax({
-                        url: "https://localhost:44364/api/PutUserLabeldelete?uid=" + uid + "&ulid=" + ulid,
-                        type: "POST",
-                        async: false,
-                        data: "",
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取用户信息
-                function GetUser(uid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("GetUserInfo"),
-                        type: "Get",
-                        async: false,
-                        data: { "uid": uid },
-                        success: function (res) {
-                            //字符串转日期后格式化
-                            let d = new Date(res.Birthday)
-                            res.Birthday = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
-                            //字符串转日期后格式化
-                            let d1 = new Date(res.RegisterTime)
-                            res.RegisterTime = d1.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取所有标签信息
-                function GetType() {
-                    var k;
-                    $.ajax({
-                        url: GetIp("GetType"),
-                        type: "Get",
-                        async: false,
-                        data: "",
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取所有类型信息
-                function GetUserType() {
-                    var k;
-                    $.ajax({
-                        url: GetIp("GetUserType"),
-                        type: "Get",
-                        async: false,
-                        data: "",
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //链接端口只改变末位端口值，简化代码
-                function GetIp(IPdet) {
-                    return "https://localhost:44364/api/" + IPdet;
-                }
-                //获取当前用户关注信息
-                function GetUserFollow(uid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("GetUserFollow"),
-                        type: "Get",
-                        async: false,
-                        data: { "uid": uid },
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取当前用户粉丝信息
-                function GetFollowUser(uid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("GetFollowUser"),
-                        type: "Get",
-                        async: false,
-                        data: { "uid": uid },
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取用户身份验证信息
-                function GetUserTypeDateil(uid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("TypeDetail"),
-                        type: "Get",
-                        async: false,
-                        data: { "uid": uid },
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取用户所有身份验证
-                function GetUseraudit(uid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("GetUseraudit"),
-                        type: "Get",
-                        async: false,
-                        data: { "uid": uid },
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //获取用户标签信息信息
-                function GetUserLabel(uid) {
-                    var k
-                    $.ajax({
-                        url: GetIp("GetLabel"),
-                        type: "Get",
-                        async: false,
-                        data: { "uid": uid },
-                        success: function (res) {
-                            k = res;
-                        },
-                        error: function () {
-                            alert('出现错误')
-                        }
-                    })
-                    return k;
-                }
-                //清除所有cookie
-                function clearCookie() {
-                    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-                    if (keys) {
-                        for (var i = keys.length; i--;) {
-                            document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
-                            document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
-                            document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
-                        }
-                    }
-                    console.log('已清除');
-                }
-                //读取cookie
-                function getCookie(cname) {
-                    var name = cname + "=";
-                    var ca = document.cookie.split(';');
-                    for (var i = 0; i < ca.length; i++) {
-                        var c = ca[i].trim();
-                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-                    }
-                    return "";
-                }
-                //创建Cookie
-                function setCookie(cname, cvalue, exdays) {
-                    var d = new Date();
-                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-                    var expires = "expires=" + d.toGMTString();
-                    document.cookie = cname + "=" + cvalue + "; " + expires;
-                }
-                //退出清除指定cookie
-                function clearCookie(name) {
-                    setCookie(name, "", -1)
-                }
-                // 循环输出年月日函数
-                function initSelect(obj, start, end) {
-                    for (var i = start; i <= end; i++) {
-                        // 在obj对象下添加条目，文本为i，值为i
-                        obj.options.add(new Option(i, i))
-                    }
-                }
+            }
 
-                // 选中年、月输出天数的函数
-                function selectYmd() {
-                    // 用getElementById()方法，返回指定id的元素
-                    // 返回年的
-                    var yy = document.getElementById("years");
-                    // 返回月的
-                    var mm = document.getElementById("months");
-                    // 返回日的
-                    var dd = document.getElementById("dates");
-                    // 将月的value转换成数字类型,便于比较
-                    var m = parseInt(mm.value);
-                    // 声明最后天数，用于接收判断结果
-                    var dayEnd;
-                    // 判断并输出天数
-                    if (m == 4 || m == 6 || m == 9 || m == 11) {
-                        // 4月、6月、9月、11月是30天
-                        dayEnd = 30;
-                    } else if (m == 2) {
-                        // 不闰年2月28天
-                        dayEnd = 28;
-                        // 闰年的话2月29天
-                        // 将年份转换成数字类型，便于判断
-                        y = parseInt(yy.value);
-                        // 能被4整除，但不能被100整除 或者 能被400整除 就是闰年
-                        if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) {
-                            dayEnd = 29;
+            // 选中年、月输出天数的函数
+            function selectYmd() {
+                // 用getElementById()方法，返回指定id的元素
+                // 返回年的
+                var yy = document.getElementById("years");
+                // 返回月的
+                var mm = document.getElementById("months");
+                // 返回日的
+                var dd = document.getElementById("dates");
+                // 将月的value转换成数字类型,便于比较
+                var m = parseInt(mm.value);
+                // 声明最后天数，用于接收判断结果
+                var dayEnd;
+                // 判断并输出天数
+                if (m == 4 || m == 6 || m == 9 || m == 11) {
+                    // 4月、6月、9月、11月是30天
+                    dayEnd = 30;
+                } else if (m == 2) {
+                    // 不闰年2月28天
+                    dayEnd = 28;
+                    // 闰年的话2月29天
+                    // 将年份转换成数字类型，便于判断
+                    y = parseInt(yy.value);
+                    // 能被4整除，但不能被100整除 或者 能被400整除 就是闰年
+                    if ((y % 4 == 0 && y % 100 != 0) || y % 400 == 0) {
+                        dayEnd = 29;
+                    }
+                } else {
+                    // 其他月份31天
+                    dayEnd = 31;
+                }
+                // 删除已经输出的31天
+                dd.options.length = 0;
+                //重新输出判断后的天数，dayEnd为最后一天
+                initSelect(dd, 1, dayEnd)
+            }
+
+            // 函数Ymd()：增加下拉年、月、日的条目
+            function ymd() {
+                // 获取时间Date对象，用于处理日期和时间
+                var d = new Date();
+                // 获取当前年份
+                var nowYear = d.getFullYear();
+                // 用getElementById()方法，返回指定id的元素
+                // 返回年的
+                var yy = document.getElementById("years");
+                // 返回月的
+                var mm = document.getElementById("months");
+                // 返回日的
+                var dd = document.getElementById("dates");
+
+                // 调用initSelect()函数
+                // 输出年下拉框的年份,从1975-今年
+                initSelect(yy, 1975, nowYear);
+                // 输出月下拉框的月份，从1-12月
+                initSelect(mm, 1, 12);
+                // 输出日下拉框的天数
+                initSelect(dd, 1, 31);
+                // //调用选中年、月输出天数的函数
+                selectYmd();
+            }
+
+            function UrlImage(inp) {
+                var formData = new window.FormData();
+                formData.append('name', inp.files[0]);
+                //ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "https://localhost:44364/api/UrlImage",
+                    data: formData,
+                    dataType: 'json',
+                    processData: false, // 告诉jQuery不要去处理发送的数据
+                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                    xhrFields: { withCredentials: false },
+                    async: true,    //默认是true：异步，false：同步。
+                    success: function (data) {
+                        if (data) {
+                            alert('上传成功')
+                        } else {
+                            alert('上传失败')
                         }
-                    } else {
-                        // 其他月份31天
-                        dayEnd = 31;
-                    }
-                    // 删除已经输出的31天
-                    dd.options.length = 0;
-                    //重新输出判断后的天数，dayEnd为最后一天
-                    initSelect(dd, 1, dayEnd)
-                }
-
-                // 函数Ymd()：增加下拉年、月、日的条目
-                function ymd() {
-                    // 获取时间Date对象，用于处理日期和时间
-                    var d = new Date();
-                    // 获取当前年份
-                    var nowYear = d.getFullYear();
-                    // 用getElementById()方法，返回指定id的元素
-                    // 返回年的
-                    var yy = document.getElementById("years");
-                    // 返回月的
-                    var mm = document.getElementById("months");
-                    // 返回日的
-                    var dd = document.getElementById("dates");
-
-                    // 调用initSelect()函数
-                    // 输出年下拉框的年份,从1975-今年
-                    initSelect(yy, 1975, nowYear);
-                    // 输出月下拉框的月份，从1-12月
-                    initSelect(mm, 1, 12);
-                    // 输出日下拉框的天数
-                    initSelect(dd, 1, 31);
-                    // //调用选中年、月输出天数的函数
-                    selectYmd();
-                }
-
-                function UrlImage(inp) {
-                    var formData = new window.FormData();
-                    formData.append('name', inp.files[0]);
-                    //ajax请求
-                    $.ajax({
-                        type: "post",
-                        url: "https://localhost:44364/api/UrlImage",
-                        data: formData,
-                        dataType: 'json',
-                        processData: false, // 告诉jQuery不要去处理发送的数据
-                        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                        xhrFields: { withCredentials: false },
-                        async: true,    //默认是true：异步，false：同步。
-                        success: function (data) {
-                            if (data) {
-                                alert('上传成功')
-                            } else {
-                                alert('上传失败')
-                            }
-                        },
-                        error: function (data) {
-                            alert('请求异常');
-                        },
-                    });
-                }
-                function UrlImage2(inp) {
-                    var formData = new window.FormData();
-                    formData.append('name', inp.files[0]);
-                    //ajax请求
-                    $.ajax({
-                        type: "post",
-                        url: "https://localhost:44364/api/UrlImage2",
-                        data: formData,
-                        dataType: 'json',
-                        processData: false, // 告诉jQuery不要去处理发送的数据
-                        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                        xhrFields: { withCredentials: false },
-                        async: true,    //默认是true：异步，false：同步。
-                        success: function (data) {
-                            if (data) {
-                                alert('上传成功')
-                            } else {
-                                alert('上传失败')
-                            }
-                        },
-                        error: function (data) {
-                            alert('请求异常');
-                        },
-                    });
-                }
-                $('#chooseImage').on('change', function () {
-                    var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
-                        fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
-                    // 检查是否是图片
-                    if (!fileFormat.match(/.png|.jpg|.jpeg|.gif|.svg/)) {
-                        error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
-                        return;
-                    }
-                    $('#cropedBigImg').attr('src', filePath);
-                    $('#loding').show();
+                    },
+                    error: function (data) {
+                        alert('请求异常');
+                    },
                 });
-
-                $('#chooseImage').on('change', function () {
-                    var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
-                        fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
-                        src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
-
-                    // 检查是否是图片
-                    if (!fileFormat.match(/.png|.jpg|.jpeg|.gif|.svg/)) {
-                        error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
-                        return;
-                    }
-
-                    $('#cropedBigImg').attr('src', src);
+            }
+            function UrlImage2(inp) {
+                var formData = new window.FormData();
+                formData.append('name', inp.files[0]);
+                //ajax请求
+                $.ajax({
+                    type: "post",
+                    url: "https://localhost:44364/api/UrlImage2",
+                    data: formData,
+                    dataType: 'json',
+                    processData: false, // 告诉jQuery不要去处理发送的数据
+                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                    xhrFields: { withCredentials: false },
+                    async: true,    //默认是true：异步，false：同步。
+                    success: function (data) {
+                        if (data) {
+                            alert('上传成功')
+                        } else {
+                            alert('上传失败')
+                        }
+                    },
+                    error: function (data) {
+                        alert('请求异常');
+                    },
                 });
-                /**
-             * @description : 校验身份证号是否合规（18位、15位）
-             * @param        {String|Number} value
-             * @return       {Boolean} true-合规 false-不合规
-             */
-                function checkPsidno(value) {
-                    const psidno = String(value)
-                    // 1.校验身份证号格式和长度
-                    const regPsidno = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[X])$)$/
-                    if (!regPsidno.test(psidno)) {
+            }
+            $('#chooseImage').on('change', function () {
+                var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
+                    fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+                // 检查是否是图片
+                if (!fileFormat.match(/.png|.jpg|.jpeg|.gif|.svg/)) {
+                    error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                    return;
+                }
+                $('#cropedBigImg').attr('src', filePath);
+                $('#loding').show();
+            });
+
+            $('#chooseImage').on('change', function () {
+                var filePath = $(this).val(),         //获取到input的value，里面是文件的路径
+                    fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+                    src = window.URL.createObjectURL(this.files[0]); //转成可以在本地预览的格式
+
+                // 检查是否是图片
+                if (!fileFormat.match(/.png|.jpg|.jpeg|.gif|.svg/)) {
+                    error_prompt_alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                    return;
+                }
+
+                $('#cropedBigImg').attr('src', src);
+            });
+            /**
+         * @description : 校验身份证号是否合规（18位、15位）
+         * @param        {String|Number} value
+         * @return       {Boolean} true-合规 false-不合规
+         */
+            function checkPsidno(value) {
+                const psidno = String(value)
+                // 1.校验身份证号格式和长度
+                const regPsidno = /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[X])$)$/
+                if (!regPsidno.test(psidno)) {
+                    return false
+                }
+                // 2.校验前两位的省份编码是否正确
+                const province = { 11: '北京', 12: '天津', 13: '河北', 14: '山西', 15: '内蒙古', 21: '辽宁', 22: '吉林', 23: '黑龙江 ', 31: '上海', 32: '江苏', 33: '浙江', 34: '安徽', 35: '福建', 36: '江西', 37: '山东', 41: '河南', 42: '湖北 ', 43: '湖南', 44: '广东', 45: '广西', 46: '海南', 50: '重庆', 51: '四川', 52: '贵州', 53: '云南', 54: '西藏 ', 61: '陕西', 62: '甘肃', 63: '青海', 64: '宁夏', 65: '新疆', 71: '台湾', 81: '香港', 82: '澳门', 91: '国外' }
+                if (!province[Number(psidno.slice(0, 2))]) {
+                    return false
+                }
+                // 3.校验出生日期
+                if (psidno.length === 15) {
+                    // 15位号码 省（2位）市（2位）县（2位）年（2位）月（2位）日（2位）校验码（3位）
+                    const reg = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/)
+                    const arrSplit = psidno.match(reg)
+                    // 15位号码在年份前补 19 或 20
+                    const year = Number(arrSplit[2].charAt(0)) > 0 ? '19' + arrSplit[2] : '20' + arrSplit[2]
+                    const month = arrSplit[3]
+                    const day = arrSplit[4]
+                    if (!validateBirthday(year, month, day)) {
                         return false
                     }
-                    // 2.校验前两位的省份编码是否正确
-                    const province = { 11: '北京', 12: '天津', 13: '河北', 14: '山西', 15: '内蒙古', 21: '辽宁', 22: '吉林', 23: '黑龙江 ', 31: '上海', 32: '江苏', 33: '浙江', 34: '安徽', 35: '福建', 36: '江西', 37: '山东', 41: '河南', 42: '湖北 ', 43: '湖南', 44: '广东', 45: '广西', 46: '海南', 50: '重庆', 51: '四川', 52: '贵州', 53: '云南', 54: '西藏 ', 61: '陕西', 62: '甘肃', 63: '青海', 64: '宁夏', 65: '新疆', 71: '台湾', 81: '香港', 82: '澳门', 91: '国外' }
-                    if (!province[Number(psidno.slice(0, 2))]) {
+                } else if (psidno.length === 18) {
+                    // 18位号码 省（2位）市（2位）县（2位）年（4位）月（2位）日（2位）校验码（4位）
+                    const reg = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/)
+                    const arrSplit = psidno.match(reg)
+                    const year = arrSplit[2]
+                    const month = arrSplit[3]
+                    const day = arrSplit[4]
+                    if (!validateBirthday(year, month, day)) {
                         return false
                     }
-                    // 3.校验出生日期
-                    if (psidno.length === 15) {
-                        // 15位号码 省（2位）市（2位）县（2位）年（2位）月（2位）日（2位）校验码（3位）
-                        const reg = new RegExp(/^(\d{6})(\d{2})(\d{2})(\d{2})(\d{3})$/)
-                        const arrSplit = psidno.match(reg)
-                        // 15位号码在年份前补 19 或 20
-                        const year = Number(arrSplit[2].charAt(0)) > 0 ? '19' + arrSplit[2] : '20' + arrSplit[2]
-                        const month = arrSplit[3]
-                        const day = arrSplit[4]
-                        if (!validateBirthday(year, month, day)) {
-                            return false
-                        }
-                    } else if (psidno.length === 18) {
-                        // 18位号码 省（2位）市（2位）县（2位）年（4位）月（2位）日（2位）校验码（4位）
-                        const reg = new RegExp(/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/)
-                        const arrSplit = psidno.match(reg)
-                        const year = arrSplit[2]
-                        const month = arrSplit[3]
-                        const day = arrSplit[4]
-                        if (!validateBirthday(year, month, day)) {
-                            return false
-                        }
-                    } else {
+                } else {
+                    return false
+                }
+                // 校验出生日期是否合理
+                function validateBirthday(year, month, day) {
+                    year = Number(year) // 年
+                    month = Number(month) // 月
+                    day = Number(day) // 日
+                    const nowTime = new Date().getTime() // 当前时间戳
+                    const birthTime = new Date(`${year}-${month}-${day}`).getTime() // 获取出生日期的时间戳
+                    // 不能是明天出生的吧
+                    if (birthTime > nowTime) {
                         return false
                     }
-                    // 校验出生日期是否合理
-                    function validateBirthday(year, month, day) {
-                        year = Number(year) // 年
-                        month = Number(month) // 月
-                        day = Number(day) // 日
-                        const nowTime = new Date().getTime() // 当前时间戳
-                        const birthTime = new Date(`${year}-${month}-${day}`).getTime() // 获取出生日期的时间戳
-                        // 不能是明天出生的吧
-                        if (birthTime > nowTime) {
-                            return false
-                        }
-                        // 一般人活不到150岁吧
-                        const nowYear = new Date().getFullYear()
-                        if ((nowYear - year) > 150) {
-                            return false
-                        }
-                        // 不能是13月出生的吧
-                        if (month < 1 || month > 12) {
-                            return false
-                        }
-                        // 不能是2月30号、4月31号、5月32号出生的吧
-                        const date = new Date(year, month, 0) // 获取当月的最后一天
-                        if (day < 1 || day > date.getDate()) {
-                            return false
-                        }
-                        return true
+                    // 一般人活不到150岁吧
+                    const nowYear = new Date().getFullYear()
+                    if ((nowYear - year) > 150) {
+                        return false
                     }
-                    // 4.18位号码校验生成的校验码
-                    if (psidno.length === 18) {
-                        const Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2] // 加权因子
-                        const parity = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'] // 校验码
-                        let sum = 0
-                        for (let i = 0; i < 17; i++) {
-                            sum += Number(psidno.charAt(i)) * Wi[i]
-                        }
-                        if (parity[sum % 11] !== psidno[17]) {
-                            return false
-                        }
+                    // 不能是13月出生的吧
+                    if (month < 1 || month > 12) {
+                        return false
+                    }
+                    // 不能是2月30号、4月31号、5月32号出生的吧
+                    const date = new Date(year, month, 0) // 获取当月的最后一天
+                    if (day < 1 || day > date.getDate()) {
+                        return false
                     }
                     return true
                 }
-                // 验证电话是否合规
-                function checkTelephone(telephone) {
-                    var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
-                    if (!reg.test(telephone)) {
-                        return false;
-                    } else {
-                        return true;
+                // 4.18位号码校验生成的校验码
+                if (psidno.length === 18) {
+                    const Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2] // 加权因子
+                    const parity = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'] // 校验码
+                    let sum = 0
+                    for (let i = 0; i < 17; i++) {
+                        sum += Number(psidno.charAt(i)) * Wi[i]
+                    }
+                    if (parity[sum % 11] !== psidno[17]) {
+                        return false
                     }
                 }
+                return true
+            }
+            // 验证电话是否合规
+            function checkTelephone(telephone) {
+                var reg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                if (!reg.test(telephone)) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
 
-            </script>
+        </script>
 </body>
 
 </html>

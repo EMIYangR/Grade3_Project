@@ -26,7 +26,7 @@ namespace YueBoMS.Controllers
         [Route("api/GetType")]
         public IQueryable<Object> Get1()
         {
-            return db.Type.Select(a => new {a.TypeID,a.TypeName });
+            return db.Type.Select(a => new { a.TypeID, a.TypeName });
         }
         // GET: api/Types/5
         [ResponseType(typeof(Models.Type))]
@@ -90,7 +90,6 @@ namespace YueBoMS.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = type.TypeID }, type);
         }
-        
 
         // DELETE: api/Types/5
         [ResponseType(typeof(Models.Type))]

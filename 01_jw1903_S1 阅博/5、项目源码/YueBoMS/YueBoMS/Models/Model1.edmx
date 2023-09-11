@@ -1334,11 +1334,11 @@
           <EntitySetMapping Name="UserTypeDetail">
             <EntityTypeMapping TypeName="YueBoDBModel.UserTypeDetail">
               <MappingFragment StoreEntitySet="UserTypeDetail">
+                <ScalarProperty Name="IsAuthentication" ColumnName="IsAuthentication" />
                 <ScalarProperty Name="UserTypeDetailID" ColumnName="UserTypeDetailID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="ReviewPic" ColumnName="ReviewPic" />
-                <ScalarProperty Name="IsAuthentication" ColumnName="IsAuthentication" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

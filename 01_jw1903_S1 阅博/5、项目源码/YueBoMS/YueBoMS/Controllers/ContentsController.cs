@@ -19,20 +19,34 @@ namespace YueBoMS.Controllers
         // GET: api/Contents
         public IEnumerable<object> GetContent()
         {
-            IEnumerable<object> cm= db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserName }).ToList();
+            IEnumerable<object> cm= db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserNick }).Where(a=>a.FatherContentID==0).ToList();
             return cm.Count()>0? cm:null;
         }
-        //public IEnumerable<object> GetContent(string comtent)
-        //{
-            
-        //    return cm.Count() > 0 ? cm : null;
-        //}
+        [Route("api/GetSon")]
+        public IEnumerable<object> GetContent1(int id)
+        {
+            IEnumerable<object> cm= db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserNick }).Where(a=>a.FatherContentID==id).ToList();
+            return cm.Count()>0? cm:null;
+        }
+        [Route("api/GetCo")]
+        public IEnumerable<object> GetContent2(int id)
+        {
+            IEnumerable<object> cm = db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserNick, a.UserID }).Where(a => a.ContentID == id).ToList();
+            return cm.Count() > 0 ? cm : null;
+        }
+        [Route("api/GetSon1")]
+        public IEnumerable<object> GetContent3()
+        {
+            IEnumerable<object> cm =db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserNick, a.UserID }).Where(a => db.Content.Any(c2 => c2.ContentID == a.FatherContentID));
+            return cm.Count() > 0 ? cm : null;
+        }
+
 
         // GET: api/Contents/5
         [ResponseType(typeof(Content))]
         public IEnumerable<object> GetContent(int id)
         {
-            IEnumerable<object> cm = db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserName }).Where(a => a.PostID == id).ToList();
+            IEnumerable<object> cm = db.Content.Select(a => new { a.PostID, a.ContentID, a.ContentTime, a.ContentDesc, a.FatherContentID, a.UserInfo.UserPic, a.UserInfo.UserNick, a.UserID }).Where(a => a.PostID == id).ToList();
             return cm.Count() > 0 ? cm : null;
         }
 

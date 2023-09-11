@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using YueBoMS.Models;
@@ -24,13 +25,14 @@ namespace YueBoMS.Controllers
         [Route("api/TypeDetail")]
         public IQueryable<Object> Get(int uid)
         {
-            var fol = db.UserType.Join(db.UserTypeDetail, a => a.UserTypeID, b => b.UserTypeID, (a, b) => new {
+            var fol = db.UserType.Join(db.UserTypeDetail, a => a.UserTypeID, b => b.UserTypeID, (a, b) => new
+            {
                 UserID = b.UserID,
                 UserTypeDetailID = b.UserTypeDetailID,
                 IsAuthentication = b.IsAuthentication,
                 UserTypeID = a.UserTypeID,
                 UserTypeName = a.UserTypeName
-            }).Where(b => b.UserID == uid&&b.IsAuthentication==1);
+            }).Where(b => b.UserID == uid && b.IsAuthentication == 1);
             return fol;
         }
         [Route("api/GetUseraudit")]
@@ -46,11 +48,12 @@ namespace YueBoMS.Controllers
             }).Where(b => b.UserID == uid);
             return fol;
         }
+
         // GET: api/UserTypeDetails/5
         [ResponseType(typeof(UserTypeDetail))]
-        public IHttpActionResult GetUserTypeDetail(int id)
+        public async Task<IHttpActionResult> GetUserTypeDetail(int id)
         {
-            UserTypeDetail userTypeDetail = db.UserTypeDetail.Find(id);
+            UserTypeDetail userTypeDetail = await db.UserTypeDetail.FindAsync(id);
             if (userTypeDetail == null)
             {
                 return NotFound();
@@ -61,7 +64,7 @@ namespace YueBoMS.Controllers
 
         // PUT: api/UserTypeDetails/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUserTypeDetail(int id, UserTypeDetail userTypeDetail)
+        public async Task<IHttpActionResult> PutUserTypeDetail(int id, UserTypeDetail userTypeDetail)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +80,7 @@ namespace YueBoMS.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -96,7 +99,7 @@ namespace YueBoMS.Controllers
 
         // POST: api/UserTypeDetails
         [ResponseType(typeof(UserTypeDetail))]
-        public IHttpActionResult PostUserTypeDetail(UserTypeDetail userTypeDetail)
+        public async Task<IHttpActionResult> PostUserTypeDetail(UserTypeDetail userTypeDetail)
         {
             if (!ModelState.IsValid)
             {
@@ -104,31 +107,31 @@ namespace YueBoMS.Controllers
             }
 
             db.UserTypeDetail.Add(userTypeDetail);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = userTypeDetail.UserTypeDetailID }, userTypeDetail);
         }
-
         [Route("api/TypeDetailadd")]
         public bool post1(UserTypeDetail u)
         {
             u.IsAuthentication = 2;
             db.UserTypeDetail.Add(u);
 
-            return db.SaveChanges()>0;
+            return db.SaveChanges() > 0;
         }
+
         // DELETE: api/UserTypeDetails/5
         [ResponseType(typeof(UserTypeDetail))]
-        public IHttpActionResult DeleteUserTypeDetail(int id)
+        public async Task<IHttpActionResult> DeleteUserTypeDetail(int id)
         {
-            UserTypeDetail userTypeDetail = db.UserTypeDetail.Find(id);
+            UserTypeDetail userTypeDetail = await db.UserTypeDetail.FindAsync(id);
             if (userTypeDetail == null)
             {
                 return NotFound();
             }
 
             db.UserTypeDetail.Remove(userTypeDetail);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Ok(userTypeDetail);
         }

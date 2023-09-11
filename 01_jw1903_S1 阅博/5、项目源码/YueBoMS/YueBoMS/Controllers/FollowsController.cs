@@ -21,28 +21,15 @@ namespace YueBoMS.Controllers
         {
             return db.Follow.Select(a => new { a.FollowUserID, a.FollowTime, a.UserID });
         }
-        [Route("api/GetByUid")]
-        public IEnumerable<object> Get(int uid)
-        {
-            IEnumerable<object> fw=db.Follow.Select(a=>new { a.FollowUserID,a.FollowTime,a.UserID}).Where(a=>a.UserID==uid);
-            if (fw.Count() > 0)
-            {
-                return fw;
-            }
-            else
-            {
-                return null;
-            }
-        }
         [Route("api/GetUserFollow")]
-        public IQueryable<Object>  Get1(int uid)
+        public IQueryable<Object> Get1(int uid)
         {
             //关注
             var fol = db.UserInfo.Join(db.Follow, a => a.UserID, b => b.FollowUserID, (a, b) => new {
-                FollowUserID=b.FollowUserID,
-                FollowID=b.FollowID,
-                UserID1=b.UserID,
-                FollowTime=b.FollowTime,
+                FollowUserID = b.FollowUserID,
+                FollowID = b.FollowID,
+                UserID1 = b.UserID,
+                FollowTime = b.FollowTime,
                 UserID = a.UserID,
                 UserName = a.UserName,
                 UserNick = a.UserNick,
@@ -58,7 +45,7 @@ namespace YueBoMS.Controllers
                 RegisterTime = a.RegisterTime,
                 CreditScore = a.CreditScore,
                 IsBan = a.IsBan
-            }).Where(c=>c.UserID1==uid).OrderByDescending(c => c.FollowTime);
+            }).Where(c => c.UserID1 == uid).OrderByDescending(c => c.FollowTime);
             return fol;
         }
         [Route("api/GetFollowUser")]
@@ -85,9 +72,48 @@ namespace YueBoMS.Controllers
                 RegisterTime = a.RegisterTime,
                 CreditScore = a.CreditScore,
                 IsBan = a.IsBan
-            }).Where(b => b.FollowUserID == uid).OrderByDescending(a=>a.FollowTime);
+            }).Where(b => b.FollowUserID == uid).OrderByDescending(a => a.FollowTime);
 
             return fol;
+        }
+        [Route("api/GetByUid")]
+        public IEnumerable<object> Get(int uid)
+        {
+            IEnumerable<object> fw=db.Follow.Select(a=>new { a.FollowUserID,a.FollowTime,a.UserID}).Where(a=>a.UserID==uid);
+            if (fw.Count() > 0)
+            {
+                return fw;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        [Route("api/GetFans")]
+        public IEnumerable<object> Get3(int uid)
+        {
+            IEnumerable<object> fw=db.Follow.Select(a=>new { a.FollowUserID,a.FollowTime,a.UserID}).Where(a=>a.FollowUserID==uid);
+            if (fw.Count() > 0)
+            {
+                return fw;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">用户的id</param>
+        /// <param name="uid">关注人的用户id</param>
+        /// <returns></returns>
+        [Route("api/Delete1")]
+        public bool GetFollow1(int id, int uid)
+        {
+            Follow f = db.Follow.FirstOrDefault(a => a.UserID == id && a.FollowUserID == uid);
+            db.Follow.Remove(f);
+            return db.SaveChanges() > 0;
         }
         // GET: api/Follows/5
         [ResponseType(typeof(Follow))]
@@ -163,6 +189,14 @@ namespace YueBoMS.Controllers
             db.SaveChanges();
 
             return Ok(follow);
+            
+        }
+        [Route("api/Delete")]
+        public bool DeleteFollow1(int id,int uid)
+        {
+           Follow f=db.Follow.FirstOrDefault(a => a.UserID == id && a.FollowUserID == uid);
+            db.Follow.Remove(f);
+            return db.SaveChanges() > 0;
         }
 
         protected override void Dispose(bool disposing)

@@ -24,7 +24,7 @@ namespace YueBoMS.Controllers
         }
         //查询自己发给对方的所有私信,获取对方发给自己的只需要转换双方id
         [Route("api/GetPrivateMessagesDateil")]
-        public IQueryable<object> Get(int uid1,int uid2)
+        public IQueryable<object> Get(int uid1, int uid2)
         {
             var prid = db.PrivateMessage.Join(db.UserInfo, a => a.UserID, b => b.UserID, (a, b) => new
             {
@@ -34,20 +34,20 @@ namespace YueBoMS.Controllers
                 UserNick = b.UserNick,
                 UserPic = b.UserPic,
                 IsBan = a.IsBan
-            }).Where(a => a.UserID ==uid1&&a.PrivateMessageUserID==uid2).FirstOrDefault();
+            }).Where(a => a.UserID == uid1 && a.PrivateMessageUserID == uid2).FirstOrDefault();
             var data = db.PrivateMessageDetail.Join(db.PrivateMessage, a => a.PrivateMessageID, b => b.PrivateMessageID, (a, b) => new
             {
                 UserID = b.UserID,
                 PrivateMessageID = b.PrivateMessageID,
                 PrivateMessageUserID = b.PrivateMessageUserID,
-                PrivateMessageDetailID =a.PrivateMessageDetailID,
-                PrivateMessageContent=a.PrivateMessageContent,
-                PrivateMessageTime=a.PrivateMessageTime,
+                PrivateMessageDetailID = a.PrivateMessageDetailID,
+                PrivateMessageContent = a.PrivateMessageContent,
+                PrivateMessageTime = a.PrivateMessageTime,
                 UserNick = prid.UserNick,
                 UserPic = prid.UserPic,
-                IsBan=prid.IsBan,
+                IsBan = prid.IsBan,
                 P0Weight = "right"
-            }).Where(a => a.PrivateMessageID==prid.PrivateMessageID).OrderByDescending(a=>a.PrivateMessageTime);
+            }).Where(a => a.PrivateMessageID == prid.PrivateMessageID).OrderByDescending(a => a.PrivateMessageTime);
             var prid1 = db.PrivateMessage.Join(db.UserInfo, a => a.UserID, b => b.UserID, (a, b) => new
             {
                 UserID = a.UserID,
@@ -70,7 +70,7 @@ namespace YueBoMS.Controllers
                 IsBan = prid1.IsBan,
                 P0Weight = "left"
             }).Where(a => a.PrivateMessageID == prid1.PrivateMessageID).OrderByDescending(a => a.PrivateMessageTime);
-            var data_all = data.Concat(data1).OrderBy(a=>a.PrivateMessageTime);
+            var data_all = data.Concat(data1).OrderBy(a => a.PrivateMessageTime);
             return data_all;
         }
         //发送一条消息给对方
@@ -82,14 +82,7 @@ namespace YueBoMS.Controllers
             pd.PrivateMessageContent = content;
             pd.PrivateMessageTime = DateTime.Now;
             db.PrivateMessageDetail.Add(pd);
-            return db.SaveChanges()>0;
-        }
-        //双方无消息获取信息
-        [Route("api/GetPrivateMessagesDateilintid")]
-        public int Get6(int uid1, int uid2)
-        {
-            int k = db.PrivateMessage.FirstOrDefault(a => a.UserID == uid1 && a.PrivateMessageUserID == uid2).PrivateMessageID;
-            return k;
+            return db.SaveChanges() > 0;
         }
         //读取消息
         [Route("api/GetPrivateMessagesDateilRead")]
@@ -98,7 +91,7 @@ namespace YueBoMS.Controllers
             List<PrivateMessageDetail> pd = db.PrivateMessageDetail.Where(a => a.PrivateMessageID == prid).ToList();
             for (int i = 0; i < pd.Count; i++)
             {
-                pd[i].IsRead = true;   
+                pd[i].IsRead = true;
             }
             return db.SaveChanges() > 0;
         }
@@ -116,6 +109,14 @@ namespace YueBoMS.Controllers
             }
             return false;
         }
+        //双方无消息获取信息
+        [Route("api/GetPrivateMessagesDateilintid")]
+        public int Get6(int uid1, int uid2)
+        {
+            int k = db.PrivateMessage.FirstOrDefault(a => a.UserID == uid1 && a.PrivateMessageUserID == uid2).PrivateMessageID;
+            return k;
+        }
+
         // GET: api/PrivateMessageDetails/5
         [ResponseType(typeof(PrivateMessageDetail))]
         public async Task<IHttpActionResult> GetPrivateMessageDetail(int id)

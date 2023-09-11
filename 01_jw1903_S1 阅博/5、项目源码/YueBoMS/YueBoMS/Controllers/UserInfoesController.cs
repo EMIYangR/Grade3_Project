@@ -20,14 +20,21 @@ namespace YueBoMS.Controllers
         public IEnumerable<object> GetUserInfo()
         {
 
-            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserAccount, a.UserPwd, a.UserName }).ToList();
+            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserAccount, a.UserPwd, a.UserNick }).ToList();
+            return ui;
+        }
+        [Route("api/GetUserBygjc")]
+        public IEnumerable<object> GetUserInfo1(string name)
+        {
+
+            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserName,a.UserPic }).Where(a=>a.UserName.Contains(name)).ToList();
             return ui;
         }
         [Route("api/GetUser")]
         public IEnumerable<object> GetUserInfo(string user,string pwd)
         {
 
-            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserAccount, a.UserPwd, a.UserName,uid=a.UserID }).Where(a=>a.UserAccount==user&&a.UserPwd==pwd).ToList();
+            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserAccount, a.UserPwd, a.UserNick, uid=a.UserID }).Where(a=>a.UserAccount==user&&a.UserPwd==pwd).ToList();
             if (ui.Count()>0)
             {
                 return ui;
@@ -47,6 +54,8 @@ namespace YueBoMS.Controllers
 
         //    return CreatedAtRoute("DefaultApi", new { id = userInfo.UserID }, userInfo);
         //}
+
+
         [Route("api/GetUserInfo")]
         public UserInfo Get(int uid)
         {
@@ -73,7 +82,7 @@ namespace YueBoMS.Controllers
         [ResponseType(typeof(UserInfo))]
         public IEnumerable<object> GetUserInfo(int id)
         {
-            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserAccount, a.UserPwd, a.UserName,a.UserID }).Where(a=>a.UserID==id).ToList();
+            IEnumerable<object> ui = db.UserInfo.Select(a => new { a.UserAccount, a.UserPwd, a.UserNick , a.UserID ,a.UserPic}).Where(a=>a.UserID==id).ToList();
             return ui;
         }
 
@@ -169,18 +178,18 @@ namespace YueBoMS.Controllers
             return "false";
         }
         [Route("api/PutUserNum")]
-        public bool post3(int uid,string name,string num)
+        public bool post3(int uid, string name, string num)
         {
             UserInfo u = db.UserInfo.FirstOrDefault(a => a.UserID == uid);
-            IEnumerable<object> us = db.UserInfo.Select(a =>new {a.IDcard}).ToList();
-            if (db.UserInfo.Select(a=>a.IDcard).Contains(num))
+            IEnumerable<object> us = db.UserInfo.Select(a => new { a.IDcard }).ToList();
+            if (db.UserInfo.Select(a => a.IDcard).Contains(num))
             {
-                return false; 
+                return false;
             }
-            
+
             u.UserName = name;
             u.IDcard = num;
-            return db.SaveChanges()>0;
+            return db.SaveChanges() > 0;
         }
         [Route("api/PutUserPhone")]
         public string post4(int uid, string phone)

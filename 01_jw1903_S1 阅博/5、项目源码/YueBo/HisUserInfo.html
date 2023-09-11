@@ -79,9 +79,10 @@
         //进入页面初始化，非登录点击将会被退出
         window.onload = function () {
             var HisUserID = getCookie("HisUserID");
-            // var UserIDaon = getCookie("UserID");
+             var UserIDaon = getCookie("uid");
             if (HisUserID != "") {
-                    Getvue(HisUserID,1);
+                    
+                    Getvue(HisUserID,UserIDaon);
                 } else {
                     location.href = "UserInfo.html";
                 }
@@ -95,7 +96,7 @@
                     el: "#Content",
                     data: {
                         user: "",
-                        Uimg: "https://localhost:44364/Content/images/tx/",
+                        Uimg: "https://localhost:44364/Uploads/images/tx/",
                         Fans:"",
                         Attention:"",
                         Manifestation:"",
@@ -136,12 +137,13 @@
                                 location.href="Personal.html";
                             }else if(k=="false"){
                                 if(GetPrivateMessagesAdd(UserIDaon,this.user.UserID)){
+                                    alert('添加私信成功')
                                     location.href="Personal.html";
                                 }else{
                                     alert('暂时无法与对方私信');
                                 }
                             }else if(k=="forbid"){
-                                alert('您已被对方禁言');
+                                alert('已禁言对方或被禁言');
                             }
                         }
                     }

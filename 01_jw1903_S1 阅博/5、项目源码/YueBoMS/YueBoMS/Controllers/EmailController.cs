@@ -18,7 +18,6 @@ namespace YueBoMS.Controllers
             if (email!=null)
             {
                 string code = EmailCode.Send(email);
-                HttpContext.Current.Session["emailCode"] = code;//写入session
                 return code;
             }
             else

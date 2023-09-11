@@ -19,7 +19,38 @@ namespace YueBoMS.Controllers
         // GET: api/Posts
         public IEnumerable<object> GetPost()
         {
-            IEnumerable<object> p = db.Post.Select(a => new { pid = a.PostID, PostContent=a.PostContent,Likes=a.Like.Count,ContentS=a.Content.Count, Forwards=a.Forward.Count,username=a.UserInfo.UserName,a.PostTime,pic=a.PostPic,vidio=a.PostVideo,tx= a.UserInfo.UserPic,a.StatusID,a.IsBan,a.ClickSum,a.UserID }).Where(a=>a.IsBan==false).ToList();
+            IEnumerable<object> p = db.Post.Select(a => new { pid = a.PostID, PostContent=a.PostContent,Likes=a.Like.Count,ContentS=a.Content.Count, Forwards=a.Forward.Count,username=a.UserInfo.UserNick,a.PostTime,pic=a.PostPic,vidio=a.PostVideo,tx= a.UserInfo.UserPic,a.StatusID,a.IsBan,a.ClickSum,a.UserID }).Where(a=>a.IsBan==false).ToList();
+            return p;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type">查询类型1代表热门，2代表视频，3代表热搜</param>
+        /// <returns></returns>
+        [Route("api/GetPostsHot")]
+        public IEnumerable<object> GetPost1(int type)//type 是需要查询的类型 1代表查询热门，2代表查询视频
+        {
+            IEnumerable<object> p = null;
+            if (type==1)
+            {
+                p = db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID,a.IsHot }).Where(a => a.IsBan == false && a.IsHot==true).ToList();
+            }
+            else if(type==2)
+            {
+                p = db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID, a.IsHot }).Where(a => a.IsBan == false && a.vidio!="无").ToList();
+            }
+            else if(type==3)
+            {
+                p = db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID, a.IsHot }).Where(a => a.IsBan == false).OrderBy(a=>a.ClickSum).ToList();
+            }
+            
+            return p;
+        }
+        [Route("api/GetmyPost")]
+        public IEnumerable<object> GetPost4(int uid)
+        {
+            IEnumerable<object> p = db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID,a.IsHot }).Where(a => a.UserID==uid).ToList();
+            
             return p;
         }
         [Route("api/Click")]
@@ -28,18 +59,18 @@ namespace YueBoMS.Controllers
             Post p = db.Post.FirstOrDefault(a => a.PostID == id);
             p.ClickSum += 1;
             return db.SaveChanges()>0;
-        }
+        }       
         [Route("api/GJC")]
         public IEnumerable<object> GetPost(string gjc)
         {
             IEnumerable<object> p = null;
-            if (gjc!="")
+            if (gjc!=null&&gjc!="")
             {
-                 p= db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserName, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic,a.StatusID , a.IsBan, a.ClickSum, a.UserID }).Where(a => a.PostContent.Contains(gjc) && a.IsBan == false).ToList();
+                 p= db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic,a.StatusID , a.IsBan, a.ClickSum, a.UserID }).Where(a => a.PostContent.Contains(gjc) && a.IsBan == false).ToList();
             }
             else
             {
-                p = db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserName, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID }).Where(a => a.PostContent.Contains(gjc) && a.IsBan == false).ToList();
+                p = db.Post.Select(a => new { pid = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID }).Where(a => a.IsBan == false).ToList();
             }
             
             return p;
@@ -49,7 +80,7 @@ namespace YueBoMS.Controllers
         [ResponseType(typeof(Post))]
         public IEnumerable<object> GetPost(int id)
         {
-            IEnumerable<object> p = db.Post.Select(a => new { PostID = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserName, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic }).Where(a=>a.PostID==id).ToList();
+            IEnumerable<object> p = db.Post.Select(a => new { PostID = a.PostID, PostContent = a.PostContent, Likes = a.Like.Count, ContentS = a.Content.Count, Forwards = a.Forward.Count, username = a.UserInfo.UserNick, a.PostTime, pic = a.PostPic, vidio = a.PostVideo, tx = a.UserInfo.UserPic, a.StatusID, a.IsBan, a.ClickSum, a.UserID }).Where(a=>a.PostID==id).ToList();
             return p;
         }
 

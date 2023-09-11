@@ -7,11 +7,16 @@
     <title>我的私信</title>
     <link rel="stylesheet" href="CSS/UserInfo.css">
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="./albb/font_a5jalowfoe/iconfont.css">
+    <link rel="stylesheet" href="./albb/font_wtqi9yoho/iconfont.css">
     <link rel="stylesheet" href="CSS/antd.min.css">
     <script src="JS/jquery-3.4.1.min.js"></script>
     <script src="JS/bootstrap.min.js"></script>
     <script src="JS/vue.min.js"></script>
     <script src="JS/antd.min.js"></script>
+    
+    <script src="JS/UserInfo.js"></script>
     <style>
         *{
             margin: 0;
@@ -21,6 +26,42 @@
 </head>
 
 <body id="body">
+    <div id="nav">
+        <div class="nav-center">
+            <div class="nav-center-logo">
+                <img src="./Content/img/logo.png" style="width: 10%;height: 10%;" alt="">
+            </div>
+            <div class="nav-center-search">
+                <div class="iconfont icon-sousuo active"></div>
+                <input type="text" placeholder="搜索阅博">
+                <div class="radius"></div>
+            </div>
+            <div class="nav-center-five">
+                <div class="iconfont icon-shouye show1"></div>
+                <div class="iconfont icon-shipin"></div>
+                <div class="iconfont icon-huo"></div>
+                <div class="iconfont icon-duanxin"></div>
+                <div class="iconfont icon-geren"></div>
+            </div>
+            <div class="nav-center-four">
+                <div class="nav-center-login" v-if="falg">
+                    登录
+                </div>
+                <div class="nav-center-register" v-if="falg">
+                    注册
+                </div>
+                <div class="nav-center-sun iconfont icon-sun" id="sun">
+
+                </div>
+                <div class="nav-center-liuyan iconfont icon-liuyan">
+
+                </div>
+            </div>
+            <!-- <div class="nav-center-barrier">
+                无障碍
+            </div> -->
+        </div>
+    </div>
     <div id="section">
         <div id="left">
             <ul>
@@ -33,7 +74,7 @@
                 <li><a href="Personal.html">我的私信</a></li>
             </ul>
         </div>
-        <div id="Content">
+        <div id="Content" style="overflow: auto;">
             <h1>我的私信</h1>
             <p>
                 <a href="Index.html" style="color: blueviolet;" v-html="Hint"></a>
@@ -48,15 +89,23 @@
                     </p>
                     <p>
                         <span v-text="item.UserNick"></span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span v-if="item.IsRead==true" style="color: red;">您有新的消息未读</span>
                     </p>
                 </div>
+                
                 <div class="modal fade" id="Massage" data-backdrop="static" data-keyboard="false" tabindex="-1"
                     aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 style="text-align: center;" class="modal-title"  id="myModalLabel">与&nbsp;<span v-text="advname"></span>&nbsp;的私信</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" @click="load">&times;</button>
+                                <h4 style="text-align: center;" class="modal-title"  id="myModalLabel">与&nbsp;<span v-text="advname"></span>&nbsp;的私信
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a-button type="button" class="btn btn-primary" @click="NotChat()">
+                                    禁言对方
+                                </a-button>
+                            </h4>
                             </div>
                             <div id="myby" class="modal-body" style="height: 400px;overflow-y:auto;">
                                 <p style="color: blueviolet;text-align: center;" v-html="Hint2">
@@ -108,39 +157,42 @@
     </div>
     <script>
          var divscll = document.getElementById('myby');
-  divscll.scrollTop = divscll.scrollHeight;
+        divscll.scrollTop = divscll.scrollHeight;
         //进入页面初始化，非登录点击将会被退出,通过判断cookie是否存在
-        // window.onload = function () {
-        //     var UserID = getCookie("UserID");
-        //     if (UserID != "") {
-        //         Getvue(UserID);
-        //     } else {
-        //         alert('正在前往登录.....')
-        //         location.href = "Login.html";
-        //     }
-        // };
+        window.onload = function () {
+            var UserID = getCookie("uid");
+            if (UserID != "") {
+                Getvue(UserID);
+            } else {
+                alert('正在前往登录.....')
+                location.href = "Login.html";
+            }
+        };
         //user通过cookie获取用户信息，Uimg软件路劲，
         //Fans粉丝信息，Attention关注信息
         //
-        //function Getvue(UserID){
+        function Getvue(UserID){
         var vm = new Vue({
             el: "#Content",
             data: {
                 user: "",
-                Uimg: "https://localhost:44364/Content/images/tx/",
+                Uimg: "https://localhost:44364/Uploads/images/tx/",
                 Hint: "",
                 Privateletter: "",
                 Chatset:"",
                 advname:"",
-                Hint2:""
+                Hint2:"",
+                advidce:"",
+                kk1:""
             },
             created() {
                 //UserID参数放入其中
-                this.user = GetUser(1);
+                this.user = GetUser(UserID);
                 this.Privateletter = GetPrivateMessages(this.user.UserID);
                 if (this.Privateletter.length == 0) {
                     this.Hint = "您暂时没有和何人有私信，去私信他人吧"
                 }
+
             },
             methods: {
                 GetChat(adverseuid,name){
@@ -149,10 +201,12 @@
                     if(this.Chatset.length ==0){
                         this.Hint2 = "发送一条消息吧"
                     }
+                    this.advidce=GetPrivateMessagesDateilintid(this.user.UserID,adverseuid);
+                    this.kk1=adverseuid;
                     this.advname=name;
                     var toid=0;
                     $.each(this.Chatset,function (index,item) {
-                        if(item.P0Weight=="right"){
+                        if(item.P0Weight=="left"){
                             toid=item.PrivateMessageID
                             return;
                         }
@@ -171,12 +225,17 @@
                             return;
                         }
                     })
+                    if(advid==0){
+                       advid=this.advidce;
+                       toid=this.kk1;
+                    }
                     var content=$("#text1").val();
                     if(content!=""){
                         if(GetPrivateMessagesDateiladd(advid,content)){
                             this.Chatset=GetPrivateMessagesDateil(this.user.UserID,toid);
                             var divscll = document.getElementById('myby');
                             divscll.scrollTop = divscll.scrollHeight;
+                            this.Hint2="";
                         }else{
                             alert('发送失败');
                         }
@@ -184,18 +243,48 @@
                     }else{
                         alert('发送的内容不能为空哦');
                     }
-                }
+                },
+                load() {
+                            location.reload(true);
+                        },
+                        NotChat(){
+                            if(GetPrivateMessagesNotChat(this.user.UserID,this.kk1)){
+                                alert('成功禁言对方');
+                                location.reload(true);
+                            }else{
+                                alert('禁言失败');
+                            }
+                        }
             }
         })
 
-        //}
-        function GetPrivateMessagesDateilnotRead(prid) {
+        }
+        //禁言对方
+        function GetPrivateMessagesNotChat(uid1,uid2) {
             var k
             $.ajax({
-                url: "https://localhost:44364/api/GetPrivateMessagesDateilnotRead",
+                url: "https://localhost:44364/api/GetPrivateMessagesNotChat?uid1="+uid1+"&uid2="+uid2,
                 type: "Get",
                 async: false,
-                data: {"prid":prid},
+                data: "",
+                success: function (res) {
+                    k = res;
+                },
+                error: function () {
+                    alert('出现错误')
+                }
+            })
+            return k;
+        }
+        
+        //获取对话id
+        function GetPrivateMessagesDateilintid(uid1,uid2) {
+            var k
+            $.ajax({
+                url: "https://localhost:44364/api/GetPrivateMessagesDateilintid?uid1="+uid1+"&uid2="+uid2,
+                type: "Get",
+                async: false,
+                data: "",
                 success: function (res) {
                     k = res;
                 },
@@ -217,7 +306,7 @@
                     k = res;
                 },
                 error: function () {
-                    alert('出现错误')
+                    alert('出现错误1')
                 }
             })
             return k;
@@ -244,7 +333,7 @@
             })
             return k;
         }
-        //获取私信详情
+        //发送私信
         function GetPrivateMessagesDateiladd(advid,content) {
             var k
             $.ajax({

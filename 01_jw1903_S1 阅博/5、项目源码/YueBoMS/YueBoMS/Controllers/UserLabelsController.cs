@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using YueBoMS.Models;
@@ -33,12 +34,12 @@ namespace YueBoMS.Controllers
             }).Where(b => b.UserID == uid);
             return fol;
         }
-       
+
         // GET: api/UserLabels/5
         [ResponseType(typeof(UserLabel))]
-        public IHttpActionResult GetUserLabel(int id)
+        public async Task<IHttpActionResult> GetUserLabel(int id)
         {
-            UserLabel userLabel = db.UserLabel.Find(id);
+            UserLabel userLabel = await db.UserLabel.FindAsync(id);
             if (userLabel == null)
             {
                 return NotFound();
@@ -49,7 +50,7 @@ namespace YueBoMS.Controllers
 
         // PUT: api/UserLabels/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUserLabel(int id, UserLabel userLabel)
+        public async Task<IHttpActionResult> PutUserLabel(int id, UserLabel userLabel)
         {
             if (!ModelState.IsValid)
             {
@@ -65,7 +66,7 @@ namespace YueBoMS.Controllers
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -84,7 +85,7 @@ namespace YueBoMS.Controllers
 
         // POST: api/UserLabels
         [ResponseType(typeof(UserLabel))]
-        public IHttpActionResult PostUserLabel(UserLabel userLabel)
+        public async Task<IHttpActionResult> PostUserLabel(UserLabel userLabel)
         {
             if (!ModelState.IsValid)
             {
@@ -92,10 +93,11 @@ namespace YueBoMS.Controllers
             }
 
             db.UserLabel.Add(userLabel);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return CreatedAtRoute("DefaultApi", new { id = userLabel.UserLabelID }, userLabel);
         }
+
         //增加用户的标签信息
         [Route("api/PutUserLabeladd")]
         public bool Post1(int uid, int tid)
@@ -117,16 +119,16 @@ namespace YueBoMS.Controllers
 
         // DELETE: api/UserLabels/5
         [ResponseType(typeof(UserLabel))]
-        public IHttpActionResult DeleteUserLabel(int id)
+        public async Task<IHttpActionResult> DeleteUserLabel(int id)
         {
-            UserLabel userLabel = db.UserLabel.Find(id);
+            UserLabel userLabel = await db.UserLabel.FindAsync(id);
             if (userLabel == null)
             {
                 return NotFound();
             }
 
             db.UserLabel.Remove(userLabel);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
             return Ok(userLabel);
         }

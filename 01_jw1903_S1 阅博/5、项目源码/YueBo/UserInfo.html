@@ -7,15 +7,54 @@
     <title>个人中心</title>
     <link rel="stylesheet" href="CSS/UserInfo.css">
     <link rel="stylesheet" href="CSS/User1.css">
+    <link rel="stylesheet" href="./albb/font_a5jalowfoe/iconfont.css">
+    <link rel="stylesheet" href="./albb/font_wtqi9yoho/iconfont.css">
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
     <link rel="stylesheet" href="CSS/antd.min.css">
     <script src="JS/jquery-3.4.1.min.js"></script>
     <script src="JS/bootstrap.min.js"></script>
     <script src="JS/vue.min.js"></script>
     <script src="JS/antd.min.js"></script>
+    <script src="JS/UserInfo.js"></script>
 </head>
 
 <body id="body">
+    <div id="nav">
+        <div class="nav-center">
+            <div class="nav-center-logo">
+                <img src="./Content/img/logo.png" style="width: 10%;height: 10%;" alt="">
+            </div>
+            <div class="nav-center-search">
+                <div class="iconfont icon-sousuo active"></div>
+                <input type="text" placeholder="搜索阅博">
+                <div class="radius"></div>
+            </div>
+            <div class="nav-center-five">
+                <div class="iconfont icon-shouye show1"></div>
+                <div class="iconfont icon-shipin"></div>
+                <div class="iconfont icon-huo"></div>
+                <div class="iconfont icon-duanxin"></div>
+                <div class="iconfont icon-geren"></div>
+            </div>
+            <div class="nav-center-four">
+                <div class="nav-center-login" v-if="falg">
+                    登录
+                </div>
+                <div class="nav-center-register" v-if="falg">
+                    注册
+                </div>
+                <div class="nav-center-sun iconfont icon-sun" id="sun">
+
+                </div>
+                <div class="nav-center-liuyan iconfont icon-liuyan">
+
+                </div>
+            </div>
+            <!-- <div class="nav-center-barrier">
+                无障碍
+            </div> -->
+        </div>
+    </div>
     <div id="section">
         <div id="left">
             <ul>
@@ -35,8 +74,9 @@
                 </div>
                 <div id="d2">
                     <a href="Install.html">
-                        <img v-bind:src="Uimg+user.UserPic" style="border-radius:24px 24px 24px 24px" width="50" height="50">
-                    </a> 
+                        <img v-bind:src="Uimg+user.UserPic" style="border-radius:24px 24px 24px 24px" width="50"
+                            height="50">
+                    </a>
                     <p>
                         <span>昵称:&nbsp;<a href="Install.html">{{ user.UserNick }}</a></span>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -82,63 +122,63 @@
     </div>
     <script>
         //进入页面初始化，非登录点击将会被退出,通过判断cookie是否存在
-        // window.onload = function () {
-        //     var UserID = getCookie("UserID");
-        //     if (UserID != "") {
-        //         Getvue(UserID);
-        //     } else {
-        //         alert('正在前往登录.....')
-        //         location.href = "Login.html";
-        //     }
-        // };
+        window.onload = function () {
+            var UserID = getCookie("uid");
+            if (UserID != "") {
+                Getvue(UserID);
+            } else {
+                alert('正在前往登录.....')
+                location.href = "Login.html";
+            }
+        };
         //user通过cookie获取用户信息，Uimg软件路劲，
         //Fans粉丝信息，Attention关注信息，UserTypeDetail用户认证的身份信息
         //Manifestation信誉分表现状态，UserLabel用户标签
-        //function Getvue(UserID){
-                var vm = new Vue({
-                    el: "#Content",
-                    data: {
-                        user: "",
-                        Uimg: "https://localhost:44364/Content/images/tx/",
-                        Fans:"",
-                        Attention:"",
-                        Manifestation:"",
-                        UserTypeDetail:"",
-                        UserLabel:""
-                    },
-                    created(){
-                        //UserID参数放入其中
-                        this.user=GetUser(1);
-                        this.Fans=GetFollowUser(this.user.UserID);
-                        this.Attention=GetUserFollow(this.user.UserID);
-                        if(this.user.CreditScore==100){
-                            this.Manifestation="优秀";
-                        }else if(this.user.CreditScore<100&&this.user.CreditScore>=80){
-                            this.Manifestation="良好";
-                        }else if(this.user.CreditScore<80&&this.user.CreditScore>=60){
-                            this.Manifestation="一般";
-                        }else if(this.user.CreditScore<60){
-                            this.Manifestation="差";
-                        }
-                        if(GetUserTypeDateil(this.user.UserID).length>0){
-                            this.UserTypeDetail="";
-                            this.UserTypeDetail=GetUserTypeDateil(this.user.UserID);
-                        }else{
-                            this.UserTypeDetail=[{UserTypeName:"暂无"}]
-                        }
-                        if(GetUserLabel(this.user.UserID).length>0){
-                            this.UserLabel="";
-                            this.UserLabel=GetUserLabel(this.user.UserID);
-                        }else{
-                            this.UserLabel=[{TypeName:"暂无"}]
-                        }  
-                    },
-                    methods:{
-                        
+        function Getvue(UserID) {
+            var vm = new Vue({
+                el: "#Content",
+                data: {
+                    user: "",
+                    Uimg: "https://localhost:44364/Uploads/images/tx/",
+                    Fans: "",
+                    Attention: "",
+                    Manifestation: "",
+                    UserTypeDetail: "",
+                    UserLabel: ""
+                },
+                created() {
+                    //UserID参数放入其中
+                    this.user = GetUser(UserID);
+                    this.Fans = GetFollowUser(this.user.UserID);
+                    this.Attention = GetUserFollow(this.user.UserID);
+                    if (this.user.CreditScore == 100) {
+                        this.Manifestation = "优秀";
+                    } else if (this.user.CreditScore < 100 && this.user.CreditScore >= 80) {
+                        this.Manifestation = "良好";
+                    } else if (this.user.CreditScore < 80 && this.user.CreditScore >= 60) {
+                        this.Manifestation = "一般";
+                    } else if (this.user.CreditScore < 60) {
+                        this.Manifestation = "差";
                     }
-                })
-            
-        //}
+                    if (GetUserTypeDateil(this.user.UserID).length > 0) {
+                        this.UserTypeDetail = "";
+                        this.UserTypeDetail = GetUserTypeDateil(this.user.UserID);
+                    } else {
+                        this.UserTypeDetail = [{ UserTypeName: "暂无" }]
+                    }
+                    if (GetUserLabel(this.user.UserID).length > 0) {
+                        this.UserLabel = "";
+                        this.UserLabel = GetUserLabel(this.user.UserID);
+                    } else {
+                        this.UserLabel = [{ TypeName: "暂无" }]
+                    }
+                },
+                methods: {
+
+                }
+            })
+
+        }
         //获取用户信息
         function GetUser(uid) {
             var k
@@ -149,11 +189,11 @@
                 data: { "uid": uid },
                 success: function (res) {
                     //字符串转日期后格式化
-                    let d=new Date(res.Birthday)
-                    res.Birthday=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
-                     //字符串转日期后格式化
-                     let d1=new Date(res.RegisterTime)
-                    res.RegisterTime=d1.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';
+                    let d = new Date(res.Birthday)
+                    res.Birthday = d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
+                    //字符串转日期后格式化
+                    let d1 = new Date(res.RegisterTime)
+                    res.RegisterTime = d1.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日';
                     k = res;
                 },
                 error: function () {
@@ -167,7 +207,7 @@
             return "https://localhost:44364/api/" + IPdet;
         }
         //获取当前用户关注信息
-        function GetUserFollow(uid){
+        function GetUserFollow(uid) {
             var k
             $.ajax({
                 url: GetIp("GetUserFollow"),
@@ -184,7 +224,7 @@
             return k;
         }
         //获取当前用户粉丝信息
-        function GetFollowUser(uid){
+        function GetFollowUser(uid) {
             var k
             $.ajax({
                 url: GetIp("GetFollowUser"),
@@ -246,8 +286,8 @@
             }
             console.log('已清除');
         }
-         //读取cookie
-         function getCookie(cname) {
+        //读取cookie
+        function getCookie(cname) {
             var name = cname + "=";
             var ca = document.cookie.split(';');
             for (var i = 0; i < ca.length; i++) {

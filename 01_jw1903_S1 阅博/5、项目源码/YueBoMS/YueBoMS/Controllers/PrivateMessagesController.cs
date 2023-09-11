@@ -48,7 +48,6 @@ namespace YueBoMS.Controllers
         [Route("api/GetPrivateMessagesIsNot")]
         public string Get1(int uid1, int uid2)
         {
-            db.PrivateMessage.FirstOrDefault(a => a.UserID == uid1 && a.PrivateMessageUserID == uid2 && a.IsBan == false);
             if (db.PrivateMessage.FirstOrDefault(a => a.UserID == uid1 && a.PrivateMessageUserID == uid2) != null)
             {
                 if (db.PrivateMessage.FirstOrDefault(a => a.UserID == uid1 && a.PrivateMessageUserID == uid2 && a.IsBan == false) != null)
@@ -58,6 +57,14 @@ namespace YueBoMS.Controllers
                 return "forbid";
             }
             return "false";
+        }
+        //禁言对方
+        [Route("api/GetPrivateMessagesNotChat")]
+        public bool Get9(int uid1, int uid2)
+        {
+            PrivateMessage p= db.PrivateMessage.FirstOrDefault(a=>a.UserID==uid1&&a.PrivateMessageUserID==uid2);
+            p.IsBan = true;
+            return db.SaveChanges()>0;
         }
         //将对应用户加入私信表
         [Route("api/GetPrivateMessagesAdd")]
@@ -77,6 +84,7 @@ namespace YueBoMS.Controllers
             {
                 k = false;
             }
+            bool m = false;
             PrivateMessage p1 = new PrivateMessage();
             p1.UserID = uid2;
             p1.PrivateMessageUserID = uid1;
@@ -84,21 +92,17 @@ namespace YueBoMS.Controllers
             db.PrivateMessage.Add(p1);
             if (db.SaveChanges() > 0)
             {
-                k = true;
+                m = true;
             }
             else
             {
-                k = false;
+                m = false;
             }
-            return k;
-        }
-        //禁言对方
-        [Route("api/GetPrivateMessagesNotChat")]
-        public bool Get7(int uid1, int uid2)
-        {
-            PrivateMessage p = db.PrivateMessage.FirstOrDefault((a => a.UserID == uid1 && a.PrivateMessageUserID == uid2));
-            p.IsBan = true;
-            return db.SaveChanges()>0;
+            if (k&&m)
+            {
+                return true;
+            }
+            return false;
         }
         // GET: api/PrivateMessages/5
         [ResponseType(typeof(PrivateMessage))]
@@ -162,6 +166,7 @@ namespace YueBoMS.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = privateMessage.PrivateMessageID }, privateMessage);
         }
+
         // DELETE: api/PrivateMessages/5
         [ResponseType(typeof(PrivateMessage))]
         public async Task<IHttpActionResult> DeletePrivateMessage(int id)
